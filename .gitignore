@@ -1,0 +1,23 @@
+
+# Android specific files
+local.properties
+gen
+
+# Eclipse project files
+.metadata
+.classpath
+.project
+.settings
+
+# Build output
+bin
+build
+
+# Gradle output
+.gradle
+
+# Common files
+*.swp
+.DS_Store
+tmp
+
