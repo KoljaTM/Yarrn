@@ -31,27 +31,6 @@ public class GetAccessTokenActivity extends Activity {
 	@Pref
 	KnitdroidPrefs_ prefs;
 
-	@Override
-	protected void onResume() {
-		super.onResume();
-		getToken();
-	}
-
-	@Background
-	public void getToken() {
-		final String apiKey = getString(R.string.api_key);
-		final String apiSecret = getString(R.string.api_secret);
-		final String callback = getString(R.string.api_callback);
-		final OAuthService service = new ServiceBuilder()
-				.provider(RavelryApi.class).apiKey(apiKey).apiSecret(apiSecret)
-				.callback(callback).build();
-
-		final Token requestToken = service.getRequestToken();
-		final String authURL = service.getAuthorizationUrl(requestToken);
-
-		callAuthPage(callback, service, requestToken, authURL);
-	}
-
 	@UiThread
 	protected void callAuthPage(final String callback,
 			final OAuthService service, final Token requestToken,
@@ -98,6 +77,27 @@ public class GetAccessTokenActivity extends Activity {
 		result.putExtra(EXTRA_REQUESTTOKEN, requestToken.getToken());
 		setResult(Activity.RESULT_OK, result);
 		finish();
+	}
+
+	@Background
+	public void getToken() {
+		final String apiKey = getString(R.string.api_key);
+		final String apiSecret = getString(R.string.api_secret);
+		final String callback = getString(R.string.api_callback);
+		final OAuthService service = new ServiceBuilder()
+				.provider(RavelryApi.class).apiKey(apiKey).apiSecret(apiSecret)
+				.callback(callback).build();
+
+		final Token requestToken = service.getRequestToken();
+		final String authURL = service.getAuthorizationUrl(requestToken);
+
+		callAuthPage(callback, service, requestToken, authURL);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		getToken();
 	}
 
 }

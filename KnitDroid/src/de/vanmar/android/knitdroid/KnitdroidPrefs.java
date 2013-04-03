@@ -6,12 +6,12 @@ import com.googlecode.androidannotations.annotations.sharedpreferences.SharedPre
 @SharedPref(Scope.APPLICATION_DEFAULT)
 public interface KnitdroidPrefs {
 
-	String username();
+	String accessSecret();
 
 	String accessToken();
 
-	String accessSecret();
-
 	String requestToken();
+
+	String username();
 
 }
