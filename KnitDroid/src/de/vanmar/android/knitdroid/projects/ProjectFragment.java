@@ -8,13 +8,10 @@ import org.scribe.model.Verb;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.androidquery.AQuery;
+import com.androidquery.util.AQUtility;
 import com.googlecode.androidannotations.annotations.AfterViews;
 import com.googlecode.androidannotations.annotations.Background;
 import com.googlecode.androidannotations.annotations.EFragment;
@@ -23,8 +20,8 @@ import com.googlecode.androidannotations.annotations.ViewById;
 import com.googlecode.androidannotations.annotations.sharedpreferences.Pref;
 
 import de.vanmar.android.knitdroid.KnitdroidPrefs_;
-import de.vanmar.android.knitdroid.MainActivity;
 import de.vanmar.android.knitdroid.R;
+import de.vanmar.android.knitdroid.ravelry.IRavelryActivity;
 import de.vanmar.android.knitdroid.ravelry.ResultCallback;
 import de.vanmar.android.knitdroid.util.JSONAdapter;
 
@@ -42,33 +39,11 @@ public class ProjectFragment extends Fragment {
 
 	private JSONAdapter jsonAdapter;
 
+	private IRavelryActivity listener;
+
 	@AfterViews
 	public void afterViews() {
-		jsonAdapter = new JSONAdapter() {
-
-			@Override
-			public View getView(final int position, final View convertView,
-					final ViewGroup parent) {
-				final View view;
-				// TODO: ViewHolder
-				if (convertView != null) {
-					view = convertView;
-				} else {
-					view = getActivity().getLayoutInflater().inflate(
-							R.layout.projectlist_item, parent, false);
-				}
-				final JSONObject jsonObject = getObject(position);
-				((TextView) view.findViewById(R.id.name)).setText(jsonObject
-						.optString("name"));
-				Log.w("JSONAdapter", jsonObject.optJSONObject("first_photo")
-						.optString("thumbnail_url"));
-				final AQuery aq = new AQuery(view);
-				aq.id(R.id.thumb).image(
-						jsonObject.optJSONObject("first_photo").optString(
-								"thumbnail_url"));
-				return view;
-			}
-		};
+		jsonAdapter = new ProjectListAdapter(getActivity());
 		projectlist.setAdapter(jsonAdapter);
 	}
 
@@ -85,14 +60,19 @@ public class ProjectFragment extends Fragment {
 	@Background
 	public void getProjects(final ResultCallback<String> callback) {
 		final OAuthRequest request = new OAuthRequest(Verb.GET, String.format(
-				"https://api.ravelry.com/projects/%s/list.json", prefs
-						.username().get()));
-		((MainActivity) getActivity()).callRavelry(request, callback);
+				"https://api.ravelry.com/projects/%s/list.json", "Jillda"));
+		listener.callRavelry(request, callback);
 	}
 
 	@Override
 	public void onAttach(final Activity activity) {
 		super.onAttach(activity);
+		if (activity instanceof IRavelryActivity) {
+			listener = (IRavelryActivity) activity;
+		} else {
+			throw new ClassCastException(activity.toString()
+					+ " must implemenet IRavelryActivity");
+		}
 	}
 
 	@Override
@@ -101,13 +81,19 @@ public class ProjectFragment extends Fragment {
 	}
 
 	@Override
-	public void onResume() {
-		super.onResume();
+	public void onDetach() {
+		super.onDetach();
+		listener = null;
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
 		getProjects(new ResultCallback<String>() {
 
 			@Override
 			public void onFailure(final Exception exception) {
-				exception.printStackTrace();
+				AQUtility.report(exception);
 			}
 
 			@Override

@@ -10,16 +10,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
+import com.androidquery.util.AQUtility;
+import com.googlecode.androidannotations.annotations.Background;
 import com.googlecode.androidannotations.annotations.EActivity;
 import com.googlecode.androidannotations.annotations.sharedpreferences.Pref;
 
 import de.vanmar.android.knitdroid.ravelry.GetAccessTokenActivity;
 import de.vanmar.android.knitdroid.ravelry.GetAccessTokenActivity_;
+import de.vanmar.android.knitdroid.ravelry.IRavelryActivity;
 import de.vanmar.android.knitdroid.ravelry.RavelryApi;
 import de.vanmar.android.knitdroid.ravelry.ResultCallback;
 
 @EActivity(resName = "activity_main")
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends FragmentActivity implements IRavelryActivity {
 
 	private static final int REQUEST_CODE = 1;
 
@@ -30,6 +33,8 @@ public class MainActivity extends FragmentActivity {
 
 	private Runnable waitingToExecute = null;
 
+	@Override
+	@Background
 	public void callRavelry(final OAuthRequest request,
 			final ResultCallback<String> callback) {
 		if (prefs.accessToken().exists()) {
@@ -79,6 +84,14 @@ public class MainActivity extends FragmentActivity {
 		final String callback = getString(R.string.api_callback);
 		service = new ServiceBuilder().provider(RavelryApi.class)
 				.apiKey(apiKey).apiSecret(apiSecret).callback(callback).build();
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		if (isTaskRoot()) {
+			AQUtility.cleanCacheAsync(this);
+		}
 	}
 
 	@Override
