@@ -45,6 +45,7 @@ public class GetAccessTokenActivity extends Activity {
 
 				if (url.startsWith(callback)) {
 					webview.setVisibility(View.GONE);
+					webview.clearCache(true);
 					getAccessToken(service, requestToken, url);
 					return true;
 				}
