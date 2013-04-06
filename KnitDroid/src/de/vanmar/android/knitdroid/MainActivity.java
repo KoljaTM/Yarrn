@@ -9,20 +9,22 @@ import org.scribe.oauth.OAuthService;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.widget.Toast;
 
 import com.androidquery.util.AQUtility;
 import com.googlecode.androidannotations.annotations.Background;
 import com.googlecode.androidannotations.annotations.EActivity;
 import com.googlecode.androidannotations.annotations.sharedpreferences.Pref;
 
+import de.vanmar.android.knitdroid.projects.ProjectsFragment.ProjectsFragmentListener;
 import de.vanmar.android.knitdroid.ravelry.GetAccessTokenActivity;
 import de.vanmar.android.knitdroid.ravelry.GetAccessTokenActivity_;
-import de.vanmar.android.knitdroid.ravelry.IRavelryActivity;
 import de.vanmar.android.knitdroid.ravelry.RavelryApi;
 import de.vanmar.android.knitdroid.ravelry.ResultCallback;
 
 @EActivity(resName = "activity_main")
-public class MainActivity extends FragmentActivity implements IRavelryActivity {
+public class MainActivity extends FragmentActivity implements
+		ProjectsFragmentListener {
 
 	private static final int REQUEST_CODE = 1;
 
@@ -102,5 +104,11 @@ public class MainActivity extends FragmentActivity implements IRavelryActivity {
 			waitingToExecute.run();
 			waitingToExecute = null;
 		}
+	}
+
+	@Override
+	public void onProjectSelected(final Integer projectId) {
+		Toast.makeText(this, "Project " + projectId + " selected!",
+				Toast.LENGTH_LONG).show();
 	}
 }

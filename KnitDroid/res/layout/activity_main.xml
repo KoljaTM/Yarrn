@@ -10,7 +10,7 @@
 
 	<fragment
         android:id="@+id/projectsFragment"
-        android:name="de.vanmar.android.knitdroid.projects.ProjectFragment_"
+        android:name="de.vanmar.android.knitdroid.projects.ProjectsFragment_"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 </RelativeLayout>
