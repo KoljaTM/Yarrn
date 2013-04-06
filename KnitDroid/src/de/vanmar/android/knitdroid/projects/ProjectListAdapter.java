@@ -43,7 +43,8 @@ public abstract class ProjectListAdapter extends JSONAdapter {
 					R.layout.projectlist_item, parent, false);
 			holder = new ViewHolder();
 			holder.name = (TextView) view.findViewById(R.id.name);
-			holder.patternName = (TextView) view.findViewById(R.id.patternName);
+			holder.patternName = (TextView) view
+					.findViewById(R.id.pattern_name);
 			holder.progress = (ProgressBar) view.findViewById(R.id.progress);
 			holder.thumb = (ImageView) view.findViewById(R.id.thumb);
 			view.setTag(holder);

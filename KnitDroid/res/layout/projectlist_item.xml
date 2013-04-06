@@ -23,7 +23,7 @@
         android:textIsSelectable="true" />
 
     <TextView
-        android:id="@+id/patternName"
+        android:id="@+id/pattern_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/name"
