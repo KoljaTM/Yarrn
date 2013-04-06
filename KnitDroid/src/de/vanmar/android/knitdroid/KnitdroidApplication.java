@@ -1,8 +1,10 @@
 package de.vanmar.android.knitdroid;
 
+import java.io.File;
 import java.lang.Thread.UncaughtExceptionHandler;
 
 import android.app.Application;
+import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -26,6 +28,10 @@ public class KnitdroidApplication extends Application {
 				reportException(ex);
 			}
 		});
+
+		final File ext = Environment.getExternalStorageDirectory();
+		final File cacheDir = new File(ext, "KnitDroid");
+		AQUtility.setCacheDir(cacheDir);
 	}
 
 	@Override
