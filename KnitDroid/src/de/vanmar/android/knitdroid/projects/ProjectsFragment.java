@@ -23,10 +23,13 @@ import de.vanmar.android.knitdroid.KnitdroidPrefs_;
 import de.vanmar.android.knitdroid.R;
 import de.vanmar.android.knitdroid.ravelry.IRavelryActivity;
 import de.vanmar.android.knitdroid.ravelry.ResultCallback;
-import de.vanmar.android.knitdroid.util.JSONAdapter;
 
 @EFragment(R.layout.fragment_projects)
-public class ProjectFragment extends Fragment {
+public class ProjectsFragment extends Fragment {
+
+	public interface ProjectsFragmentListener extends IRavelryActivity {
+		void onProjectSelected(Integer projectId);
+	}
 
 	@ViewById(R.id.hello)
 	TextView hello;
@@ -37,21 +40,28 @@ public class ProjectFragment extends Fragment {
 	@Pref
 	KnitdroidPrefs_ prefs;
 
-	private JSONAdapter jsonAdapter;
+	private ProjectListAdapter adapter;
 
-	private IRavelryActivity listener;
+	private ProjectsFragmentListener listener;
 
 	@AfterViews
 	public void afterViews() {
-		jsonAdapter = new ProjectListAdapter(getActivity());
-		projectlist.setAdapter(jsonAdapter);
+		adapter = new ProjectListAdapter(getActivity()) {
+
+			@Override
+			protected void onProjectClicked(final JSONObject projectJson) {
+				listener.onProjectSelected(projectJson.optInt("id"));
+			}
+
+		};
+		projectlist.setAdapter(adapter);
 	}
 
 	@UiThread
 	protected void displayProjects(final String result) {
 		try {
 			final JSONObject json = new JSONObject(result);
-			jsonAdapter.setData(json.getJSONArray("projects"));
+			adapter.setData(json.getJSONArray("projects"));
 		} catch (final JSONException e) {
 			e.printStackTrace();
 		}
@@ -67,11 +77,11 @@ public class ProjectFragment extends Fragment {
 	@Override
 	public void onAttach(final Activity activity) {
 		super.onAttach(activity);
-		if (activity instanceof IRavelryActivity) {
-			listener = (IRavelryActivity) activity;
+		if (activity instanceof ProjectsFragmentListener) {
+			listener = (ProjectsFragmentListener) activity;
 		} else {
 			throw new ClassCastException(activity.toString()
-					+ " must implemenet IRavelryActivity");
+					+ " must implemenet ProjectsFragmentListener");
 		}
 	}
 
