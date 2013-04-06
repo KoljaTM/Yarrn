@@ -14,8 +14,11 @@ import android.widget.Toast;
 import com.androidquery.util.AQUtility;
 import com.googlecode.androidannotations.annotations.Background;
 import com.googlecode.androidannotations.annotations.EActivity;
+import com.googlecode.androidannotations.annotations.FragmentById;
 import com.googlecode.androidannotations.annotations.sharedpreferences.Pref;
 
+import de.vanmar.android.knitdroid.projects.ProjectFragment;
+import de.vanmar.android.knitdroid.projects.ProjectFragment.ProjectFragmentListener;
 import de.vanmar.android.knitdroid.projects.ProjectsFragment.ProjectsFragmentListener;
 import de.vanmar.android.knitdroid.ravelry.GetAccessTokenActivity;
 import de.vanmar.android.knitdroid.ravelry.GetAccessTokenActivity_;
@@ -24,12 +27,15 @@ import de.vanmar.android.knitdroid.ravelry.ResultCallback;
 
 @EActivity(resName = "activity_main")
 public class MainActivity extends FragmentActivity implements
-		ProjectsFragmentListener {
+		ProjectsFragmentListener, ProjectFragmentListener {
 
 	private static final int REQUEST_CODE = 1;
 
 	@Pref
 	KnitdroidPrefs_ prefs;
+
+	@FragmentById(R.id.projectFragment)
+	ProjectFragment projectFragment;
 
 	private OAuthService service;
 
@@ -107,8 +113,9 @@ public class MainActivity extends FragmentActivity implements
 	}
 
 	@Override
-	public void onProjectSelected(final Integer projectId) {
+	public void onProjectSelected(final int projectId) {
 		Toast.makeText(this, "Project " + projectId + " selected!",
 				Toast.LENGTH_LONG).show();
+		projectFragment.onProjectSelected(projectId);
 	}
 }

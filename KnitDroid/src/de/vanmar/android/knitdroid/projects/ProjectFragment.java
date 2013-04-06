@@ -8,70 +8,62 @@ import org.scribe.model.Verb;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.androidquery.util.AQUtility;
-import com.googlecode.androidannotations.annotations.AfterViews;
 import com.googlecode.androidannotations.annotations.Background;
 import com.googlecode.androidannotations.annotations.EFragment;
 import com.googlecode.androidannotations.annotations.UiThread;
 import com.googlecode.androidannotations.annotations.ViewById;
-import com.googlecode.androidannotations.annotations.sharedpreferences.Pref;
 
-import de.vanmar.android.knitdroid.KnitdroidPrefs_;
 import de.vanmar.android.knitdroid.R;
+import de.vanmar.android.knitdroid.projects.ProjectsFragment.ProjectsFragmentListener;
 import de.vanmar.android.knitdroid.ravelry.IRavelryActivity;
 import de.vanmar.android.knitdroid.ravelry.ResultCallback;
 
-@EFragment(R.layout.fragment_projects)
-public class ProjectsFragment extends Fragment {
+@EFragment(R.layout.fragment_project_detail)
+public class ProjectFragment extends Fragment {
 
-	public interface ProjectsFragmentListener extends IRavelryActivity {
-		/** Project with projectId was selected, 0 if no project selected */
-		void onProjectSelected(int projectId);
+	public interface ProjectFragmentListener extends IRavelryActivity {
 	}
 
-	@ViewById(R.id.hello)
-	TextView hello;
+	@ViewById(R.id.name)
+	TextView name;
 
-	@ViewById(R.id.projectlist)
-	ListView projectlist;
+	@ViewById(R.id.pattern_name)
+	TextView patternName;
 
-	@Pref
-	KnitdroidPrefs_ prefs;
-
-	private ProjectListAdapter adapter;
+	@ViewById(R.id.status)
+	TextView status;
 
 	private ProjectsFragmentListener listener;
 
-	@AfterViews
-	public void afterViews() {
-		adapter = new ProjectListAdapter(getActivity()) {
-
-			@Override
-			protected void onProjectClicked(final JSONObject projectJson) {
-				listener.onProjectSelected(projectJson.optInt("id"));
-			}
-
-		};
-		projectlist.setAdapter(adapter);
-	}
-
 	@UiThread
-	protected void displayProjects(final String result) {
+	protected void displayProject(final String result) {
 		try {
-			final JSONObject json = new JSONObject(result);
-			adapter.setData(json.getJSONArray("projects"));
+			final JSONObject jsonProject = new JSONObject(result)
+					.optJSONObject("project");
+			name.setText(jsonProject.optString("name"));
+			patternName.setText(jsonProject.optString("pattern_name"));
+			status.setText(jsonProject.optString("status_name"));
 		} catch (final JSONException e) {
 			e.printStackTrace();
 		}
 	}
 
+	@UiThread
+	protected void clearProject() {
+		name.setText(null);
+		patternName.setText(null);
+		status.setText(null);
+	}
+
 	@Background
-	public void getProjects(final ResultCallback<String> callback) {
+	public void getProject(final int projectId,
+			final ResultCallback<String> callback) {
 		final OAuthRequest request = new OAuthRequest(Verb.GET, String.format(
-				"https://api.ravelry.com/projects/%s/list.json", "Jillda"));
+				"https://api.ravelry.com/projects/%s/%s.json", "Jillda",
+				projectId));
 		listener.callRavelry(request, callback);
 	}
 
@@ -97,20 +89,23 @@ public class ProjectsFragment extends Fragment {
 		listener = null;
 	}
 
-	@Override
-	public void onStart() {
-		super.onStart();
-		getProjects(new ResultCallback<String>() {
+	public void onProjectSelected(final int projectId) {
+		if (projectId == 0) {
+			clearProject();
+		} else {
 
-			@Override
-			public void onFailure(final Exception exception) {
-				AQUtility.report(exception);
-			}
+			getProject(projectId, new ResultCallback<String>() {
 
-			@Override
-			public void onSuccess(final String result) {
-				displayProjects(result);
-			}
-		});
+				@Override
+				public void onFailure(final Exception exception) {
+					AQUtility.report(exception);
+				}
+
+				@Override
+				public void onSuccess(final String result) {
+					displayProject(result);
+				}
+			});
+		}
 	}
 }
