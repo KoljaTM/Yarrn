@@ -9,7 +9,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.androidquery.util.AQUtility;
 import com.googlecode.androidannotations.annotations.AfterViews;
@@ -31,9 +30,6 @@ public class ProjectsFragment extends Fragment {
 		/** Project with projectId was selected, 0 if no project selected */
 		void onProjectSelected(int projectId);
 	}
-
-	@ViewById(R.id.hello)
-	TextView hello;
 
 	@ViewById(R.id.projectlist)
 	ListView projectlist;

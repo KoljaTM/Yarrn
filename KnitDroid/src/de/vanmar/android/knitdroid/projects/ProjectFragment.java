@@ -7,9 +7,11 @@ import org.scribe.model.Verb;
 
 import android.app.Activity;
 import android.support.v4.app.Fragment;
+import android.widget.Gallery;
 import android.widget.TextView;
 
 import com.androidquery.util.AQUtility;
+import com.googlecode.androidannotations.annotations.AfterViews;
 import com.googlecode.androidannotations.annotations.Background;
 import com.googlecode.androidannotations.annotations.EFragment;
 import com.googlecode.androidannotations.annotations.UiThread;
@@ -20,6 +22,7 @@ import de.vanmar.android.knitdroid.ravelry.IRavelryActivity;
 import de.vanmar.android.knitdroid.ravelry.ResultCallback;
 
 @EFragment(R.layout.fragment_project_detail)
+@SuppressWarnings("deprecation")
 public class ProjectFragment extends Fragment {
 
 	public interface ProjectFragmentListener extends IRavelryActivity {
@@ -34,7 +37,18 @@ public class ProjectFragment extends Fragment {
 	@ViewById(R.id.status)
 	TextView status;
 
+	@ViewById(R.id.gallery)
+	Gallery gallery;
+
 	private ProjectFragmentListener listener;
+
+	private PhotoAdapter adapter;
+
+	@AfterViews
+	public void afterViews() {
+		adapter = new PhotoAdapter(getActivity());
+		gallery.setAdapter(adapter);
+	}
 
 	@UiThread
 	protected void displayProject(final String result) {
@@ -44,6 +58,8 @@ public class ProjectFragment extends Fragment {
 			name.setText(jsonProject.optString("name"));
 			patternName.setText(jsonProject.optString("pattern_name"));
 			status.setText(jsonProject.optString("status_name"));
+
+			adapter.setData(jsonProject.getJSONArray("photos"));
 		} catch (final JSONException e) {
 			e.printStackTrace();
 		}
@@ -54,6 +70,8 @@ public class ProjectFragment extends Fragment {
 		name.setText(null);
 		patternName.setText(null);
 		status.setText(null);
+
+		adapter.setData(null);
 	}
 
 	@Background

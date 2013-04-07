@@ -6,4 +6,5 @@
     <string name="hello_world">Hello World!</string>
 
     <string name="projectimage">Image</string>
+    <string name="photo">Image</string>
 </resources>
