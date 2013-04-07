@@ -5,15 +5,15 @@ import android.test.ActivityInstrumentationTestCase2;
 
 import com.jayway.android.robotium.solo.Solo;
 
-import de.vanmar.android.knitdroid.MainActivity;
+import de.vanmar.android.knitdroid.ProjectListActivity;
 
 public class MainActivityTest extends
-		ActivityInstrumentationTestCase2<MainActivity> {
+		ActivityInstrumentationTestCase2<ProjectListActivity> {
 
 	private Solo solo;
 
 	public MainActivityTest() {
-		super(MainActivity.class);
+		super(ProjectListActivity.class);
 	}
 
 	@Override
