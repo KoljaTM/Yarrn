@@ -6,7 +6,6 @@ import org.scribe.model.OAuthRequest;
 import org.scribe.model.Verb;
 
 import android.app.Activity;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.widget.TextView;
 
@@ -17,7 +16,6 @@ import com.googlecode.androidannotations.annotations.UiThread;
 import com.googlecode.androidannotations.annotations.ViewById;
 
 import de.vanmar.android.knitdroid.R;
-import de.vanmar.android.knitdroid.projects.ProjectsFragment.ProjectsFragmentListener;
 import de.vanmar.android.knitdroid.ravelry.IRavelryActivity;
 import de.vanmar.android.knitdroid.ravelry.ResultCallback;
 
@@ -36,7 +34,7 @@ public class ProjectFragment extends Fragment {
 	@ViewById(R.id.status)
 	TextView status;
 
-	private ProjectsFragmentListener listener;
+	private ProjectFragmentListener listener;
 
 	@UiThread
 	protected void displayProject(final String result) {
@@ -70,17 +68,12 @@ public class ProjectFragment extends Fragment {
 	@Override
 	public void onAttach(final Activity activity) {
 		super.onAttach(activity);
-		if (activity instanceof ProjectsFragmentListener) {
-			listener = (ProjectsFragmentListener) activity;
+		if (activity instanceof ProjectFragmentListener) {
+			listener = (ProjectFragmentListener) activity;
 		} else {
 			throw new ClassCastException(activity.toString()
-					+ " must implemenet ProjectsFragmentListener");
+					+ " must implemenet ProjectFragmentListener");
 		}
-	}
-
-	@Override
-	public void onCreate(final Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
 	}
 
 	@Override

@@ -9,40 +9,25 @@ import org.scribe.oauth.OAuthService;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.widget.Toast;
 
 import com.androidquery.util.AQUtility;
-import com.googlecode.androidannotations.annotations.Background;
-import com.googlecode.androidannotations.annotations.EActivity;
-import com.googlecode.androidannotations.annotations.FragmentById;
-import com.googlecode.androidannotations.annotations.sharedpreferences.Pref;
 
-import de.vanmar.android.knitdroid.projects.ProjectFragment;
-import de.vanmar.android.knitdroid.projects.ProjectFragment.ProjectFragmentListener;
-import de.vanmar.android.knitdroid.projects.ProjectsFragment.ProjectsFragmentListener;
 import de.vanmar.android.knitdroid.ravelry.GetAccessTokenActivity;
 import de.vanmar.android.knitdroid.ravelry.GetAccessTokenActivity_;
+import de.vanmar.android.knitdroid.ravelry.IRavelryActivity;
 import de.vanmar.android.knitdroid.ravelry.RavelryApi;
 import de.vanmar.android.knitdroid.ravelry.ResultCallback;
 
-@EActivity(resName = "activity_main")
-public class MainActivity extends FragmentActivity implements
-		ProjectsFragmentListener, ProjectFragmentListener {
+public abstract class AbstractRavelryActivity extends FragmentActivity
+		implements IRavelryActivity {
 
 	private static final int REQUEST_CODE = 1;
 
-	@Pref
-	KnitdroidPrefs_ prefs;
-
-	@FragmentById(R.id.projectFragment)
-	ProjectFragment projectFragment;
-
+	protected KnitdroidPrefs_ prefs;
 	private OAuthService service;
-
 	private Runnable waitingToExecute = null;
 
 	@Override
-	@Background
 	public void callRavelry(final OAuthRequest request,
 			final ResultCallback<String> callback) {
 		if (prefs.accessToken().exists()) {
@@ -92,6 +77,8 @@ public class MainActivity extends FragmentActivity implements
 		final String callback = getString(R.string.api_callback);
 		service = new ServiceBuilder().provider(RavelryApi.class)
 				.apiKey(apiKey).apiSecret(apiSecret).callback(callback).build();
+
+		prefs = new KnitdroidPrefs_(this);
 	}
 
 	@Override
@@ -112,10 +99,4 @@ public class MainActivity extends FragmentActivity implements
 		}
 	}
 
-	@Override
-	public void onProjectSelected(final int projectId) {
-		Toast.makeText(this, "Project " + projectId + " selected!",
-				Toast.LENGTH_LONG).show();
-		projectFragment.onProjectSelected(projectId);
-	}
 }

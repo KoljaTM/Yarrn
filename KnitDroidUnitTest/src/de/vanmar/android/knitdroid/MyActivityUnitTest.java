@@ -12,7 +12,7 @@ public class MyActivityUnitTest {
 
 	@Test
 	public void shouldHaveHappySmiles() throws Exception {
-		final String hello = new MainActivity().getResources().getString(
+		final String hello = new ProjectListActivity().getResources().getString(
 				R.string.hello_world);
 		assertThat(hello, equalTo("Hello World!"));
 	}
