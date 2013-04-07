@@ -9,8 +9,10 @@ import org.scribe.oauth.OAuthService;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 
 import com.androidquery.util.AQUtility;
+import com.googlecode.androidannotations.api.BackgroundExecutor;
 
 import de.vanmar.android.knitdroid.ravelry.GetAccessTokenActivity;
 import de.vanmar.android.knitdroid.ravelry.GetAccessTokenActivity_;
@@ -30,22 +32,36 @@ public abstract class AbstractRavelryActivity extends FragmentActivity
 	@Override
 	public void callRavelry(final OAuthRequest request,
 			final ResultCallback<String> callback) {
-		if (prefs.accessToken().exists()) {
-			final Token accessToken = new Token(prefs.accessToken().get(),
-					prefs.accessSecret().get());
-			service.signRequest(accessToken, request);
-			final Response response = request.send();
-			callback.onSuccess(response.getBody());
-		} else {
-			waitingToExecute = new Runnable() {
-				@Override
-				public void run() {
-					callRavelry(request, callback);
+		BackgroundExecutor.execute(new Runnable() {
+
+			@Override
+			public void run() {
+				try {
+					if (prefs.accessToken().exists()) {
+						final Token accessToken = new Token(prefs.accessToken()
+								.get(), prefs.accessSecret().get());
+						service.signRequest(accessToken, request);
+						final Response response = request.send();
+						callback.onSuccess(response.getBody());
+					} else {
+						waitingToExecute = new Runnable() {
+							@Override
+							public void run() {
+								callRavelry(request, callback);
+							}
+						};
+						startActivityForResult(new Intent(
+								AbstractRavelryActivity.this,
+								GetAccessTokenActivity_.class), REQUEST_CODE);
+					}
+				} catch (final RuntimeException e) {
+					Log.e("AbstractRavelryActivity",
+							"A runtime exception was thrown while executing code in a runnable",
+							e);
 				}
-			};
-			startActivityForResult(new Intent(this,
-					GetAccessTokenActivity_.class), REQUEST_CODE);
-		}
+			}
+
+		});
 	}
 
 	@Override
