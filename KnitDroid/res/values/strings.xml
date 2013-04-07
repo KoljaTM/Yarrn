@@ -5,6 +5,8 @@
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello World!</string>
 
+    <string name="api_callback">x-oauthflow://de.vanmar.android.knitdroid</string>
+
     <string name="projectimage">Image</string>
     <string name="photo">Image</string>
 </resources>
