@@ -43,7 +43,7 @@ public class ProjectDetailActivityUnitTest {
 	@Test
 	public void shouldGetProjectDetails() throws Exception {
 		// assume
-		final int projectId = 17;
+		final int projectId = 10014463;
 
 		// given
 		activity.prefs.accessToken().put("token");
@@ -52,7 +52,7 @@ public class ProjectDetailActivityUnitTest {
 		activity.onProjectSelected(projectId);
 
 		// then
-		// TODO: add working mocks to put some project detail data in
-		assertThat(activity.projectFragment.name.getText().toString(), is(""));
+		assertThat(activity.projectFragment.name.getText().toString(),
+				is("aqua diva"));
 	}
 }

@@ -5,20 +5,26 @@ import org.scribe.model.Token;
 
 public class RavelryApi extends DefaultApi10a {
 
-	@Override
-	public String getRequestTokenEndpoint() {
-		return "https://www.ravelry.com/oauth/request_token";
+	private String ravelryUrl;
+
+	public RavelryApi(final String ravelryUrl) {
+		super();
+		this.ravelryUrl = ravelryUrl;
 	}
 
 	@Override
 	public String getAccessTokenEndpoint() {
-		return "https://www.ravelry.com/oauth/access_token";
+		return ravelryUrl + "/oauth/access_token";
 	}
 
 	@Override
 	public String getAuthorizationUrl(final Token requestToken) {
-		return String.format(
-				"https://www.ravelry.com/oauth/authorize?oauth_token=%s",
+		return String.format(ravelryUrl + "/oauth/authorize?oauth_token=%s",
 				new Object[] { requestToken.getToken() });
+	}
+
+	@Override
+	public String getRequestTokenEndpoint() {
+		return ravelryUrl + "/oauth/request_token";
 	}
 }
