@@ -2,8 +2,9 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="lib/robolectric-2.0-alpha-1-jar-with-dependencies.jar"/>
+	<classpathentry kind="lib" path="lib/json-20080701.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="var" path="ANDROID_SDK/platforms/android-8/android.jar"/>
+	<classpathentry kind="var" path="ANDROID_SDK/platforms/android-17/android.jar"/>
 	<classpathentry kind="var" path="ANDROID_SDK/add-ons/addon-google_apis-google-16/libs/maps.jar"/>
 	<classpathentry kind="var" path="ANDROID_SDK/extras/android/support/v4/android-support-v4.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/KnitDroid"/>

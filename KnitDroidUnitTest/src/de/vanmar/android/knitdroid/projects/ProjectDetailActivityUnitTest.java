@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.matchers.StartedMatcher;
+import org.robolectric.shadows.ShadowHandler;
 
 import android.content.Intent;
 import de.vanmar.android.knitdroid.ravelry.GetAccessTokenActivity_;
@@ -50,6 +51,7 @@ public class ProjectDetailActivityUnitTest {
 
 		// when
 		activity.onProjectSelected(projectId);
+		ShadowHandler.idleMainLooper();
 
 		// then
 		assertThat(activity.projectFragment.name.getText().toString(),
