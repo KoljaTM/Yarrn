@@ -91,7 +91,8 @@ public abstract class AbstractRavelryActivity extends FragmentActivity
 		final String apiKey = getString(R.string.api_key);
 		final String apiSecret = getString(R.string.api_secret);
 		final String callback = getString(R.string.api_callback);
-		service = new ServiceBuilder().provider(RavelryApi.class)
+		service = new ServiceBuilder()
+				.provider(new RavelryApi(getString(R.string.ravelry_url)))
 				.apiKey(apiKey).apiSecret(apiSecret).callback(callback).build();
 
 		prefs = new KnitdroidPrefs_(this);

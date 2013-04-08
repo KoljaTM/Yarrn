@@ -51,6 +51,15 @@ public class ProjectFragment extends Fragment {
 	}
 
 	@UiThread
+	protected void clearProject() {
+		name.setText(null);
+		patternName.setText(null);
+		status.setText(null);
+
+		adapter.setData(null);
+	}
+
+	@UiThread
 	protected void displayProject(final String result) {
 		try {
 			final JSONObject jsonProject = new JSONObject(result)
@@ -65,21 +74,12 @@ public class ProjectFragment extends Fragment {
 		}
 	}
 
-	@UiThread
-	protected void clearProject() {
-		name.setText(null);
-		patternName.setText(null);
-		status.setText(null);
-
-		adapter.setData(null);
-	}
-
 	@Background
 	public void getProject(final int projectId,
 			final ResultCallback<String> callback) {
 		final OAuthRequest request = new OAuthRequest(Verb.GET, String.format(
-				"https://api.ravelry.com/projects/%s/%s.json", "Jillda",
-				projectId));
+				getString(R.string.ravelry_url) + "/projects/%s/%s.json",
+				"Jillda", projectId));
 		listener.callRavelry(request, callback);
 	}
 
@@ -90,7 +90,7 @@ public class ProjectFragment extends Fragment {
 			listener = (ProjectFragmentListener) activity;
 		} else {
 			throw new ClassCastException(activity.toString()
-					+ " must implemenet ProjectFragmentListener");
+					+ " must implement ProjectFragmentListener");
 		}
 	}
 

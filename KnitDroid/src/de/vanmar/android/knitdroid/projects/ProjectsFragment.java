@@ -67,7 +67,8 @@ public class ProjectsFragment extends Fragment {
 	@Background
 	public void getProjects(final ResultCallback<String> callback) {
 		final OAuthRequest request = new OAuthRequest(Verb.GET, String.format(
-				"https://api.ravelry.com/projects/%s/list.json", "Jillda"));
+				getString(R.string.ravelry_url) + "/projects/%s/list.json",
+				"Jillda"));
 		listener.callRavelry(request, callback);
 	}
 
@@ -78,7 +79,7 @@ public class ProjectsFragment extends Fragment {
 			listener = (ProjectsFragmentListener) activity;
 		} else {
 			throw new ClassCastException(activity.toString()
-					+ " must implemenet ProjectsFragmentListener");
+					+ " must implement ProjectsFragmentListener");
 		}
 	}
 

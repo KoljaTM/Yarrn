@@ -86,8 +86,8 @@ public class GetAccessTokenActivity extends Activity {
 		final String apiSecret = getString(R.string.api_secret);
 		final String callback = getString(R.string.api_callback);
 		final OAuthService service = new ServiceBuilder()
-				.provider(RavelryApi.class).apiKey(apiKey).apiSecret(apiSecret)
-				.callback(callback).build();
+				.provider(new RavelryApi(getString(R.string.ravelry_url)))
+				.apiKey(apiKey).apiSecret(apiSecret).callback(callback).build();
 
 		final Token requestToken = service.getRequestToken();
 		final String authURL = service.getAuthorizationUrl(requestToken);

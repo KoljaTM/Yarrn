@@ -89,4 +89,16 @@
     <!-- version-tag: 1 -->
     <import file="${sdk.dir}/tools/ant/build.xml" />
 
+    <target name="config-dev">
+        <copy todir="res/values">
+        <fileset includes="*.xml" dir="config/dev" />
+        </copy>
+    </target>
+    
+    <target name="config-live">
+        <copy todir="res/values">
+        <fileset includes="*.xml" dir="config/live" />
+        </copy>
+    </target>
+    
 </project>
