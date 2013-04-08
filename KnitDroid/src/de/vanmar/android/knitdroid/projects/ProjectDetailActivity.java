@@ -1,12 +1,11 @@
-package de.vanmar.android.knitdroid;
-
-import android.widget.Toast;
+package de.vanmar.android.knitdroid.projects;
 
 import com.googlecode.androidannotations.annotations.EActivity;
 import com.googlecode.androidannotations.annotations.Extra;
 import com.googlecode.androidannotations.annotations.FragmentById;
 
-import de.vanmar.android.knitdroid.projects.ProjectFragment;
+import de.vanmar.android.knitdroid.AbstractRavelryActivity;
+import de.vanmar.android.knitdroid.R;
 import de.vanmar.android.knitdroid.projects.ProjectFragment.ProjectFragmentListener;
 
 @EActivity(resName = "activity_project_detail")
@@ -29,8 +28,6 @@ public class ProjectDetailActivity extends AbstractRavelryActivity implements
 	}
 
 	public void onProjectSelected(final int projectId) {
-		Toast.makeText(this, "Project " + projectId + " selected!",
-				Toast.LENGTH_LONG).show();
 		projectFragment.onProjectSelected(projectId);
 	}
 }

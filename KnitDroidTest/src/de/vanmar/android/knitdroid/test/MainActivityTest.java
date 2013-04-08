@@ -5,7 +5,7 @@ import android.test.ActivityInstrumentationTestCase2;
 
 import com.jayway.android.robotium.solo.Solo;
 
-import de.vanmar.android.knitdroid.ProjectListActivity;
+import de.vanmar.android.knitdroid.projects.ProjectListActivity;
 
 public class MainActivityTest extends
 		ActivityInstrumentationTestCase2<ProjectListActivity> {

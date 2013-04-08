@@ -25,7 +25,7 @@ public abstract class AbstractRavelryActivity extends FragmentActivity
 
 	private static final int REQUEST_CODE = 1;
 
-	protected KnitdroidPrefs_ prefs;
+	public KnitdroidPrefs_ prefs;
 	private OAuthService service;
 	private Runnable waitingToExecute = null;
 
@@ -85,7 +85,7 @@ public abstract class AbstractRavelryActivity extends FragmentActivity
 	}
 
 	@Override
-	protected void onCreate(final Bundle savedInstanceState) {
+	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		final String apiKey = getString(R.string.api_key);
