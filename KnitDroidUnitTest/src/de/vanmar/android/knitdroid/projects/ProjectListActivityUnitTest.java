@@ -1,4 +1,4 @@
-package de.vanmar.android.knitdroid;
+package de.vanmar.android.knitdroid.projects;
 
 import static org.junit.Assert.assertThat;
 

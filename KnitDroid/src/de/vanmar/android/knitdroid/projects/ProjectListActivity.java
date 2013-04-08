@@ -1,9 +1,10 @@
-package de.vanmar.android.knitdroid;
+package de.vanmar.android.knitdroid.projects;
 
 import android.content.Intent;
 
 import com.googlecode.androidannotations.annotations.EActivity;
 
+import de.vanmar.android.knitdroid.AbstractRavelryActivity;
 import de.vanmar.android.knitdroid.projects.ProjectsFragment.ProjectsFragmentListener;
 
 @EActivity(resName = "activity_project_list")
