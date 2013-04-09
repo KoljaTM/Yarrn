@@ -90,13 +90,13 @@
     <import file="${sdk.dir}/tools/ant/build.xml" />
 
     <target name="config-dev">
-        <copy todir="res/values">
+        <copy todir="res/values" overwrite="true">
         <fileset includes="*.xml" dir="config/dev" />
         </copy>
     </target>
     
     <target name="config-live">
-        <copy todir="res/values">
+        <copy todir="res/values" overwrite="true">
         <fileset includes="*.xml" dir="config/live" />
         </copy>
     </target>
