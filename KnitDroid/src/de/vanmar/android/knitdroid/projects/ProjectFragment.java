@@ -1,5 +1,6 @@
 package de.vanmar.android.knitdroid.projects;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.scribe.model.OAuthRequest;
@@ -7,10 +8,10 @@ import org.scribe.model.Verb;
 
 import android.app.Activity;
 import android.support.v4.app.Fragment;
-import android.widget.Gallery;
 import android.widget.TextView;
 
 import com.androidquery.util.AQUtility;
+import com.devsmart.android.ui.HorizontalListView;
 import com.googlecode.androidannotations.annotations.AfterViews;
 import com.googlecode.androidannotations.annotations.Background;
 import com.googlecode.androidannotations.annotations.EFragment;
@@ -22,7 +23,6 @@ import de.vanmar.android.knitdroid.ravelry.IRavelryActivity;
 import de.vanmar.android.knitdroid.ravelry.ResultCallback;
 
 @EFragment(R.layout.fragment_project_detail)
-@SuppressWarnings("deprecation")
 public class ProjectFragment extends Fragment {
 
 	public interface ProjectFragmentListener extends IRavelryActivity {
@@ -38,7 +38,7 @@ public class ProjectFragment extends Fragment {
 	TextView status;
 
 	@ViewById(R.id.gallery)
-	Gallery gallery;
+	HorizontalListView gallery;
 
 	private ProjectFragmentListener listener;
 
@@ -68,7 +68,8 @@ public class ProjectFragment extends Fragment {
 			patternName.setText(jsonProject.optString("pattern_name"));
 			status.setText(jsonProject.optString("status_name"));
 
-			adapter.setData(jsonProject.getJSONArray("photos"));
+			final JSONArray photos = jsonProject.getJSONArray("photos");
+			adapter.setData(photos);
 		} catch (final JSONException e) {
 			e.printStackTrace();
 		}

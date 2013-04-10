@@ -40,7 +40,7 @@ public class PhotoAdapter extends JSONAdapter {
 			view.setTag(holder);
 		}
 		final JSONObject photoJson = getObject(position);
-		final String imageUrl = photoJson.optString("shelved_url");
+		final String imageUrl = photoJson.optString("square_url");
 		new AQuery(view).id(holder.photo).image(imageUrl);
 
 		return view;
