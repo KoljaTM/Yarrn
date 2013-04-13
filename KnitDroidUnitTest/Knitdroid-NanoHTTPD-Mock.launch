@@ -2,7 +2,7 @@
 <launchConfiguration type="org.eclipse.jdt.launching.localJavaApplication">
 <stringAttribute key="bad_container_name" value="\KnitDroidUnitTest\startMockHttp"/>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
-<listEntry value="/KnitDroidUnitTest/src/de/vanmar/android/knitdroid/util/NanoHTTPD.java"/>
+<listEntry value="/KnitDroidUnitTest/src/de/vanmar/android/knitdroid/util/KnitdroidHttpMock.java"/>
 </listAttribute>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
 <listEntry value="1"/>
@@ -11,7 +11,7 @@
 <listAttribute key="org.eclipse.debug.ui.favoriteGroups">
 <listEntry value="org.eclipse.debug.ui.launchGroup.run"/>
 </listAttribute>
-<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="de.vanmar.android.knitdroid.util.NanoHTTPD"/>
+<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="de.vanmar.android.knitdroid.util.KnitdroidHttpMock"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-p 8888 -d mock"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="KnitDroidUnitTest"/>
 </launchConfiguration>
