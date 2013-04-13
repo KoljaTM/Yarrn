@@ -1,5 +1,13 @@
 package de.vanmar.android.knitdroid.ravelry;
 
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
+
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.model.Token;
 import org.scribe.model.Verifier;
@@ -8,7 +16,9 @@ import org.scribe.oauth.OAuthService;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.net.http.SslError;
 import android.view.View;
+import android.webkit.SslErrorHandler;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -52,6 +62,12 @@ public class GetAccessTokenActivity extends Activity {
 				return super.shouldOverrideUrlLoading(view, url);
 			}
 
+			@Override
+			public void onReceivedSslError(final WebView view,
+					final SslErrorHandler handler, final SslError error) {
+				handler.proceed();
+			}
+
 		});
 		webview.loadUrl(authURL);
 	}
@@ -80,8 +96,43 @@ public class GetAccessTokenActivity extends Activity {
 		finish();
 	}
 
+	/**
+	 * Trust every server - dont check for any certificate
+	 */
+	private static void trustAllHosts() {
+		// Create a trust manager that does not validate certificate chains
+		final TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
+			@Override
+			public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+				return new java.security.cert.X509Certificate[] {};
+			}
+
+			@Override
+			public void checkClientTrusted(final X509Certificate[] chain,
+					final String authType) throws CertificateException {
+			}
+
+			@Override
+			public void checkServerTrusted(final X509Certificate[] chain,
+					final String authType) throws CertificateException {
+			}
+		} };
+
+		// Install the all-trusting trust manager
+		try {
+			final SSLContext sc = SSLContext.getInstance("TLS");
+			sc.init(null, trustAllCerts, new java.security.SecureRandom());
+			HttpsURLConnection
+					.setDefaultSSLSocketFactory(sc.getSocketFactory());
+		} catch (final Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	@Background
 	public void getToken() {
+		trustAllHosts();
+
 		final String apiKey = getString(R.string.api_key);
 		final String apiSecret = getString(R.string.api_secret);
 		final String callback = getString(R.string.api_callback);
