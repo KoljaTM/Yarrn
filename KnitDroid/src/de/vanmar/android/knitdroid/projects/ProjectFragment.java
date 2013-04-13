@@ -11,12 +11,12 @@ import android.support.v4.app.Fragment;
 import android.widget.TextView;
 
 import com.androidquery.util.AQUtility;
-import com.devsmart.android.ui.HorizontalListView;
 import com.googlecode.androidannotations.annotations.AfterViews;
 import com.googlecode.androidannotations.annotations.Background;
 import com.googlecode.androidannotations.annotations.EFragment;
 import com.googlecode.androidannotations.annotations.UiThread;
 import com.googlecode.androidannotations.annotations.ViewById;
+import com.meetme.android.horizontallistview.HorizontalListView;
 
 import de.vanmar.android.knitdroid.R;
 import de.vanmar.android.knitdroid.ravelry.IRavelryActivity;
