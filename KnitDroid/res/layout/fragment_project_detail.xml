@@ -1,29 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/de.vanmar.android.knitdroid"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:background="@drawable/border">
     
-    <com.devsmart.android.ui.HorizontalListView 
+    <com.meetme.android.horizontallistview.HorizontalListView 
 	    android:id="@+id/gallery"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"/>
+	    android:layout_width="match_parent"
+	    android:layout_height="80dp"
+	    app:dividerWidth="3dp"
+	    />
     
     <TextView android:id="@+id/name"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
+		style="@style/Headline"
 	    android:textIsSelectable="true"
         />
 
     <TextView android:id="@+id/pattern_name"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
+		style="@style/Text"
 	    android:textIsSelectable="true"
         />
 
     <TextView android:id="@+id/status"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
+		style="@style/Text"
 	    android:textIsSelectable="true"
         />
 

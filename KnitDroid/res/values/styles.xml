@@ -1,20 +1,23 @@
 <resources>
+    <color name="custom_bg_color">#00000000</color>
+    <color name="status_bar_color">#FFFCFCCF</color>
+    <color name="listitem_bg_color">#FFFFFFFF</color>
+    <color name="listitem_active_color">#FFFCFCCF</color>
+    <color name="progressbar_fgcolor">#FFDD5555</color>
+    <color name="progressbar_bgcolor">#FFBBBBBB</color>
+    <style name="KnitDroidTheme" parent="android:Theme.Light">
+	    <item name="android:windowBackground">@drawable/background</item>
+	    <item name="android:colorBackground">@color/custom_bg_color</item>
+	</style>
+	
+	<style name="Headline" parent="@android:style/TextAppearance.Medium">
+    	<item name="android:layout_width">wrap_content</item>
+    	<item name="android:layout_height">wrap_content</item>
+	</style>
 
-    <!--
-        Base application theme, dependent on API level. This theme is replaced
-        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
-    -->
-    <style name="AppBaseTheme" parent="android:Theme.Light">
-        <!--
-            Theme customizations available in newer API levels can go in
-            res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
-        -->
-    </style>
-
-    <!-- Application theme. -->
-    <style name="AppTheme" parent="AppBaseTheme">
-        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
-    </style>
+	<style name="Text" parent="@android:style/TextAppearance.Small">
+    	<item name="android:layout_width">wrap_content</item>
+    	<item name="android:layout_height">wrap_content</item>
+	</style>
 
 </resources>

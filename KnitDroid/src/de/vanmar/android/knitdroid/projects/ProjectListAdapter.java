@@ -7,7 +7,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.androidquery.AQuery;
@@ -21,7 +22,7 @@ public abstract class ProjectListAdapter extends JSONAdapter {
 		private ImageView thumb;
 		private TextView name;
 		private TextView patternName;
-		private ProgressBar progress;
+		private LinearLayout progress;
 	}
 
 	private final Activity context;
@@ -45,14 +46,16 @@ public abstract class ProjectListAdapter extends JSONAdapter {
 			holder.name = (TextView) view.findViewById(R.id.name);
 			holder.patternName = (TextView) view
 					.findViewById(R.id.pattern_name);
-			holder.progress = (ProgressBar) view.findViewById(R.id.progress);
+			holder.progress = (LinearLayout) view.findViewById(R.id.progress);
 			holder.thumb = (ImageView) view.findViewById(R.id.thumb);
 			view.setTag(holder);
 		}
 		final JSONObject projectJson = getObject(position);
 		holder.name.setText(projectJson.optString("name"));
 		holder.patternName.setText(projectJson.optString("pattern_name"));
-		holder.progress.setProgress(projectJson.optInt("progress"));
+		final int progress = projectJson.optInt("progress");
+		holder.progress.setLayoutParams(new LayoutParams(
+				LayoutParams.MATCH_PARENT, 0, progress));
 		final JSONObject photo = projectJson.optJSONObject("first_photo");
 		String imageUrl = null;
 		if (photo != null) {
