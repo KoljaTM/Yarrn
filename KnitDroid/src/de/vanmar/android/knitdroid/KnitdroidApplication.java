@@ -13,12 +13,16 @@ import com.androidquery.util.AQUtility;
 import com.googlecode.androidannotations.annotations.EApplication;
 import com.googlecode.androidannotations.annotations.UiThread;
 
+import de.vanmar.android.knitdroid.util.SslCertificateHelper;
+
 @EApplication
 public class KnitdroidApplication extends Application {
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
+
+		SslCertificateHelper.trustGeotrustCertificate(this);
 
 		AQUtility.setExceptionHandler(new UncaughtExceptionHandler() {
 
