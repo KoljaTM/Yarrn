@@ -13,6 +13,11 @@
 	    app:dividerWidth="3dp"
 	    />
     
+    <Button 
+        android:id="@+id/addPhoto"
+		style="@style/Button"
+        android:text="@string/photoUpload"/>
+    
     <TextView android:id="@+id/name"
 		style="@style/Headline"
 	    android:textIsSelectable="true"
