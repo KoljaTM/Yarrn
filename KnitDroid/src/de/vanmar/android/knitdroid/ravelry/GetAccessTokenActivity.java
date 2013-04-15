@@ -21,7 +21,6 @@ import com.googlecode.androidannotations.annotations.sharedpreferences.Pref;
 
 import de.vanmar.android.knitdroid.KnitdroidPrefs_;
 import de.vanmar.android.knitdroid.R;
-import de.vanmar.android.knitdroid.util.SslCertificateHelper;
 
 @EActivity(resName = "activity_get_access")
 public class GetAccessTokenActivity extends Activity {
@@ -43,6 +42,12 @@ public class GetAccessTokenActivity extends Activity {
 		webview.setWebViewClient(new WebViewClient() {
 
 			@Override
+			public void onReceivedSslError(final WebView view,
+					final SslErrorHandler handler, final SslError error) {
+				handler.proceed();
+			}
+
+			@Override
 			public boolean shouldOverrideUrlLoading(final WebView view,
 					final String url) {
 
@@ -53,12 +58,6 @@ public class GetAccessTokenActivity extends Activity {
 					return true;
 				}
 				return super.shouldOverrideUrlLoading(view, url);
-			}
-
-			@Override
-			public void onReceivedSslError(final WebView view,
-					final SslErrorHandler handler, final SslError error) {
-				handler.proceed();
 			}
 
 		});
@@ -91,8 +90,6 @@ public class GetAccessTokenActivity extends Activity {
 
 	@Background
 	public void getToken() {
-		SslCertificateHelper.trustAllHosts();
-
 		final String apiKey = getString(R.string.api_key);
 		final String apiSecret = getString(R.string.api_secret);
 		final String callback = getString(R.string.api_callback);

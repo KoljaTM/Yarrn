@@ -19,7 +19,6 @@ import de.vanmar.android.knitdroid.ravelry.GetAccessTokenActivity_;
 import de.vanmar.android.knitdroid.ravelry.IRavelryActivity;
 import de.vanmar.android.knitdroid.ravelry.RavelryApi;
 import de.vanmar.android.knitdroid.ravelry.ResultCallback;
-import de.vanmar.android.knitdroid.util.SslCertificateHelper;
 
 public abstract class AbstractRavelryActivity extends FragmentActivity
 		implements IRavelryActivity {
@@ -95,7 +94,6 @@ public abstract class AbstractRavelryActivity extends FragmentActivity
 		service = new ServiceBuilder()
 				.provider(new RavelryApi(getString(R.string.ravelry_url)))
 				.apiKey(apiKey).apiSecret(apiSecret).callback(callback).build();
-		SslCertificateHelper.trustAllHosts();
 
 		prefs = new KnitdroidPrefs_(this);
 	}
