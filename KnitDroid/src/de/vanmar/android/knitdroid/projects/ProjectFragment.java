@@ -1,7 +1,11 @@
 package de.vanmar.android.knitdroid.projects;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,9 +15,12 @@ import org.json.JSONObject;
 import org.scribe.model.OAuthRequest;
 import org.scribe.model.Verb;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.widget.TextView;
 
@@ -41,7 +48,12 @@ public class ProjectFragment extends Fragment {
 	public interface ProjectFragmentListener extends IRavelryActivity {
 	}
 
-	private static final int REQUEST_CODE_PHOTO = 1;
+	private static final int REQUEST_CODE_GALLERY = 1;
+	private static final int REQUEST_CODE_CAMERA = 2;
+
+	private static final String JPEG_FILE_PREFIX = "IMG_";
+
+	private static final String JPEG_FILE_SUFFIX = ".jpg";
 
 	@ViewById(R.id.name)
 	TextView name;
@@ -63,6 +75,8 @@ public class ProjectFragment extends Fragment {
 
 	@Pref
 	KnitdroidPrefs_ prefs;
+
+	private Uri photoUri;
 
 	@AfterViews
 	public void afterViews() {
@@ -147,23 +161,58 @@ public class ProjectFragment extends Fragment {
 		pickImage();
 	}
 
+	@Click(R.id.takePhoto)
+	public void onTakePhotoClicked() {
+		takePhoto();
+	}
+
 	public void pickImage() {
 		final Intent intent = new Intent();
 		intent.setAction(Intent.ACTION_PICK);
 		intent.setType("image/*");
-		startActivityForResult(intent, REQUEST_CODE_PHOTO);
+		startActivityForResult(intent, REQUEST_CODE_GALLERY);
+	}
+
+	@SuppressLint("SimpleDateFormat")
+	private void takePhoto() {
+		final File storageDir = new File(
+				Environment
+						.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+				"Knitdroid");
+		storageDir.mkdirs();
+
+		final String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss")
+				.format(new Date());
+		final String imageFileName = JPEG_FILE_PREFIX + timeStamp + "_";
+		File image;
+		try {
+			image = File.createTempFile(imageFileName, JPEG_FILE_SUFFIX,
+					storageDir);
+			final Intent takePictureIntent = new Intent(
+					MediaStore.ACTION_IMAGE_CAPTURE);
+			photoUri = Uri.fromFile(image);
+			takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+			startActivityForResult(takePictureIntent, REQUEST_CODE_CAMERA);
+		} catch (final IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void onActivityResult(final int requestCode, final int resultCode,
 			final Intent data) {
-		if (requestCode == REQUEST_CODE_PHOTO
+		if (requestCode == REQUEST_CODE_GALLERY
 				&& resultCode == Activity.RESULT_OK) {
-			onImagePicked(data);
+			onReceivedImage(data.getData());
+		} else if (requestCode == REQUEST_CODE_CAMERA
+				&& resultCode == Activity.RESULT_OK && photoUri != null) {
+			onReceivedImage(photoUri);
+			photoUri = null;
 		}
 	}
 
-	private void onImagePicked(final Intent data) {
+	private void onReceivedImage(final Uri data) {
 		final OAuthRequest request = new OAuthRequest(Verb.POST,
 				getString(R.string.ravelry_url) + "/upload/request_token.json");
 		listener.callRavelry(request, new ResultCallback<String>() {
@@ -176,7 +225,7 @@ public class ProjectFragment extends Fragment {
 
 			@Override
 			public void onSuccess(final String result) {
-				onTokenReceived(result, data.getData());
+				onTokenReceived(result, data);
 			}
 		});
 	}
