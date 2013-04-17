@@ -68,7 +68,7 @@ public class ProjectsFragment extends Fragment {
 	public void getProjects(final ResultCallback<String> callback) {
 		final OAuthRequest request = new OAuthRequest(Verb.GET, String.format(
 				getString(R.string.ravelry_url) + "/projects/%s/list.json",
-				"Jillda"));
+				prefs.username().get()));
 		listener.callRavelry(request, callback);
 	}
 
