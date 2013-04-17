@@ -13,6 +13,7 @@ import org.scribe.model.Verb;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.widget.TextView;
 
@@ -26,8 +27,10 @@ import com.googlecode.androidannotations.annotations.Click;
 import com.googlecode.androidannotations.annotations.EFragment;
 import com.googlecode.androidannotations.annotations.UiThread;
 import com.googlecode.androidannotations.annotations.ViewById;
+import com.googlecode.androidannotations.annotations.sharedpreferences.Pref;
 import com.meetme.android.horizontallistview.HorizontalListView;
 
+import de.vanmar.android.knitdroid.KnitdroidPrefs_;
 import de.vanmar.android.knitdroid.R;
 import de.vanmar.android.knitdroid.ravelry.IRavelryActivity;
 import de.vanmar.android.knitdroid.ravelry.ResultCallback;
@@ -56,10 +59,62 @@ public class ProjectFragment extends Fragment {
 
 	private PhotoAdapter adapter;
 
+	private int projectId = 0;
+
+	@Pref
+	KnitdroidPrefs_ prefs;
+
 	@AfterViews
 	public void afterViews() {
 		adapter = new PhotoAdapter(getActivity());
 		gallery.setAdapter(adapter);
+	}
+
+	@Override
+	public void onAttach(final Activity activity) {
+		super.onAttach(activity);
+		if (activity instanceof ProjectFragmentListener) {
+			listener = (ProjectFragmentListener) activity;
+		} else {
+			throw new ClassCastException(activity.toString()
+					+ " must implement ProjectFragmentListener");
+		}
+	}
+
+	@Override
+	public void onDetach() {
+		super.onDetach();
+		listener = null;
+	}
+
+	public void onProjectSelected(final int projectId) {
+		this.projectId = projectId;
+		if (projectId == 0) {
+			clearProject();
+		} else {
+
+			getProject(projectId, new ResultCallback<String>() {
+
+				@Override
+				public void onFailure(final Exception exception) {
+					AQUtility.report(exception);
+				}
+
+				@Override
+				public void onSuccess(final String result) {
+					displayProject(result);
+				}
+			});
+		}
+	}
+
+	@Background
+	public void getProject(final int projectId,
+			final ResultCallback<String> callback) {
+		final OAuthRequest request = new OAuthRequest(Verb.GET, String.format(
+				getString(R.string.ravelry_url) + "/projects/%s/%s.json", prefs
+						.username().get(), projectId));
+		listener.callRavelry(request, callback);
 	}
 
 	@UiThread
@@ -87,13 +142,16 @@ public class ProjectFragment extends Fragment {
 		}
 	}
 
-	@Background
-	public void getProject(final int projectId,
-			final ResultCallback<String> callback) {
-		final OAuthRequest request = new OAuthRequest(Verb.GET, String.format(
-				getString(R.string.ravelry_url) + "/projects/%s/%s.json",
-				"Jillda", projectId));
-		listener.callRavelry(request, callback);
+	@Click(R.id.addPhoto)
+	public void onAddPhotoClicked() {
+		pickImage();
+	}
+
+	public void pickImage() {
+		final Intent intent = new Intent();
+		intent.setAction(Intent.ACTION_PICK);
+		intent.setType("image/*");
+		startActivityForResult(intent, REQUEST_CODE_PHOTO);
 	}
 
 	@Override
@@ -101,43 +159,84 @@ public class ProjectFragment extends Fragment {
 			final Intent data) {
 		if (requestCode == REQUEST_CODE_PHOTO
 				&& resultCode == Activity.RESULT_OK) {
-			try {
-				final InputStream stream = getActivity().getContentResolver()
-						.openInputStream(data.getData());
-
-				final OAuthRequest request = new OAuthRequest(Verb.POST,
-						getString(R.string.ravelry_url)
-								+ "/upload/request_token.json");
-				listener.callRavelry(request, new ResultCallback<String>() {
-
-					@Override
-					public void onFailure(final Exception exception) {
-						// TODO Auto-generated method stub
-
-					}
-
-					@Override
-					public void onSuccess(final String result) {
-						onTokenReceived(result, stream);
-					}
-				});
-			} catch (final FileNotFoundException e) {
-				e.printStackTrace();
-			}
+			onImagePicked(data);
 		}
-		super.onActivityResult(requestCode, resultCode, data);
 	}
 
-	@Click(R.id.addPhoto)
-	public void onAddPhotoClicked() {
-		// pickImage();
-		addPhotoToProject(19823521);
+	private void onImagePicked(final Intent data) {
+		final OAuthRequest request = new OAuthRequest(Verb.POST,
+				getString(R.string.ravelry_url) + "/upload/request_token.json");
+		listener.callRavelry(request, new ResultCallback<String>() {
+
+			@Override
+			public void onFailure(final Exception exception) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onSuccess(final String result) {
+				onTokenReceived(result, data.getData());
+			}
+		});
+	}
+
+	protected void onTokenReceived(final String result, final Uri uri) {
+		System.out.println(result);
+		InputStream inputStream = null;
+		try {
+			final String token = new JSONObject(result)
+					.optString("upload_token");
+			final AQuery aq = new AQuery(getActivity());
+
+			final Map<String, Object> params = new HashMap<String, Object>();
+			params.put("upload_token", token);
+			params.put("access_key", getActivity().getString(R.string.api_key));
+			// TODO close stream?
+			inputStream = getActivity().getContentResolver().openInputStream(
+					uri);
+			params.put("file0", inputStream);
+
+			aq.ajax(getActivity().getString(R.string.ravelry_url)
+					+ "/upload/image.json", params, JSONObject.class,
+					new AjaxCallback<JSONObject>() {
+
+						@Override
+						public void callback(final String url,
+								final JSONObject object, final AjaxStatus status) {
+							System.out.println(object);
+							int imageId;
+							try {
+								imageId = object.getJSONObject("uploads")
+										.getJSONObject("file0")
+										.getInt("image_id");
+								addPhotoToProject(imageId);
+							} catch (final JSONException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+
+						@Override
+						public void failure(final int code, final String message) {
+							// TODO Auto-generated method stub
+							super.failure(code, message);
+						}
+					});
+		} catch (final JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (final FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	protected void addPhotoToProject(final int imageId) {
 		final OAuthRequest request = new OAuthRequest(Verb.POST,
 				getString(R.string.ravelry_url)
-						+ "/projects/KoljaTM/10406235/create_photo.json");
+						+ String.format("/projects/%s/%s/create_photo.json",
+								prefs.username().get(), projectId));
 		request.addBodyParameter("image_id", String.valueOf(imageId));
 		listener.callRavelry(request, new ResultCallback<String>() {
 
@@ -151,79 +250,6 @@ public class ProjectFragment extends Fragment {
 				System.err.println(result);
 			}
 		});
-	}
-
-	@Override
-	public void onAttach(final Activity activity) {
-		super.onAttach(activity);
-		if (activity instanceof ProjectFragmentListener) {
-			listener = (ProjectFragmentListener) activity;
-		} else {
-			throw new ClassCastException(activity.toString()
-					+ " must implement ProjectFragmentListener");
-		}
-	}
-
-	@Override
-	public void onDetach() {
-		super.onDetach();
-		listener = null;
-	}
-
-	public void onProjectSelected(final int projectId) {
-		if (projectId == 0) {
-			clearProject();
-		} else {
-
-			getProject(projectId, new ResultCallback<String>() {
-
-				@Override
-				public void onFailure(final Exception exception) {
-					AQUtility.report(exception);
-				}
-
-				@Override
-				public void onSuccess(final String result) {
-					displayProject(result);
-				}
-			});
-		}
-	}
-
-	protected void onTokenReceived(final String result, final InputStream stream) {
-		System.out.println(result);
-		try {
-			final String token = new JSONObject(result)
-					.optString("upload_token");
-			final AQuery aq = new AQuery(getActivity());
-
-			final Map<String, Object> params = new HashMap<String, Object>();
-			params.put("upload_token", token);
-			params.put("access_key", getActivity().getString(R.string.api_key));
-			params.put("file0", stream);
-
-			aq.ajax(getActivity().getString(R.string.ravelry_url)
-					+ "/upload/image.json", params, JSONObject.class,
-					new AjaxCallback<JSONObject>() {
-
-						@Override
-						public void callback(final String url,
-								final JSONObject object, final AjaxStatus status) {
-							System.out.println(object);
-						}
-					});
-		} catch (final JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
-
-	public void pickImage() {
-		final Intent intent = new Intent();
-		intent.setAction(Intent.ACTION_PICK);
-		intent.setType("image/*");
-		startActivityForResult(intent, REQUEST_CODE_PHOTO);
 	}
 
 }
