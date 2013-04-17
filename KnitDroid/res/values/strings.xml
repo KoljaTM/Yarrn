@@ -10,5 +10,6 @@
     <string name="projectimage">Image</string>
     <string name="photo">Image</string>
 
-    <string name="photoUpload">Upload photo</string>
+    <string name="galleryUpload">Upload photo</string>
+    <string name="takePhoto">Snap Photo</string>
 </resources>

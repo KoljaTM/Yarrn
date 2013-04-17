@@ -16,7 +16,12 @@
     <Button 
         android:id="@+id/addPhoto"
 		style="@style/Button"
-        android:text="@string/photoUpload"/>
+        android:text="@string/galleryUpload"/>
+    
+    <Button 
+        android:id="@+id/takePhoto"
+		style="@style/Button"
+        android:text="@string/takePhoto"/>
     
     <TextView android:id="@+id/name"
 		style="@style/Headline"
