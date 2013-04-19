@@ -15,6 +15,7 @@ import android.net.Uri;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
+import com.androidquery.util.AQUtility;
 import com.googlecode.androidannotations.annotations.EBean;
 import com.googlecode.androidannotations.annotations.RootContext;
 import com.googlecode.androidannotations.annotations.sharedpreferences.Pref;
@@ -40,8 +41,7 @@ public class PhotoUploadTask {
 
 			@Override
 			public void onFailure(final Exception exception) {
-				// TODO Auto-generated method stub
-
+				AQUtility.report(exception);
 			}
 
 			@Override
@@ -51,7 +51,7 @@ public class PhotoUploadTask {
 							.optString("upload_token");
 					onTokenReceived(token, photoUri, projectId);
 				} catch (final JSONException e) {
-					e.printStackTrace();
+					AQUtility.report(e);
 				}
 			}
 		});
@@ -85,20 +85,17 @@ public class PhotoUploadTask {
 										.getInt("image_id");
 								addPhotoToProject(imageId, projectId);
 							} catch (final JSONException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
+								AQUtility.report(e);
 							}
 						}
 
 						@Override
 						public void failure(final int code, final String message) {
-							// TODO Auto-generated method stub
 							super.failure(code, message);
 						}
 					});
 		} catch (final FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			AQUtility.report(e);
 		}
 	}
 
@@ -112,7 +109,7 @@ public class PhotoUploadTask {
 
 			@Override
 			public void onFailure(final Exception exception) {
-				exception.printStackTrace();
+				AQUtility.report(exception);
 			}
 
 			@Override
