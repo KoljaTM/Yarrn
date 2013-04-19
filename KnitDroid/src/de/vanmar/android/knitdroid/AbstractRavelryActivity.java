@@ -37,7 +37,8 @@ public abstract class AbstractRavelryActivity extends FragmentActivity
 			@Override
 			public void run() {
 				try {
-					if (prefs.accessToken().exists()) {
+					if (prefs.accessToken().exists()
+							&& prefs.accessToken().get().length() != 0) {
 						final Token accessToken = new Token(prefs.accessToken()
 								.get(), prefs.accessSecret().get());
 						service.signRequest(accessToken, request);

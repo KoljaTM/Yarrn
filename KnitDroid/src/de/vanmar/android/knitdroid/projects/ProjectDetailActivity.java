@@ -13,11 +13,13 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.widget.Toast;
 
+import com.androidquery.util.AQUtility;
 import com.googlecode.androidannotations.annotations.Bean;
 import com.googlecode.androidannotations.annotations.EActivity;
 import com.googlecode.androidannotations.annotations.Extra;
 import com.googlecode.androidannotations.annotations.FragmentById;
 import com.googlecode.androidannotations.annotations.NonConfigurationInstance;
+import com.googlecode.androidannotations.annotations.OnActivityResult;
 import com.googlecode.androidannotations.annotations.UiThread;
 
 import de.vanmar.android.knitdroid.AbstractRavelryActivity;
@@ -91,21 +93,22 @@ public class ProjectDetailActivity extends AbstractRavelryActivity implements
 			takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
 			startActivityForResult(takePictureIntent, REQUEST_CODE_CAMERA);
 		} catch (final IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			AQUtility.report(e);
 		}
 	}
 
-	@Override
-	public void onActivityResult(final int requestCode, final int resultCode,
-			final Intent data) {
-		if (requestCode == REQUEST_CODE_GALLERY
-				&& resultCode == Activity.RESULT_OK) {
-			uploadPhotoToProject(data.getData(), projectId);
-		} else if (requestCode == REQUEST_CODE_CAMERA
-				&& resultCode == Activity.RESULT_OK && photoUri != null) {
+	@OnActivityResult(REQUEST_CODE_CAMERA)
+	void onCameraResult(final int resultCode, final Intent data) {
+		if (resultCode == Activity.RESULT_OK && photoUri != null) {
 			uploadPhotoToProject(photoUri, projectId);
 			photoUri = null;
+		}
+	}
+
+	@OnActivityResult(REQUEST_CODE_GALLERY)
+	void onGalleryResult(final int resultCode, final Intent data) {
+		if (resultCode == Activity.RESULT_OK && photoUri != null) {
+			uploadPhotoToProject(data.getData(), projectId);
 		}
 	}
 
@@ -116,5 +119,6 @@ public class ProjectDetailActivity extends AbstractRavelryActivity implements
 	@UiThread
 	public void onPhotoUploadSuccess() {
 		Toast.makeText(this, "Upload successful", Toast.LENGTH_LONG).show();
+		projectFragment.onProjectSelected(projectId);
 	}
 }
