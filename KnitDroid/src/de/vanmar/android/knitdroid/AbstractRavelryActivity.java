@@ -43,17 +43,21 @@ public abstract class AbstractRavelryActivity extends FragmentActivity
 								.get(), prefs.accessSecret().get());
 						service.signRequest(accessToken, request);
 						final Response response = request.send();
-						callback.onSuccess(response.getBody());
+						switch (response.getCode()) {
+						case 200:
+							callback.onSuccess(response.getBody());
+							break;
+						case 403:
+							requestTokenForRequest(recreateRequest(request),
+									callback);
+							break;
+						default:
+							throw new IllegalArgumentException(
+									"Unknown Response code: "
+											+ response.getCode());
+						}
 					} else {
-						waitingToExecute = new Runnable() {
-							@Override
-							public void run() {
-								callRavelry(request, callback);
-							}
-						};
-						startActivityForResult(new Intent(
-								AbstractRavelryActivity.this,
-								GetAccessTokenActivity_.class), REQUEST_CODE);
+						requestTokenForRequest(request, callback);
 					}
 				} catch (final RuntimeException e) {
 					Log.e("AbstractRavelryActivity",
@@ -115,6 +119,27 @@ public abstract class AbstractRavelryActivity extends FragmentActivity
 			waitingToExecute.run();
 			waitingToExecute = null;
 		}
+	}
+
+	private OAuthRequest recreateRequest(final OAuthRequest request) {
+		final OAuthRequest recreatedRequest = new OAuthRequest(
+				request.getVerb(), request.getUrl());
+		recreatedRequest.getBodyParams().addAll(request.getBodyParams());
+		recreatedRequest.getQueryStringParams().addAll(
+				request.getQueryStringParams());
+		return recreatedRequest;
+	}
+
+	private void requestTokenForRequest(final OAuthRequest request,
+			final ResultCallback<String> callback) {
+		waitingToExecute = new Runnable() {
+			@Override
+			public void run() {
+				callRavelry(request, callback);
+			}
+		};
+		startActivityForResult(new Intent(AbstractRavelryActivity.this,
+				GetAccessTokenActivity_.class), REQUEST_CODE);
 	}
 
 }
