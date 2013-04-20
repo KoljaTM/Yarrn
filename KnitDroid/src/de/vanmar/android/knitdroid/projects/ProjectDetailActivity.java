@@ -119,6 +119,5 @@ public class ProjectDetailActivity extends AbstractRavelryActivity implements
 	@UiThread
 	public void onPhotoUploadSuccess() {
 		Toast.makeText(this, "Upload successful", Toast.LENGTH_LONG).show();
-		projectFragment.onProjectSelected(projectId);
 	}
 }
