@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import org.scribe.model.OAuthRequest;
 import org.scribe.model.Verb;
 
+import android.app.ProgressDialog;
 import android.net.Uri;
 
 import com.androidquery.AQuery;
@@ -33,7 +34,10 @@ public class PhotoUploadTask {
 	@Pref
 	KnitdroidPrefs_ prefs;
 
+	private ProgressDialog progressDialog;
+
 	public void uploadPhotoToProject(final Uri photoUri, final int projectId) {
+		startProgress();
 		final OAuthRequest request = new OAuthRequest(Verb.POST,
 				activity.getString(R.string.ravelry_url)
 						+ "/upload/request_token.json");
@@ -41,7 +45,7 @@ public class PhotoUploadTask {
 
 			@Override
 			public void onFailure(final Exception exception) {
-				AQUtility.report(exception);
+				onError(exception);
 			}
 
 			@Override
@@ -51,7 +55,7 @@ public class PhotoUploadTask {
 							.optString("upload_token");
 					onTokenReceived(token, photoUri, projectId);
 				} catch (final JSONException e) {
-					AQUtility.report(e);
+					onError(e);
 				}
 			}
 		});
@@ -77,7 +81,7 @@ public class PhotoUploadTask {
 						@Override
 						public void callback(final String url,
 								final JSONObject object, final AjaxStatus status) {
-							System.out.println(object);
+
 							int imageId;
 							try {
 								imageId = object.getJSONObject("uploads")
@@ -85,7 +89,7 @@ public class PhotoUploadTask {
 										.getInt("image_id");
 								addPhotoToProject(imageId, projectId);
 							} catch (final JSONException e) {
-								AQUtility.report(e);
+								onError(e);
 							}
 						}
 
@@ -95,7 +99,7 @@ public class PhotoUploadTask {
 						}
 					});
 		} catch (final FileNotFoundException e) {
-			AQUtility.report(e);
+			onError(e);
 		}
 	}
 
@@ -109,13 +113,33 @@ public class PhotoUploadTask {
 
 			@Override
 			public void onFailure(final Exception exception) {
-				AQUtility.report(exception);
+				onError(exception);
 			}
 
 			@Override
 			public void onSuccess(final String result) {
 				activity.onPhotoUploadSuccess();
+				stopProgressDialog();
 			}
 		});
+	}
+
+	private void onError(final Exception exception) {
+		AQUtility.report(exception);
+		stopProgressDialog();
+	}
+
+	private void startProgress() {
+		progressDialog = ProgressDialog.show(activity,
+				activity.getString(R.string.upload_progress_title),
+				activity.getString(R.string.upload_progress_message), true,
+				false);
+	}
+
+	private void stopProgressDialog() {
+		if (progressDialog != null) {
+			progressDialog.dismiss();
+			progressDialog = null;
+		}
 	}
 }
