@@ -19,6 +19,7 @@ import de.vanmar.android.knitdroid.ravelry.GetAccessTokenActivity_;
 import de.vanmar.android.knitdroid.ravelry.IRavelryActivity;
 import de.vanmar.android.knitdroid.ravelry.RavelryApi;
 import de.vanmar.android.knitdroid.ravelry.ResultCallback;
+import de.vanmar.android.knitdroid.util.PrefsUtils;
 
 public abstract class AbstractRavelryActivity extends FragmentActivity
 		implements IRavelryActivity {
@@ -37,8 +38,8 @@ public abstract class AbstractRavelryActivity extends FragmentActivity
 			@Override
 			public void run() {
 				try {
-					if (prefs.accessToken().exists()
-							&& prefs.accessToken().get().length() != 0) {
+					if (PrefsUtils.isSet(prefs.accessToken())
+							&& PrefsUtils.isSet(prefs.username())) {
 						final Token accessToken = new Token(prefs.accessToken()
 								.get(), prefs.accessSecret().get());
 						service.signRequest(accessToken, request);
@@ -47,6 +48,7 @@ public abstract class AbstractRavelryActivity extends FragmentActivity
 						case 200:
 							callback.onSuccess(response.getBody());
 							break;
+						case 401:
 						case 403:
 							requestTokenForRequest(recreateRequest(request),
 									callback);
