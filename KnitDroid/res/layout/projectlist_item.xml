@@ -37,13 +37,19 @@
 		style="@style/Headline"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/thumb"
-        android:textIsSelectable="true" />
+        android:textIsSelectable="false"
+   	    android:focusable="false"
+		android:focusableInTouchMode="false"
+         />
 
     <TextView
         android:id="@+id/pattern_name"
 		style="@style/Text"
         android:layout_below="@id/name"
         android:layout_toRightOf="@+id/thumb"
-        android:textIsSelectable="true" />
+        android:textIsSelectable="false" 
+        android:focusable="false"
+		android:focusableInTouchMode="false"
+        />
 
 </RelativeLayout>
