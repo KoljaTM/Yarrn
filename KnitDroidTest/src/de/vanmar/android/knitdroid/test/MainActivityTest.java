@@ -5,15 +5,15 @@ import android.test.ActivityInstrumentationTestCase2;
 
 import com.jayway.android.robotium.solo.Solo;
 
-import de.vanmar.android.knitdroid.projects.ProjectListActivity;
+import de.vanmar.android.knitdroid.projects.ProjectListActivity_;
 
 public class MainActivityTest extends
-		ActivityInstrumentationTestCase2<ProjectListActivity> {
+		ActivityInstrumentationTestCase2<ProjectListActivity_> {
 
 	private Solo solo;
 
 	public MainActivityTest() {
-		super(ProjectListActivity.class);
+		super(ProjectListActivity_.class);
 	}
 
 	@Override
@@ -27,6 +27,6 @@ public class MainActivityTest extends
 	}
 
 	public void testHelloWorld() throws Exception {
-		Assert.assertTrue(solo.searchText("Hello World"));
+		Assert.assertTrue(solo.searchText("Knitdroid"));
 	}
 }
