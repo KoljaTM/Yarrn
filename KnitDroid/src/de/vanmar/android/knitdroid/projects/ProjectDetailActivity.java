@@ -25,15 +25,13 @@ import com.googlecode.androidannotations.annotations.UiThread;
 import de.vanmar.android.knitdroid.AbstractRavelryActivity;
 import de.vanmar.android.knitdroid.R;
 import de.vanmar.android.knitdroid.projects.ProjectFragment.ProjectFragmentListener;
+import de.vanmar.android.knitdroid.util.RequestCode;
 
 @EActivity(resName = "activity_project_detail")
 public class ProjectDetailActivity extends AbstractRavelryActivity implements
 		ProjectFragmentListener {
 
 	public static final String EXTRA_PROJECT_ID = "ProjectDetailActivity.extra.project_id";
-
-	private static final int REQUEST_CODE_GALLERY = 1;
-	private static final int REQUEST_CODE_CAMERA = 2;
 
 	private static final String JPEG_FILE_PREFIX = "IMG_";
 
@@ -68,7 +66,7 @@ public class ProjectDetailActivity extends AbstractRavelryActivity implements
 		final Intent intent = new Intent();
 		intent.setAction(Intent.ACTION_PICK);
 		intent.setType("image/*");
-		startActivityForResult(intent, REQUEST_CODE_GALLERY);
+		startActivityForResult(intent, RequestCode.REQUEST_CODE_GALLERY);
 	}
 
 	@Override
@@ -91,13 +89,14 @@ public class ProjectDetailActivity extends AbstractRavelryActivity implements
 					MediaStore.ACTION_IMAGE_CAPTURE);
 			photoUri = Uri.fromFile(image);
 			takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-			startActivityForResult(takePictureIntent, REQUEST_CODE_CAMERA);
+			startActivityForResult(takePictureIntent,
+					RequestCode.REQUEST_CODE_CAMERA);
 		} catch (final IOException e) {
 			AQUtility.report(e);
 		}
 	}
 
-	@OnActivityResult(REQUEST_CODE_CAMERA)
+	@OnActivityResult(RequestCode.REQUEST_CODE_CAMERA)
 	void onCameraResult(final int resultCode, final Intent data) {
 		if (resultCode == Activity.RESULT_OK && photoUri != null) {
 			uploadPhotoToProject(photoUri, projectId);
@@ -105,9 +104,9 @@ public class ProjectDetailActivity extends AbstractRavelryActivity implements
 		}
 	}
 
-	@OnActivityResult(REQUEST_CODE_GALLERY)
+	@OnActivityResult(RequestCode.REQUEST_CODE_GALLERY)
 	void onGalleryResult(final int resultCode, final Intent data) {
-		if (resultCode == Activity.RESULT_OK && photoUri != null) {
+		if (resultCode == Activity.RESULT_OK) {
 			uploadPhotoToProject(data.getData(), projectId);
 		}
 	}
