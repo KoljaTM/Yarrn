@@ -48,6 +48,7 @@ public class ProjectDetailActivityUnitTest {
 
 		// given
 		activity.prefs.accessToken().put("token");
+		activity.prefs.username().put("Jillda");
 
 		// when
 		activity.onProjectSelected(projectId);
