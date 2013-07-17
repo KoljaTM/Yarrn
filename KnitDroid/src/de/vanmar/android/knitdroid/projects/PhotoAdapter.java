@@ -11,6 +11,7 @@ import com.androidquery.AQuery;
 
 import de.vanmar.android.knitdroid.R;
 import de.vanmar.android.knitdroid.util.JSONAdapter;
+import de.vanmar.android.knitdroid.util.JSONHelper;
 
 public class PhotoAdapter extends JSONAdapter {
 
@@ -40,7 +41,7 @@ public class PhotoAdapter extends JSONAdapter {
 			view.setTag(holder);
 		}
 		final JSONObject photoJson = getObject(position);
-		final String imageUrl = photoJson.optString("square_url");
+		final String imageUrl = JSONHelper.optString(photoJson, "square_url");
 		new AQuery(view).id(holder.photo).image(imageUrl);
 
 		return view;
