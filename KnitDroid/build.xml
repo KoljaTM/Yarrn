@@ -89,13 +89,13 @@
     <!-- version-tag: 1 -->
     <import file="${sdk.dir}/tools/ant/build.xml" />
 
-    <target name="config-dev">
+    <target name="config-dev" description="configures the app for development settings">
         <copy todir="res/values" overwrite="true">
         <fileset includes="*.xml" dir="config/dev" />
         </copy>
     </target>
     
-    <target name="config-live">
+    <target name="config-live" description="configures the app for production settings">
         <copy todir="res/values" overwrite="true">
         <fileset includes="*.xml" dir="config/live" />
         </copy>
