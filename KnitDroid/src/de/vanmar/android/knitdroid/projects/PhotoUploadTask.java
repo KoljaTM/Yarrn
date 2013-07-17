@@ -24,6 +24,7 @@ import com.googlecode.androidannotations.annotations.sharedpreferences.Pref;
 import de.vanmar.android.knitdroid.KnitdroidPrefs_;
 import de.vanmar.android.knitdroid.R;
 import de.vanmar.android.knitdroid.ravelry.ResultCallback;
+import de.vanmar.android.knitdroid.util.JSONHelper;
 
 @EBean
 public class PhotoUploadTask {
@@ -51,8 +52,8 @@ public class PhotoUploadTask {
 			@Override
 			public void onSuccess(final String result) {
 				try {
-					final String token = new JSONObject(result)
-							.optString("upload_token");
+					final String token = JSONHelper.optString(new JSONObject(
+							result), "upload_token");
 					onTokenReceived(token, photoUri, projectId);
 				} catch (final JSONException e) {
 					onError(e);

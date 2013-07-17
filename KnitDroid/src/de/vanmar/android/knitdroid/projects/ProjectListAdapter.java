@@ -1,5 +1,6 @@
 package de.vanmar.android.knitdroid.projects;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
@@ -15,6 +16,7 @@ import com.androidquery.AQuery;
 
 import de.vanmar.android.knitdroid.R;
 import de.vanmar.android.knitdroid.util.JSONAdapter;
+import de.vanmar.android.knitdroid.util.JSONHelper;
 
 public abstract class ProjectListAdapter extends JSONAdapter {
 
@@ -51,17 +53,25 @@ public abstract class ProjectListAdapter extends JSONAdapter {
 			view.setTag(holder);
 		}
 		final JSONObject projectJson = getObject(position);
-		holder.name.setText(projectJson.optString("name"));
-		holder.patternName.setText(projectJson.optString("pattern_name"));
-		final int progress = projectJson.optInt("progress");
+		holder.name.setText(JSONHelper.optString(projectJson, "name"));
+		holder.patternName.setText(JSONHelper.optString(projectJson,
+				"pattern_name"));
+		final int progress = JSONHelper.optInt(projectJson, "progress");
 		holder.progress.setLayoutParams(new LayoutParams(
 				LayoutParams.MATCH_PARENT, 0, progress));
-		final JSONObject photo = projectJson.optJSONObject("first_photo");
-		String imageUrl = null;
-		if (photo != null) {
-			imageUrl = photo.optString("square_url");
+
+		try {
+			final JSONObject photo = projectJson.getJSONObject("first_photo");
+			String imageUrl = null;
+			if (photo != null) {
+				imageUrl = JSONHelper.optString(photo, "square_url");
+			}
+			new AQuery(view).id(holder.thumb).image(imageUrl);
+
+		} catch (final JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		new AQuery(view).id(holder.thumb).image(imageUrl);
 
 		view.setOnClickListener(new OnClickListener() {
 

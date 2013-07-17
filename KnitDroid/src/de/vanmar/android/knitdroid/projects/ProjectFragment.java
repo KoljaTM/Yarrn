@@ -24,6 +24,7 @@ import de.vanmar.android.knitdroid.KnitdroidPrefs_;
 import de.vanmar.android.knitdroid.R;
 import de.vanmar.android.knitdroid.ravelry.IRavelryActivity;
 import de.vanmar.android.knitdroid.ravelry.ResultCallback;
+import de.vanmar.android.knitdroid.util.JSONHelper;
 
 @EFragment(R.layout.fragment_project_detail)
 public class ProjectFragment extends Fragment {
@@ -120,9 +121,10 @@ public class ProjectFragment extends Fragment {
 		try {
 			final JSONObject jsonProject = new JSONObject(result)
 					.optJSONObject("project");
-			name.setText(jsonProject.optString("name"));
-			patternName.setText(jsonProject.optString("pattern_name"));
-			status.setText(jsonProject.optString("status_name"));
+			name.setText(JSONHelper.optString(jsonProject, "name"));
+			patternName.setText(JSONHelper.optString(jsonProject,
+					"pattern_name"));
+			status.setText(JSONHelper.optString(jsonProject, "status_name"));
 
 			final JSONArray photos = jsonProject.getJSONArray("photos");
 			adapter.setData(photos);
