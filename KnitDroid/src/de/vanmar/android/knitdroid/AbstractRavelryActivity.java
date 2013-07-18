@@ -49,6 +49,7 @@ public abstract class AbstractRavelryActivity extends FragmentActivity
 							break;
 						case 401:
 						case 403:
+						case 404:
 							requestTokenForRequest(recreateRequest(request),
 									callback);
 							break;
@@ -64,6 +65,7 @@ public abstract class AbstractRavelryActivity extends FragmentActivity
 					Log.e("AbstractRavelryActivity",
 							"A runtime exception was thrown while executing code in a runnable",
 							e);
+					AQUtility.report(e);
 				}
 			}
 
