@@ -4,6 +4,6 @@
 <body>
 This is a mock of the ravelry login/authentication process.
 <br />
-<a href="x-oauthflow://de.vanmar.android.knitdroid?oauth_verifier=verifier&username=KoljaTM">Click here</a> to authenticate.
+<a href="x-oauthflow://de.vanmar.android.knitdroid?oauth_verifier=verifier&username=Jillda">Click here</a> to authenticate.
 </body>
 </html>
