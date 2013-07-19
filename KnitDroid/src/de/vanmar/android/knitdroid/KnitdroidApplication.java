@@ -11,15 +11,20 @@ import android.widget.Toast;
 import com.androidquery.callback.BitmapAjaxCallback;
 import com.androidquery.util.AQUtility;
 import com.bugsense.trace.BugSenseHandler;
+import com.googlecode.androidannotations.annotations.Bean;
 import com.googlecode.androidannotations.annotations.EApplication;
 import com.googlecode.androidannotations.annotations.UiThread;
 
 import de.vanmar.android.knitdroid.util.SslCertificateHelper;
+import de.vanmar.android.knitdroid.util.UiHelper;
 
 @EApplication
 public class KnitdroidApplication extends Application {
 
 	private boolean useBugSense = false;
+
+	@Bean
+	UiHelper uiHelper;
 
 	@Override
 	public void onCreate() {
@@ -60,6 +65,7 @@ public class KnitdroidApplication extends Application {
 	@UiThread
 	protected void reportException(final Exception ex) {
 		Log.e("Knitdroid", ex.getMessage(), ex);
+		uiHelper.displayError(ex);
 		Toast.makeText(getApplicationContext(), ex.getMessage(),
 				Toast.LENGTH_LONG).show();
 		if (useBugSense) {
