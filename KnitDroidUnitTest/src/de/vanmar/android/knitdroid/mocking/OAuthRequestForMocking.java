@@ -1,6 +1,7 @@
 package de.vanmar.android.knitdroid.mocking;
 
 import org.scribe.model.OAuthRequest;
+import org.scribe.model.ParameterList;
 import org.scribe.model.Response;
 import org.scribe.model.Verb;
 
@@ -25,4 +26,25 @@ public class OAuthRequestForMocking extends OAuthRequest {
 	public Response send() {
 		return super.send();
 	}
+
+	@Override
+	public ParameterList getBodyParams() {
+		return super.getBodyParams();
+	}
+
+	@Override
+	public ParameterList getQueryStringParams() {
+		return super.getQueryStringParams();
+	}
+
+	@Override
+	public String getUrl() {
+		return super.getUrl();
+	}
+
+	@Override
+	public Verb getVerb() {
+		return super.getVerb();
+	}
+
 }

@@ -11,6 +11,8 @@ import org.mockito.stubbing.Answer;
 
 import com.googlecode.androidannotations.api.BackgroundExecutor;
 
+import de.vanmar.android.knitdroid.KnitdroidPrefs_;
+
 public class TestUtil {
 
 	public static void mockBackgroundExecutor() {
@@ -29,4 +31,9 @@ public class TestUtil {
 		}).when(executor).execute(any(Runnable.class));
 	}
 
+	public static void mockValidUser(final KnitdroidPrefs_ prefs) {
+		prefs.username().put("username");
+		prefs.accessToken().put("accesstoken");
+		prefs.accessSecret().put("accesssecret");
+	}
 }

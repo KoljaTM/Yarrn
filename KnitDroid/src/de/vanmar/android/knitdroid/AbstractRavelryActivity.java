@@ -1,7 +1,11 @@
 package de.vanmar.android.knitdroid;
 
+import java.net.SocketTimeoutException;
+import java.util.concurrent.TimeUnit;
+
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.model.OAuthRequest;
+import org.scribe.model.ParameterList;
 import org.scribe.model.Response;
 import org.scribe.model.Token;
 import org.scribe.oauth.OAuthService;
@@ -19,14 +23,20 @@ import de.vanmar.android.knitdroid.ravelry.GetAccessTokenActivity_;
 import de.vanmar.android.knitdroid.ravelry.IRavelryActivity;
 import de.vanmar.android.knitdroid.ravelry.RavelryApi;
 import de.vanmar.android.knitdroid.ravelry.ResultCallback;
+import de.vanmar.android.knitdroid.util.NetworkHelper;
+import de.vanmar.android.knitdroid.util.NetworkHelper_;
 import de.vanmar.android.knitdroid.util.PrefsUtils;
 import de.vanmar.android.knitdroid.util.RequestCode;
+import de.vanmar.android.knitdroid.util.UiHelper;
+import de.vanmar.android.knitdroid.util.UiHelper_;
 
 public abstract class AbstractRavelryActivity extends FragmentActivity
 		implements IRavelryActivity {
 
 	public KnitdroidPrefs_ prefs;
-	private OAuthService service;
+	public NetworkHelper networkHelper;
+	public UiHelper uiHelper;
+	protected OAuthService service;
 	private Runnable waitingToExecute = null;
 
 	@Override
@@ -42,6 +52,7 @@ public abstract class AbstractRavelryActivity extends FragmentActivity
 						final Token accessToken = new Token(prefs.accessToken()
 								.get(), prefs.accessSecret().get());
 						service.signRequest(accessToken, request);
+						request.setConnectTimeout(10, TimeUnit.SECONDS);
 						final Response response = request.send();
 						switch (response.getCode()) {
 						case 200:
@@ -62,6 +73,14 @@ public abstract class AbstractRavelryActivity extends FragmentActivity
 						requestTokenForRequest(request, callback);
 					}
 				} catch (final RuntimeException e) {
+					if (!networkHelper.networkAvailable()) {
+						uiHelper.displayError(R.string.network_not_available);
+						return;
+					}
+					if (e.getCause() instanceof SocketTimeoutException) {
+						uiHelper.displayError(R.string.connection_timeout);
+						return;
+					}
 					Log.e("AbstractRavelryActivity",
 							"A runtime exception was thrown while executing code in a runnable",
 							e);
@@ -105,6 +124,8 @@ public abstract class AbstractRavelryActivity extends FragmentActivity
 				.apiKey(apiKey).apiSecret(apiSecret).callback(callback).build();
 
 		prefs = new KnitdroidPrefs_(this);
+		networkHelper = NetworkHelper_.getInstance_(this);
+		uiHelper = UiHelper_.getInstance_(this);
 	}
 
 	@Override
@@ -128,9 +149,14 @@ public abstract class AbstractRavelryActivity extends FragmentActivity
 	private OAuthRequest recreateRequest(final OAuthRequest request) {
 		final OAuthRequest recreatedRequest = new OAuthRequest(
 				request.getVerb(), request.getUrl());
-		recreatedRequest.getBodyParams().addAll(request.getBodyParams());
-		recreatedRequest.getQueryStringParams().addAll(
-				request.getQueryStringParams());
+		final ParameterList bodyParams = request.getBodyParams();
+		if (bodyParams != null) {
+			recreatedRequest.getBodyParams().addAll(bodyParams);
+		}
+		final ParameterList queryStringParams = request.getQueryStringParams();
+		if (queryStringParams != null) {
+			recreatedRequest.getQueryStringParams().addAll(queryStringParams);
+		}
 		return recreatedRequest;
 	}
 

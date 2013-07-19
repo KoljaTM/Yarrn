@@ -3,7 +3,6 @@
 
     <string name="app_name">Knitdroid</string>
     <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello World!</string>
 
     <string name="api_callback">x-oauthflow://de.vanmar.android.knitdroid</string>
 
@@ -15,4 +14,7 @@
 
     <string name="upload_progress_title">Uploading</string>
     <string name="upload_progress_message">Please wait&#8230;</string>
+
+    <string name="network_not_available">No Internet connection</string>
+    <string name="connection_timeout">Connection to Ravelry timed out</string>
 </resources>
