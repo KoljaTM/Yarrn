@@ -10,7 +10,6 @@ import android.widget.Toast;
 
 import com.androidquery.callback.BitmapAjaxCallback;
 import com.androidquery.util.AQUtility;
-import com.bugsense.trace.BugSenseHandler;
 import com.googlecode.androidannotations.annotations.Bean;
 import com.googlecode.androidannotations.annotations.EApplication;
 import com.googlecode.androidannotations.annotations.UiThread;
@@ -21,8 +20,6 @@ import de.vanmar.android.knitdroid.util.UiHelper;
 @EApplication
 public class KnitdroidApplication extends Application {
 
-	private boolean useBugSense = false;
-
 	@Bean
 	UiHelper uiHelper;
 
@@ -30,15 +27,7 @@ public class KnitdroidApplication extends Application {
 	public void onCreate() {
 		super.onCreate();
 
-		final String bugSenseKey = getString(R.string.bugsense_key);
-		if (bugSenseKey != null && bugSenseKey.length() > 0) {
-			useBugSense = true;
-		}
-		if (useBugSense) {
-			BugSenseHandler.initAndStartSession(this, bugSenseKey);
-		}
-
-		SslCertificateHelper.trustGeotrustCertificate(this);
+		//SslCertificateHelper.trustGeotrustCertificate(this);
 
 		AQUtility.setExceptionHandler(new UncaughtExceptionHandler() {
 
@@ -68,9 +57,5 @@ public class KnitdroidApplication extends Application {
 		uiHelper.displayError(ex);
 		Toast.makeText(getApplicationContext(), ex.getMessage(),
 				Toast.LENGTH_LONG).show();
-		if (useBugSense) {
-			BugSenseHandler.sendException(ex);
-			BugSenseHandler.flush(this);
-		}
 	}
 }
