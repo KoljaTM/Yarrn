@@ -1,14 +1,15 @@
 package de.vanmar.android.knitdroid.projects;
 
-import static org.junit.Assert.assertThat;
-
+import android.content.Intent;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.matchers.StartedMatcher;
+import org.robolectric.shadows.ShadowActivity;
+import org.robolectric.util.ActivityController;
 
-import android.content.Intent;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(RobolectricTestRunner.class)
 public class ProjectListActivityUnitTest {
@@ -17,8 +18,9 @@ public class ProjectListActivityUnitTest {
 
 	@Before
 	public void prepare() {
-		activity = new ProjectListActivity();
-		activity.onCreate(null);
+		ActivityController<ProjectListActivity> projectListActivityActivityController = Robolectric.buildActivity(ProjectListActivity.class);
+		projectListActivityActivityController.create();
+		activity = projectListActivityActivityController.get();
 	}
 
 	@Test
@@ -32,6 +34,6 @@ public class ProjectListActivityUnitTest {
 		// then
 		final Intent intent = new Intent(activity, ProjectDetailActivity_.class);
 		intent.putExtra(ProjectDetailActivity.EXTRA_PROJECT_ID, projectId);
-		assertThat(activity, new StartedMatcher(intent));
+		assertTrue(((ShadowActivity.IntentForResult) Robolectric.shadowOf(activity).getNextStartedActivityForResult()).intent.equals(intent));
 	}
 }
