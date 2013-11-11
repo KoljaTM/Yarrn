@@ -6,11 +6,15 @@ import de.vanmar.android.knitdroid.util.TestUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.shadows.ShadowActivity;
 import org.robolectric.shadows.ShadowHandler;
+import org.robolectric.util.ActivityController;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(RobolectricTestRunner.class)
 public class ProjectDetailActivityUnitTest {
@@ -20,9 +24,9 @@ public class ProjectDetailActivityUnitTest {
 	@Before
 	public void prepare() {
 		TestUtil.mockBackgroundExecutor();
-		activity = new ProjectDetailActivity_();
-		activity.setIntent(new Intent());
-		activity.onCreate(null);
+		ActivityController<ProjectDetailActivity_> projectDetailActivityController = Robolectric.buildActivity(ProjectDetailActivity_.class);
+		projectDetailActivityController.create();
+		activity = projectDetailActivityController.get();
 	}
 
 	@Test
@@ -36,7 +40,7 @@ public class ProjectDetailActivityUnitTest {
 		// then
 		final Intent intent = new Intent(activity,
 				GetAccessTokenActivity_.class);
-		// assertThat(activity, new StartedMatcher(intent));
+		assertTrue(((ShadowActivity.IntentForResult) Robolectric.shadowOf(activity).getNextStartedActivityForResult()).intent.equals(intent));
 	}
 
 	@Test

@@ -1,11 +1,10 @@
 package de.vanmar.android.knitdroid.test;
 
-import junit.framework.Assert;
 import android.test.ActivityInstrumentationTestCase2;
-
 import com.jayway.android.robotium.solo.Solo;
-
+import de.vanmar.android.knitdroid.projects.ProjectListActivity;
 import de.vanmar.android.knitdroid.projects.ProjectListActivity_;
+import junit.framework.Assert;
 
 public class MainActivityTest extends
 		ActivityInstrumentationTestCase2<ProjectListActivity_> {
