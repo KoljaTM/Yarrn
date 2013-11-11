@@ -50,6 +50,26 @@
             <artifactId>robospice</artifactId>
             <version>1.4.6</version>
         </dependency>
+        <dependency>
+            <groupId>com.octo.android.robospice</groupId>
+            <artifactId>robospice-google-http-client</artifactId>
+            <version>1.4.6</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.http-client</groupId>
+            <artifactId>google-http-client-gson</artifactId>
+            <version>1.16.0-rc</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>xpp3</groupId>
+                    <artifactId>xpp3</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>stax</groupId>
+                    <artifactId>stax-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
     </dependencies>
 
     <build>
