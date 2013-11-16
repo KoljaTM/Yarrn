@@ -4,9 +4,12 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.widget.ListView;
+import com.androidquery.util.AQUtility;
 import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
-import com.googlecode.androidannotations.annotations.*;
+import com.googlecode.androidannotations.annotations.AfterViews;
+import com.googlecode.androidannotations.annotations.EFragment;
+import com.googlecode.androidannotations.annotations.UiThread;
+import com.googlecode.androidannotations.annotations.ViewById;
 import com.googlecode.androidannotations.annotations.sharedpreferences.Pref;
 import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.UncachedSpiceService;
@@ -17,10 +20,9 @@ import de.vanmar.android.knitdroid.KnitdroidPrefs_;
 import de.vanmar.android.knitdroid.R;
 import de.vanmar.android.knitdroid.ravelry.IRavelryActivity;
 import de.vanmar.android.knitdroid.ravelry.RavelryApi;
-import de.vanmar.android.knitdroid.ravelry.ResultCallback;
-import de.vanmar.android.knitdroid.ravelry.dts.ProjectResult;
-import org.json.JSONException;
-import org.json.JSONObject;
+import de.vanmar.android.knitdroid.ravelry.dts.Project;
+import de.vanmar.android.knitdroid.ravelry.dts.ProjectsResult;
+import de.vanmar.android.knitdroid.util.ProjectsAdapter;
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.model.OAuthRequest;
 import org.scribe.model.Response;
@@ -48,17 +50,17 @@ public class ProjectsFragment extends Fragment {
 	@Pref
 	KnitdroidPrefs_ prefs;
 
-	private ProjectListAdapter adapter;
+	private ProjectsAdapter adapter;
 
 	private ProjectsFragmentListener listener;
 
 	@AfterViews
 	public void afterViews() {
-		adapter = new ProjectListAdapter(getActivity()) {
+		adapter = new ProjectsAdapter(getActivity()) {
 
 			@Override
-			protected void onProjectClicked(final JSONObject projectJson) {
-				listener.onProjectSelected(projectJson.optInt("id"));
+			protected void onProjectClicked(final Project project) {
+				listener.onProjectSelected(project.id);
 			}
 
 		};
@@ -66,21 +68,9 @@ public class ProjectsFragment extends Fragment {
 	}
 
 	@UiThread
-	protected void displayProjects(final String result) {
-		try {
-			final JSONObject json = new JSONObject(result);
-			adapter.setData(json.getJSONArray("projects"));
-		} catch (final JSONException e) {
-			e.printStackTrace();
-		}
-	}
-
-	@Background
-	public void getProjects(final ResultCallback<String> callback) {
-		final OAuthRequest request = new OAuthRequest(Verb.GET, String.format(
-				getString(R.string.ravelry_url) + "/projects/%s/list.json",
-				prefs.username().get()));
-		listener.callRavelry(request, callback);
+	protected void displayProjects(final ProjectsResult result) {
+		adapter.clear();
+		adapter.addAll(result.projects);
 	}
 
 	@Override
@@ -116,12 +106,7 @@ public class ProjectsFragment extends Fragment {
 	public void onResume() {
 		super.onResume();
 
-		try {
-			spiceManager.execute(new ProjectsRequest(), new ProjectsListener());
-		} catch (Exception e) {
-			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-		} finally {
-		}
+		spiceManager.execute(new ProjectsRequest(), new ProjectsListener());
 	}
 
 	@Override
@@ -130,33 +115,14 @@ public class ProjectsFragment extends Fragment {
 		super.onStop();
 	}
 
-	/*@Override
-	public void onStart() {
-		super.onStart();
-
-
-		getProjects(new ResultCallback<String>() {
-
-			@Override
-			public void onFailure(final Exception exception) {
-				AQUtility.report(exception);
-			}
-
-			@Override
-			public void onSuccess(final String result) {
-				displayProjects(result);
-			}
-		});
-	}      */
-
-	class ProjectsRequest extends SpiceRequest<ProjectResult> {
+	class ProjectsRequest extends SpiceRequest<ProjectsResult> {
 
 		public ProjectsRequest() {
-			super(ProjectResult.class);
+			super(ProjectsResult.class);
 		}
 
 		@Override
-		public ProjectResult loadDataFromNetwork() throws Exception {
+		public ProjectsResult loadDataFromNetwork() throws Exception {
 			final String apiKey = getString(R.string.api_key);
 			final String apiSecret = getString(R.string.api_secret);
 			final String callback = getString(R.string.api_callback);
@@ -172,25 +138,20 @@ public class ProjectsFragment extends Fragment {
 			service.signRequest(accessToken, request);
 			request.setConnectTimeout(10, TimeUnit.SECONDS);
 			final Response response = request.send();
-			try {
-				return new Gson().fromJson(response.getBody(), ProjectResult.class);
-			} catch (JsonSyntaxException e) {
-				e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-				throw e;
-			}
+			return new Gson().fromJson(response.getBody(), ProjectsResult.class);
 		}
 	}
 
-	class ProjectsListener implements RequestListener<ProjectResult> {
+	class ProjectsListener implements RequestListener<ProjectsResult> {
 
 		@Override
 		public void onRequestFailure(SpiceException spiceException) {
-			System.out.println("FAIL");
+			AQUtility.report(spiceException);
 		}
 
 		@Override
-		public void onRequestSuccess(ProjectResult result) {
-			System.out.println(result);
+		public void onRequestSuccess(ProjectsResult result) {
+			displayProjects(result);
 		}
 	}
 }
