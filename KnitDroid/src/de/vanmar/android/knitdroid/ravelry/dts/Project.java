@@ -2,8 +2,10 @@ package de.vanmar.android.knitdroid.ravelry.dts;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 /**
- * Data structure to represent projects in Ravelry
+ * http://www.ravelry.com/api#Project_full_result
  */
 public class Project {
 	public int id;
@@ -11,6 +13,7 @@ public class Project {
 	@SerializedName("pattern_name")
 	public String patternName;
 	public int progress;
-	@SerializedName("first_photo")
-	public Photo firstPhoto;
+	@SerializedName("photos")
+	public List<Photo> photos;
+	public String status;
 }

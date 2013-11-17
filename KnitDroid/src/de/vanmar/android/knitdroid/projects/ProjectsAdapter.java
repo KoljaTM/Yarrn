@@ -1,4 +1,4 @@
-package de.vanmar.android.knitdroid.util;
+package de.vanmar.android.knitdroid.projects;
 
 import android.app.Activity;
 import android.view.View;
@@ -9,9 +9,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.androidquery.AQuery;
 import de.vanmar.android.knitdroid.R;
-import de.vanmar.android.knitdroid.ravelry.dts.Project;
+import de.vanmar.android.knitdroid.ravelry.dts.ProjectShort;
 
-public abstract class ProjectsAdapter extends ArrayAdapter<Project> {
+public abstract class ProjectsAdapter extends ArrayAdapter<ProjectShort> {
 	private final Activity context;
 
 	private class ViewHolder {
@@ -44,7 +44,7 @@ public abstract class ProjectsAdapter extends ArrayAdapter<Project> {
 			holder.thumb = (ImageView) view.findViewById(R.id.thumb);
 			view.setTag(holder);
 		}
-		final Project project = getItem(position);
+		final ProjectShort project = getItem(position);
 
 		holder.name.setText(project.name);
 		holder.patternName.setText(project.patternName);
@@ -68,5 +68,5 @@ public abstract class ProjectsAdapter extends ArrayAdapter<Project> {
 		return view;
 	}
 
-	protected abstract void onProjectClicked(Project project);
+	protected abstract void onProjectClicked(ProjectShort project);
 }

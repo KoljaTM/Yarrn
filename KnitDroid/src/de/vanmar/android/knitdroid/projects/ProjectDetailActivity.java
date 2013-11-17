@@ -1,10 +1,5 @@
 package de.vanmar.android.knitdroid.projects;
 
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -12,24 +7,28 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.widget.Toast;
-
 import com.androidquery.util.AQUtility;
-import com.googlecode.androidannotations.annotations.Bean;
-import com.googlecode.androidannotations.annotations.EActivity;
-import com.googlecode.androidannotations.annotations.Extra;
-import com.googlecode.androidannotations.annotations.FragmentById;
-import com.googlecode.androidannotations.annotations.NonConfigurationInstance;
-import com.googlecode.androidannotations.annotations.OnActivityResult;
-import com.googlecode.androidannotations.annotations.UiThread;
-
+import com.googlecode.androidannotations.annotations.*;
+import com.octo.android.robospice.SpiceManager;
+import com.octo.android.robospice.UncachedSpiceService;
+import com.octo.android.robospice.persistence.exception.SpiceException;
+import com.octo.android.robospice.request.listener.RequestListener;
 import de.vanmar.android.knitdroid.AbstractRavelryActivity;
 import de.vanmar.android.knitdroid.R;
 import de.vanmar.android.knitdroid.projects.ProjectFragment.ProjectFragmentListener;
 import de.vanmar.android.knitdroid.util.RequestCode;
+import de.vanmar.android.knitdroid.util.UiHelper;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @EActivity(resName = "activity_project_detail")
 public class ProjectDetailActivity extends AbstractRavelryActivity implements
 		ProjectFragmentListener {
+
+	protected SpiceManager spiceManager = new SpiceManager(UncachedSpiceService.class);
 
 	public static final String EXTRA_PROJECT_ID = "ProjectDetailActivity.extra.project_id";
 
@@ -43,12 +42,24 @@ public class ProjectDetailActivity extends AbstractRavelryActivity implements
 	@Extra(EXTRA_PROJECT_ID)
 	protected int projectId;
 
-	@Bean
-	@NonConfigurationInstance
-	PhotoUploadTask photoUploadTask;
-
 	@NonConfigurationInstance
 	Uri photoUri;
+
+	@Bean
+	UiHelper uiHelper;
+
+	@Override
+	public void onStart() {
+		super.onStart();
+		spiceManager.start(this);
+
+	}
+
+	@Override
+	public void onStop() {
+		spiceManager.shouldStop();
+		super.onStop();
+	}
 
 	@Override
 	protected void onResume() {
@@ -112,7 +123,18 @@ public class ProjectDetailActivity extends AbstractRavelryActivity implements
 	}
 
 	public void uploadPhotoToProject(final Uri photoUri, final int projectId) {
-		photoUploadTask.uploadPhotoToProject(photoUri, projectId);
+		spiceManager.execute(new PhotoUploadRequest(this, prefs, photoUri, projectId), new RequestListener<String>() {
+
+			@Override
+			public void onRequestFailure(SpiceException spiceException) {
+				uiHelper.displayError(spiceException);
+			}
+
+			@Override
+			public void onRequestSuccess(String s) {
+				onPhotoUploadSuccess();
+			}
+		});
 	}
 
 	@UiThread

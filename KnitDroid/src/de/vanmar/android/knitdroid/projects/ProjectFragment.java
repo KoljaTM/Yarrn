@@ -1,33 +1,26 @@
 package de.vanmar.android.knitdroid.projects;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.scribe.model.OAuthRequest;
-import org.scribe.model.Verb;
-
 import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.widget.TextView;
-
 import com.androidquery.util.AQUtility;
-import com.googlecode.androidannotations.annotations.AfterViews;
-import com.googlecode.androidannotations.annotations.Background;
-import com.googlecode.androidannotations.annotations.Click;
-import com.googlecode.androidannotations.annotations.EFragment;
-import com.googlecode.androidannotations.annotations.UiThread;
-import com.googlecode.androidannotations.annotations.ViewById;
+import com.googlecode.androidannotations.annotations.*;
 import com.googlecode.androidannotations.annotations.sharedpreferences.Pref;
 import com.meetme.android.horizontallistview.HorizontalListView;
-
+import com.octo.android.robospice.SpiceManager;
+import com.octo.android.robospice.UncachedSpiceService;
+import com.octo.android.robospice.persistence.exception.SpiceException;
+import com.octo.android.robospice.request.listener.RequestListener;
 import de.vanmar.android.knitdroid.KnitdroidPrefs_;
 import de.vanmar.android.knitdroid.R;
 import de.vanmar.android.knitdroid.ravelry.IRavelryActivity;
-import de.vanmar.android.knitdroid.ravelry.ResultCallback;
-import de.vanmar.android.knitdroid.util.JSONHelper;
+import de.vanmar.android.knitdroid.ravelry.dts.Project;
+import de.vanmar.android.knitdroid.ravelry.dts.ProjectResult;
 
 @EFragment(R.layout.fragment_project_detail)
 public class ProjectFragment extends Fragment {
+
+	protected SpiceManager spiceManager = new SpiceManager(UncachedSpiceService.class);
 
 	public interface ProjectFragmentListener extends IRavelryActivity {
 
@@ -82,29 +75,26 @@ public class ProjectFragment extends Fragment {
 		if (projectId == 0) {
 			clearProject();
 		} else {
-
-			getProject(projectId, new ResultCallback<String>() {
-
-				@Override
-				public void onFailure(final Exception exception) {
-					AQUtility.report(exception);
-				}
-
-				@Override
-				public void onSuccess(final String result) {
-					displayProject(result);
-				}
-			});
+			spiceManager.execute(new GetProjectRequest(this.getActivity(), prefs, projectId), new ProjectsListener());
 		}
 	}
 
-	@Background
-	public void getProject(final int projectId,
-			final ResultCallback<String> callback) {
-		final OAuthRequest request = new OAuthRequest(Verb.GET, String.format(
-				getString(R.string.ravelry_url) + "/projects/%s/%s.json", prefs
-						.username().get(), projectId));
-		listener.callRavelry(request, callback);
+	@Override
+	public void onStart() {
+		super.onStart();
+		spiceManager.start(this.getActivity());
+
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+	}
+
+	@Override
+	public void onStop() {
+		spiceManager.shouldStop();
+		super.onStop();
 	}
 
 	@UiThread
@@ -113,24 +103,17 @@ public class ProjectFragment extends Fragment {
 		patternName.setText(null);
 		status.setText(null);
 
-		adapter.setData(null);
+		adapter.clear();
 	}
 
 	@UiThread
-	protected void displayProject(final String result) {
-		try {
-			final JSONObject jsonProject = new JSONObject(result)
-					.optJSONObject("project");
-			name.setText(JSONHelper.optString(jsonProject, "name"));
-			patternName.setText(JSONHelper.optString(jsonProject,
-					"pattern_name"));
-			status.setText(JSONHelper.optString(jsonProject, "status_name"));
-
-			final JSONArray photos = jsonProject.getJSONArray("photos");
-			adapter.setData(photos);
-		} catch (final JSONException e) {
-			e.printStackTrace();
-		}
+	protected void displayProject(final ProjectResult projectResult) {
+		Project project = projectResult.project;
+		name.setText(project.name);
+		patternName.setText(project.patternName);
+		status.setText(project.status);
+		adapter.clear();
+		adapter.addAll(project.photos);
 	}
 
 	@Click(R.id.addPhoto)
@@ -143,4 +126,16 @@ public class ProjectFragment extends Fragment {
 		listener.takePhoto();
 	}
 
+	class ProjectsListener implements RequestListener<ProjectResult> {
+
+		@Override
+		public void onRequestFailure(SpiceException spiceException) {
+			AQUtility.report(spiceException);
+		}
+
+		@Override
+		public void onRequestSuccess(ProjectResult result) {
+			displayProject(result);
+		}
+	}
 }

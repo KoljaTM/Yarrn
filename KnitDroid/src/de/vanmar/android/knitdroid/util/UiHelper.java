@@ -1,9 +1,9 @@
 package de.vanmar.android.knitdroid.util;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
-
 import com.googlecode.androidannotations.annotations.EBean;
 import com.googlecode.androidannotations.annotations.RootContext;
 import com.googlecode.androidannotations.annotations.UiThread;
@@ -13,6 +13,7 @@ public class UiHelper {
 
 	@RootContext
 	Context context;
+	private ProgressDialog progressDialog = null;
 
 	@UiThread
 	public void displayError(final Exception e) {
@@ -26,4 +27,18 @@ public class UiHelper {
 				.show();
 	}
 
+	@UiThread
+	public void startProgress(String title, String message, boolean indeterminate, boolean cancelable) {
+		if (progressDialog == null) {
+			progressDialog = ProgressDialog.show(context, title, message, indeterminate, cancelable);
+		}
+	}
+
+	@UiThread
+	public void stopProgress() {
+		if (progressDialog != null) {
+			progressDialog.dismiss();
+			progressDialog = null;
+		}
+	}
 }
