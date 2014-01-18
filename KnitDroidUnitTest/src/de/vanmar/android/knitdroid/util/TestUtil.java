@@ -1,17 +1,16 @@
 package de.vanmar.android.knitdroid.util;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.mock;
-
-import java.util.concurrent.Executor;
-
+import org.androidannotations.api.BackgroundExecutor;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
-import com.googlecode.androidannotations.api.BackgroundExecutor;
+import java.util.concurrent.Executor;
 
 import de.vanmar.android.knitdroid.KnitdroidPrefs_;
+
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.mock;
 
 public class TestUtil {
 

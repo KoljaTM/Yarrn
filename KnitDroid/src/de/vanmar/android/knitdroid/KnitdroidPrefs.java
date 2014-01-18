@@ -1,17 +1,17 @@
 package de.vanmar.android.knitdroid;
 
-import com.googlecode.androidannotations.annotations.sharedpreferences.SharedPref;
-import com.googlecode.androidannotations.annotations.sharedpreferences.SharedPref.Scope;
+import org.androidannotations.annotations.sharedpreferences.SharedPref;
+import org.androidannotations.annotations.sharedpreferences.SharedPref.Scope;
 
 @SharedPref(Scope.APPLICATION_DEFAULT)
 public interface KnitdroidPrefs {
 
-	String accessSecret();
+    String accessSecret();
 
-	String accessToken();
+    String accessToken();
 
-	String requestToken();
+    String requestToken();
 
-	String username();
+    String username();
 
 }

@@ -2,7 +2,7 @@ package de.vanmar.android.knitdroid.projects;
 
 import android.content.Intent;
 
-import com.googlecode.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.EActivity;
 
 import de.vanmar.android.knitdroid.AbstractRavelryActivity;
 import de.vanmar.android.knitdroid.projects.ProjectsFragment.ProjectsFragmentListener;

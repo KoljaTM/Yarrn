@@ -1,8 +1,5 @@
 package de.vanmar.android.knitdroid;
 
-import java.io.File;
-import java.lang.Thread.UncaughtExceptionHandler;
-
 import android.app.Application;
 import android.os.Environment;
 import android.util.Log;
@@ -10,11 +7,14 @@ import android.widget.Toast;
 
 import com.androidquery.callback.BitmapAjaxCallback;
 import com.androidquery.util.AQUtility;
-import com.googlecode.androidannotations.annotations.Bean;
-import com.googlecode.androidannotations.annotations.EApplication;
-import com.googlecode.androidannotations.annotations.UiThread;
 
-import de.vanmar.android.knitdroid.util.SslCertificateHelper;
+import org.androidannotations.annotations.Bean;
+import org.androidannotations.annotations.EApplication;
+import org.androidannotations.annotations.UiThread;
+
+import java.io.File;
+import java.lang.Thread.UncaughtExceptionHandler;
+
 import de.vanmar.android.knitdroid.util.UiHelper;
 
 @EApplication
