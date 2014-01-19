@@ -48,7 +48,7 @@
     <orderEntry type="library" name="Maven: org.apache.maven.wagon:wagon-http-shared:1.0-beta-6" level="project" />
     <orderEntry type="library" name="Maven: nekohtml:xercesMinimal:1.9.6.2" level="project" />
     <orderEntry type="library" name="Maven: nekohtml:nekohtml:1.9.6.2" level="project" />
-    <orderEntry type="module" module-name="Knitdroid" />
+    <orderEntry type="module" module-name="KnitDroid" />
     <orderEntry type="library" name="Maven: org.androidannotations:androidannotations-api:3.0.1" level="project" />
     <orderEntry type="library" name="Maven: com.googlecode.android-query:android-query:0.24.3" level="project" />
     <orderEntry type="library" name="Maven: org.scribe:scribe:1.3.5" level="project" />
