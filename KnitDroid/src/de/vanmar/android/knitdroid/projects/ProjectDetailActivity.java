@@ -37,7 +37,7 @@ import de.vanmar.android.knitdroid.util.UiHelper;
 public class ProjectDetailActivity extends AbstractRavelryActivity implements
         ProjectFragmentListener {
 
-    protected SpiceManager spiceManager = new SpiceManager(UncachedSpiceService.class);
+    SpiceManager spiceManager = new SpiceManager(UncachedSpiceService.class);
 
     public static final String EXTRA_PROJECT_ID = "ProjectDetailActivity.extra.project_id";
 

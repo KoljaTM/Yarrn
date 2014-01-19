@@ -4,12 +4,9 @@ import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.widget.TextView;
 
-import com.androidquery.util.AQUtility;
 import com.meetme.android.horizontallistview.HorizontalListView;
 import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.UncachedSpiceService;
-import com.octo.android.robospice.persistence.exception.SpiceException;
-import com.octo.android.robospice.request.listener.RequestListener;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -21,6 +18,7 @@ import org.androidannotations.annotations.sharedpreferences.Pref;
 import de.vanmar.android.knitdroid.KnitdroidPrefs_;
 import de.vanmar.android.knitdroid.R;
 import de.vanmar.android.knitdroid.ravelry.IRavelryActivity;
+import de.vanmar.android.knitdroid.ravelry.RavelryResultListener;
 import de.vanmar.android.knitdroid.ravelry.dts.Project;
 import de.vanmar.android.knitdroid.ravelry.dts.ProjectResult;
 
@@ -82,7 +80,7 @@ public class ProjectFragment extends Fragment {
         if (projectId == 0) {
             clearProject();
         } else {
-            spiceManager.execute(new GetProjectRequest(this.getActivity(), prefs, projectId), new ProjectsListener());
+            spiceManager.execute(new GetProjectRequest(this.getActivity(), prefs, projectId), new ProjectsListener(listener));
         }
     }
 
@@ -133,11 +131,10 @@ public class ProjectFragment extends Fragment {
         listener.takePhoto();
     }
 
-    class ProjectsListener implements RequestListener<ProjectResult> {
+    class ProjectsListener extends RavelryResultListener<ProjectResult> {
 
-        @Override
-        public void onRequestFailure(SpiceException spiceException) {
-            AQUtility.report(spiceException);
+        protected ProjectsListener(IRavelryActivity activity) {
+            super(activity);
         }
 
         @Override

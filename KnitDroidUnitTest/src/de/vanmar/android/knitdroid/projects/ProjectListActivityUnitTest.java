@@ -1,6 +1,7 @@
 package de.vanmar.android.knitdroid.projects;
 
 import android.content.Intent;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,6 +10,9 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.shadows.ShadowActivity;
 import org.robolectric.util.ActivityController;
 
+import de.vanmar.android.knitdroid.ravelry.GetAccessTokenActivity_;
+
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(RobolectricTestRunner.class)
@@ -32,8 +36,9 @@ public class ProjectListActivityUnitTest {
 		activity.onProjectSelected(projectId);
 
 		// then
-		final Intent intent = new Intent(activity, ProjectDetailActivity_.class);
-		intent.putExtra(ProjectDetailActivity.EXTRA_PROJECT_ID, projectId);
-		assertTrue(((ShadowActivity.IntentForResult) Robolectric.shadowOf(activity).getNextStartedActivityForResult()).intent.equals(intent));
-	}
+        ShadowActivity.IntentForResult startedActivityForResult = Robolectric.shadowOf(activity).getNextStartedActivityForResult();
+        assertNotNull("should start activity", startedActivityForResult);
+        assertTrue(((Object) startedActivityForResult.intent).equals(new Intent(activity,
+                GetAccessTokenActivity_.class)));
+    }
 }
