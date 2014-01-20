@@ -20,7 +20,6 @@ import org.scribe.oauth.OAuthService;
 import java.lang.Thread.UncaughtExceptionHandler;
 
 import de.vanmar.android.knitdroid.mocking.OAuthRequestForMocking;
-import de.vanmar.android.knitdroid.projects.ProjectListActivity_;
 import de.vanmar.android.knitdroid.ravelry.GetAccessTokenActivity;
 import de.vanmar.android.knitdroid.ravelry.GetAccessTokenActivity_;
 import de.vanmar.android.knitdroid.ravelry.ResultCallback;
@@ -37,48 +36,48 @@ import static org.junit.Assert.assertTrue;
 @RunWith(RobolectricTestRunner.class)
 public class AbstractRavelryActivityUnitTest {
 
-	private AbstractRavelryActivity activity;
+    private AbstractRavelryActivity activity;
 
-	@Mock
-	private OAuthService oauthService;
+    @Mock
+    private OAuthService oauthService;
 
-	@Mock
-	private NetworkHelper networkHelper;
+    @Mock
+    private NetworkHelper networkHelper;
 
-	@Mock
-	private UiHelper uiHelper;
+    @Mock
+    private UiHelper uiHelper;
 
-	@Mock
-	private OAuthRequestForMocking request;
+    @Mock
+    private OAuthRequestForMocking request;
 
-	@Mock
-	private ResultCallback<String> callback;
+    @Mock
+    private ResultCallback<String> callback;
 
-	@Mock
-	private Response response;
+    @Mock
+    private Response response;
 
-	@Mock
-	private UncaughtExceptionHandler exceptionHandler;
+    @Mock
+    private UncaughtExceptionHandler exceptionHandler;
 
     @Before
     public void prepare() {
-		MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.initMocks(this);
 
-        ActivityController<ProjectListActivity_> activityController = Robolectric.buildActivity(ProjectListActivity_.class);
+        ActivityController<MainActivity_> activityController = Robolectric.buildActivity(MainActivity_.class);
         activityController.create();
         activity = activityController.get();
 
         activity.service = oauthService;
-		activity.networkHelper = networkHelper;
-		activity.uiHelper = uiHelper;
+        activity.networkHelper = networkHelper;
+        activity.uiHelper = uiHelper;
 
-		TestUtil.mockBackgroundExecutor();
-		TestUtil.mockValidUser(activity.prefs);
+        TestUtil.mockBackgroundExecutor();
+        TestUtil.mockValidUser(activity.prefs);
 
-		AQUtility.setExceptionHandler(exceptionHandler);
-	}
+        AQUtility.setExceptionHandler(exceptionHandler);
+    }
 
-	@Test
+    @Test
     public void shouldRequestToken() {
         // when
         activity.requestToken();

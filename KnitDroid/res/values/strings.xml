@@ -17,4 +17,8 @@
 
     <string name="network_not_available">No Internet connection</string>
     <string name="connection_timeout">Connection to Ravelry timed out</string>
+    <string name="menu_my_projects">My Projects</string>
+    <string name="menu_change_user">Change User</string>
+    <string name="menu_refresh">Refresh</string>
+    <string name="menu_drawer">Go to…</string>
 </resources>

@@ -1,16 +1,22 @@
 package de.vanmar.android.knitdroid.projects;
 
 import android.app.Activity;
+import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.androidquery.util.AQUtility;
 import com.meetme.android.horizontallistview.HorizontalListView;
 import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.UncachedSpiceService;
+import com.octo.android.robospice.persistence.exception.SpiceException;
+import com.octo.android.robospice.request.listener.RequestListener;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.sharedpreferences.Pref;
@@ -25,6 +31,7 @@ import de.vanmar.android.knitdroid.ravelry.dts.ProjectResult;
 @EFragment(R.layout.fragment_project_detail)
 public class ProjectFragment extends Fragment {
 
+    public static final String ARG_PROJECT_ID = "projectId";
     protected SpiceManager spiceManager = new SpiceManager(UncachedSpiceService.class);
 
     public interface ProjectFragmentListener extends IRavelryActivity {
@@ -45,6 +52,9 @@ public class ProjectFragment extends Fragment {
 
     @ViewById(R.id.gallery)
     HorizontalListView gallery;
+
+    @FragmentArg(ARG_PROJECT_ID)
+    int projectId;
 
     private ProjectFragmentListener listener;
 
@@ -89,6 +99,7 @@ public class ProjectFragment extends Fragment {
         super.onStart();
         spiceManager.start(this.getActivity());
 
+        onProjectSelected(projectId);
     }
 
     @Override
@@ -129,6 +140,26 @@ public class ProjectFragment extends Fragment {
     @Click(R.id.takePhoto)
     public void onTakePhotoClicked() {
         listener.takePhoto();
+    }
+
+    public void uploadPhotoToProject(final Uri photoUri) {
+        spiceManager.execute(new PhotoUploadRequest(getActivity(), prefs, photoUri, projectId), new RequestListener<String>() {
+
+            @Override
+            public void onRequestFailure(SpiceException spiceException) {
+                AQUtility.report(spiceException);
+            }
+
+            @Override
+            public void onRequestSuccess(String s) {
+                onPhotoUploadSuccess();
+            }
+        });
+    }
+
+    @UiThread
+    public void onPhotoUploadSuccess() {
+        Toast.makeText(getActivity(), "Upload successful", Toast.LENGTH_LONG).show();
     }
 
     class ProjectsListener extends RavelryResultListener<ProjectResult> {

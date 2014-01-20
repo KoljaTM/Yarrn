@@ -1,40 +1,12 @@
 package de.vanmar.android.knitdroid.projects;
 
-import android.content.Intent;
-
-import com.octo.android.robospice.SpiceManager;
-import com.octo.android.robospice.persistence.exception.SpiceException;
-import com.octo.android.robospice.request.SpiceRequest;
-import com.octo.android.robospice.request.listener.RequestListener;
-
-import org.junit.Before;
-import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
-import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.shadows.ShadowActivity;
-import org.robolectric.util.ActivityController;
-
-import de.vanmar.android.knitdroid.ravelry.GetAccessTokenActivity_;
-import de.vanmar.android.knitdroid.ravelry.RavelryException;
-import de.vanmar.android.knitdroid.ravelry.dts.Project;
-import de.vanmar.android.knitdroid.ravelry.dts.ProjectResult;
-import de.vanmar.android.knitdroid.util.TestUtil;
-
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.doAnswer;
 
 @RunWith(RobolectricTestRunner.class)
 public class ProjectDetailActivityUnitTest {
 
+    /*
     public static final int PROJECT_ID = 10014463;
     private ProjectDetailActivity activity;
 
@@ -103,5 +75,5 @@ public class ProjectDetailActivityUnitTest {
         project.name = "aqua diva";
         projectResult.project = project;
         return projectResult;
-    }
+    }*/
 }

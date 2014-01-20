@@ -10,9 +10,6 @@ import org.robolectric.util.ActivityController;
 import java.io.InputStream;
 import java.net.URL;
 
-import de.vanmar.android.knitdroid.projects.ProjectDetailActivity;
-import de.vanmar.android.knitdroid.projects.ProjectDetailActivity_;
-
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
@@ -21,11 +18,11 @@ import static org.junit.matchers.JUnitMatchers.containsString;
 @RunWith(RobolectricTestRunner.class)
 public class CheckEnvironmentUnitTest {
 
-    private ProjectDetailActivity activity;
+    private MainActivity activity;
 
     @Before
     public void prepare() {
-        ActivityController<ProjectDetailActivity_> projectListActivityActivityController = Robolectric.buildActivity(ProjectDetailActivity_.class);
+        ActivityController<MainActivity_> projectListActivityActivityController = Robolectric.buildActivity(MainActivity_.class);
         projectListActivityActivityController.create();
         activity = projectListActivityActivityController.get();
     }
