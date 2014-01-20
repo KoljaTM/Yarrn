@@ -2,18 +2,25 @@ package de.vanmar.android.knitdroid;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.androidquery.util.AQUtility;
+
+import org.scribe.builder.ServiceBuilder;
+import org.scribe.oauth.OAuthService;
+
 import de.vanmar.android.knitdroid.ravelry.GetAccessTokenActivity;
 import de.vanmar.android.knitdroid.ravelry.GetAccessTokenActivity_;
 import de.vanmar.android.knitdroid.ravelry.IRavelryActivity;
 import de.vanmar.android.knitdroid.ravelry.RavelryApi;
-import de.vanmar.android.knitdroid.util.*;
-import org.scribe.builder.ServiceBuilder;
-import org.scribe.oauth.OAuthService;
+import de.vanmar.android.knitdroid.util.NetworkHelper;
+import de.vanmar.android.knitdroid.util.NetworkHelper_;
+import de.vanmar.android.knitdroid.util.RequestCode;
+import de.vanmar.android.knitdroid.util.UiHelper;
+import de.vanmar.android.knitdroid.util.UiHelper_;
 
-public abstract class AbstractRavelryActivity extends FragmentActivity
-		implements IRavelryActivity {
+public abstract class AbstractRavelryActivity extends SherlockFragmentActivity
+implements IRavelryActivity {
 
 	public KnitdroidPrefs_ prefs;
 	public NetworkHelper networkHelper;
