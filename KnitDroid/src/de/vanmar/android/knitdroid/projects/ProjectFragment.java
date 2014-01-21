@@ -125,6 +125,7 @@ public class ProjectFragment extends Fragment {
     @UiThread
     protected void displayProject(final ProjectResult projectResult) {
         Project project = projectResult.project;
+        getActivity().setTitle(project.name);
         name.setText(project.name);
         patternName.setText(project.patternName);
         status.setText(project.status);

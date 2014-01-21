@@ -6,6 +6,8 @@
 
     <string name="api_callback">x-oauthflow://de.vanmar.android.knitdroid</string>
 
+    <string name="my_projects_title">My Projects</string>
+
     <string name="projectimage">Image</string>
     <string name="photo">Image</string>
 

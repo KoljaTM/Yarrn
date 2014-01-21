@@ -60,7 +60,8 @@ public class ProjectsFragment extends Fragment {
 	protected void displayProjects(final ProjectsResult result) {
 		adapter.clear();
 		adapter.addAll(result.projects);
-	}
+        getActivity().setTitle(R.string.my_projects_title);
+    }
 
 	@Override
 	public void onAttach(final Activity activity) {
