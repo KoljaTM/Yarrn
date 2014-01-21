@@ -3,10 +3,15 @@ package de.vanmar.android.knitdroid.projects;
 import android.app.Activity;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidquery.util.AQUtility;
+import com.google.gson.JsonObject;
 import com.meetme.android.horizontallistview.HorizontalListView;
 import com.octo.android.robospice.GsonSpringAndroidSpiceService;
 import com.octo.android.robospice.SpiceManager;
@@ -33,6 +38,7 @@ public class ProjectFragment extends Fragment {
 
     public static final String ARG_PROJECT_ID = "projectId";
     protected SpiceManager spiceManager = new SpiceManager(GsonSpringAndroidSpiceService.class);
+    private AdapterView.OnItemSelectedListener progressListener;
 
     public interface ProjectFragmentListener extends IRavelryActivity {
 
@@ -53,6 +59,12 @@ public class ProjectFragment extends Fragment {
     @ViewById(R.id.gallery)
     HorizontalListView gallery;
 
+    @ViewById(R.id.progressBar)
+    ProgressBar progressBar;
+
+    @ViewById(R.id.progressSpinner)
+    Spinner progressSpinner;
+
     @FragmentArg(ARG_PROJECT_ID)
     int projectId;
 
@@ -67,6 +79,28 @@ public class ProjectFragment extends Fragment {
     public void afterViews() {
         adapter = new PhotoAdapter(getActivity());
         gallery.setAdapter(adapter);
+
+        progressListener = new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                int newProgress = position * 5;
+                displayProgress(newProgress);
+                JsonObject updateData = new JsonObject();
+                updateData.addProperty("progress", newProgress);
+                spiceManager.execute(new UpdateProjectRequest(prefs, getActivity(), projectId, updateData), new RavelryResultListener<ProjectResult>(listener) {
+                    @Override
+                    public void onRequestSuccess(ProjectResult projectResult) {
+                        // nothing to do
+                    }
+                });
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // do nothing
+            }
+        };
+        progressSpinner.setOnItemSelectedListener(progressListener);
     }
 
     @Override
@@ -131,6 +165,14 @@ public class ProjectFragment extends Fragment {
         status.setText(project.status);
         adapter.clear();
         adapter.addAll(project.photos);
+        displayProgress(project.progress);
+    }
+
+    private void displayProgress(int progress) {
+        progressBar.setProgress(progress);
+        progressSpinner.setOnItemSelectedListener(null);
+        progressSpinner.setSelection(progress / 5);
+        progressSpinner.setOnItemSelectedListener(progressListener);
     }
 
     @Click(R.id.addPhoto)
@@ -162,6 +204,11 @@ public class ProjectFragment extends Fragment {
     public void onPhotoUploadSuccess() {
         Toast.makeText(getActivity(), getActivity().getString(R.string.upload_successful), Toast.LENGTH_LONG).show();
         onProjectSelected(projectId);
+    }
+
+    @Click(R.id.progressBar)
+    public void onProgressBarClicked() {
+        progressSpinner.performClick();
     }
 
     class ProjectsListener extends RavelryResultListener<ProjectResult> {

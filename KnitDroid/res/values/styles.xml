@@ -25,6 +25,7 @@
     <style name="Text" parent="@android:style/TextAppearance.Small">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">4dp</item>
     </style>
 
     <style name="Button" parent="@android:style/TextAppearance.Widget.Button">
