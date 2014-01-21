@@ -5,8 +5,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.widget.ListView;
 
+import com.octo.android.robospice.GsonSpringAndroidSpiceService;
 import com.octo.android.robospice.SpiceManager;
-import com.octo.android.robospice.UncachedSpiceService;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -24,89 +24,89 @@ import de.vanmar.android.knitdroid.ravelry.dts.ProjectsResult;
 @EFragment(R.layout.fragment_projects)
 public class ProjectsFragment extends Fragment {
 
-	protected SpiceManager spiceManager = new SpiceManager(UncachedSpiceService.class);
+    protected SpiceManager spiceManager = new SpiceManager(GsonSpringAndroidSpiceService.class);
 
-	public interface ProjectsFragmentListener extends IRavelryActivity {
-		/**
-		 * Project with projectId was selected, 0 if no project selected
-		 */
-		void onProjectSelected(int projectId);
-	}
+    public interface ProjectsFragmentListener extends IRavelryActivity {
+        /**
+         * Project with projectId was selected, 0 if no project selected
+         */
+        void onProjectSelected(int projectId);
+    }
 
-	@ViewById(R.id.projectlist)
-	ListView projectlist;
+    @ViewById(R.id.projectlist)
+    ListView projectlist;
 
-	@Pref
-	KnitdroidPrefs_ prefs;
+    @Pref
+    KnitdroidPrefs_ prefs;
 
-	private ProjectsAdapter adapter;
+    private ProjectsAdapter adapter;
 
-	private ProjectsFragmentListener listener;
+    private ProjectsFragmentListener listener;
 
-	@AfterViews
-	public void afterViews() {
-		adapter = new ProjectsAdapter(getActivity()) {
+    @AfterViews
+    public void afterViews() {
+        adapter = new ProjectsAdapter(getActivity()) {
 
-			@Override
-			protected void onProjectClicked(final ProjectShort project) {
-				listener.onProjectSelected(project.id);
-			}
+            @Override
+            protected void onProjectClicked(final ProjectShort project) {
+                listener.onProjectSelected(project.id);
+            }
 
-		};
-		projectlist.setAdapter(adapter);
-	}
+        };
+        projectlist.setAdapter(adapter);
+    }
 
-	@UiThread
-	protected void displayProjects(final ProjectsResult result) {
-		adapter.clear();
-		adapter.addAll(result.projects);
+    @UiThread
+    protected void displayProjects(final ProjectsResult result) {
+        adapter.clear();
+        adapter.addAll(result.projects);
         getActivity().setTitle(R.string.my_projects_title);
     }
 
-	@Override
-	public void onAttach(final Activity activity) {
-		super.onAttach(activity);
-		if (activity instanceof ProjectsFragmentListener) {
-			listener = (ProjectsFragmentListener) activity;
-		} else {
-			throw new ClassCastException(activity.toString()
-					+ " must implement ProjectsFragmentListener");
-		}
-	}
+    @Override
+    public void onAttach(final Activity activity) {
+        super.onAttach(activity);
+        if (activity instanceof ProjectsFragmentListener) {
+            listener = (ProjectsFragmentListener) activity;
+        } else {
+            throw new ClassCastException(activity.toString()
+                    + " must implement ProjectsFragmentListener");
+        }
+    }
 
-	@Override
-	public void onCreate(final Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-	}
+    @Override
+    public void onCreate(final Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
-	@Override
-	public void onDetach() {
-		super.onDetach();
-		listener = null;
-	}
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        listener = null;
+    }
 
-	@Override
-	public void onStart() {
-		super.onStart();
-		spiceManager.start(this.getActivity());
+    @Override
+    public void onStart() {
+        super.onStart();
+        spiceManager.start(this.getActivity());
 
-	}
+    }
 
-	@Override
-	public void onResume() {
-		super.onResume();
+    @Override
+    public void onResume() {
+        super.onResume();
 
-		spiceManager.execute(new ListProjectsRequest(this.getActivity(), prefs), new RavelryResultListener<ProjectsResult>(ProjectsFragment.this.listener) {
-			@Override
-			public void onRequestSuccess(ProjectsResult projectsResult) {
-				displayProjects(projectsResult);
-			}
-		});
-	}
+        spiceManager.execute(new ListProjectsRequest(this.getActivity(), prefs), new RavelryResultListener<ProjectsResult>(ProjectsFragment.this.listener) {
+            @Override
+            public void onRequestSuccess(ProjectsResult projectsResult) {
+                displayProjects(projectsResult);
+            }
+        });
+    }
 
-	@Override
-	public void onStop() {
-		spiceManager.shouldStop();
-		super.onStop();
-	}
+    @Override
+    public void onStop() {
+        spiceManager.shouldStop();
+        super.onStop();
+    }
 }

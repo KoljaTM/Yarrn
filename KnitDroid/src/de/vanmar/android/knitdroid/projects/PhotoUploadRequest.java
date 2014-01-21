@@ -2,121 +2,108 @@ package de.vanmar.android.knitdroid.projects;
 
 import android.content.Context;
 import android.net.Uri;
-import com.androidquery.AQuery;
-import com.androidquery.callback.AjaxCallback;
-import com.androidquery.callback.AjaxStatus;
+
 import com.androidquery.util.AQUtility;
-import de.vanmar.android.knitdroid.KnitdroidPrefs_;
-import de.vanmar.android.knitdroid.R;
-import de.vanmar.android.knitdroid.ravelry.AbstractRavelryRequest;
-import de.vanmar.android.knitdroid.ravelry.RavelryException;
-import de.vanmar.android.knitdroid.util.UiHelper;
-import de.vanmar.android.knitdroid.util.UiHelper_;
+
 import org.json.JSONObject;
 import org.scribe.model.OAuthRequest;
 import org.scribe.model.Response;
 import org.scribe.model.Verb;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.converter.FormHttpMessageConverter;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
+
+import de.vanmar.android.knitdroid.KnitdroidPrefs_;
+import de.vanmar.android.knitdroid.R;
+import de.vanmar.android.knitdroid.ravelry.AbstractRavelryRequest;
+import de.vanmar.android.knitdroid.ravelry.RavelryException;
+import de.vanmar.android.knitdroid.ravelry.dts.UploadResult;
+import de.vanmar.android.knitdroid.util.UiHelper;
+import de.vanmar.android.knitdroid.util.UiHelper_;
 
 public class PhotoUploadRequest extends AbstractRavelryRequest<String> {
-	private final Uri photoUri;
-	private final int projectId;
-	private UiHelper uiHelper;
-	private Integer imageId = null;
-	private Exception exception = null;
+    private final Uri photoUri;
+    private final int projectId;
+    private UiHelper uiHelper;
+    private Integer imageId = null;
+    private Exception exception = null;
 
-	public PhotoUploadRequest(Context context, KnitdroidPrefs_ prefs, Uri photoUri, int projectId) {
-		super(String.class, prefs, context);
-		this.photoUri = photoUri;
-		this.projectId = projectId;
-		this.uiHelper = UiHelper_.getInstance_(context);
-	}
+    public PhotoUploadRequest(Context context, KnitdroidPrefs_ prefs, Uri photoUri, int projectId) {
+        super(String.class, prefs, context);
+        this.photoUri = photoUri;
+        this.projectId = projectId;
+        this.uiHelper = UiHelper_.getInstance_(context);
+    }
 
+    @Override
+    public String loadDataFromNetwork() throws Exception {
+        startProgress();
+        final OAuthRequest request = new OAuthRequest(Verb.POST,
+                context.getString(R.string.ravelry_url)
+                        + "/upload/request_token.json");
+        Response requestTokenResponse = executeRequest(request);
 
-	@Override
-	public String loadDataFromNetwork() throws Exception {
-		startProgress();
-		final OAuthRequest request = new OAuthRequest(Verb.POST,
-				context.getString(R.string.ravelry_url)
-						+ "/upload/request_token.json");
-		Response requestTokenResponse = executeRequest(request);
+        final String token = new JSONObject(requestTokenResponse.getBody()).getString("upload_token");
 
-		final String token = new JSONObject(requestTokenResponse.getBody()).getString("upload_token");
+        InputStream inputStream;
+        try {
+            MultiValueMap<String, Object> parts = new LinkedMultiValueMap<String, Object>();
+            parts.add("upload_token", token);
+            parts.add("access_key", context.getString(R.string.api_key));
+            inputStream = context.getContentResolver().openInputStream(photoUri);
+            parts.add("file0", new FileSystemResource(photoUri.getPath()));
 
-		InputStream inputStream;
-		try {
-			final AQuery aq = new AQuery(context);
+            MultiValueMap<String, String> headers = new HttpHeaders();
+            // headers.add("Accept", "application/json");
+            headers.add("Content-Type", "multipart/form-data");
+            HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<MultiValueMap<String, Object>>(parts, headers);
+            RestTemplate restTemplate = getRestTemplate();
+            restTemplate.getMessageConverters().add(0, new FormHttpMessageConverter());
 
-			final Map<String, Object> params = new HashMap<String, Object>();
-			params.put("upload_token", token);
-			params.put("access_key", context.getString(R.string.api_key));
+            UploadResult uploadResult = restTemplate.postForObject(context.getString(R.string.ravelry_url)
+                    + "/upload/image.json", requestEntity, UploadResult.class);
+            imageId = uploadResult.uploads.get("file0").get("image_id");
+            String result = addPhotoToProject(imageId, projectId);
 
-			inputStream = context.getContentResolver().openInputStream(photoUri);
-			params.put("file0", inputStream);
+            return result;
+        } catch (final FileNotFoundException e) {
+            onError(e);
+            throw e;
+        } finally {
+            stopProgressDialog();
+        }
+    }
 
-			AjaxCallback<JSONObject> ajaxCallback = new AjaxCallback<JSONObject>() {
+    private String addPhotoToProject(final int imageId, final int projectId) throws RavelryException {
+        final OAuthRequest request = new OAuthRequest(Verb.POST,
+                context.getString(R.string.ravelry_url)
+                        + String.format("/projects/%s/%s/create_photo.json",
+                        prefs.username().get(), projectId));
+        request.addBodyParameter("image_id", String.valueOf(imageId));
+        Response response = executeRequest(request);
+        return response.getBody();
+    }
 
-				@Override
-				public void callback(final String url,
-				                     final JSONObject object, final AjaxStatus status) {
+    private void onError(final Exception exception) {
+        AQUtility.report(exception);
+        stopProgressDialog();
+    }
 
-					try {
-						imageId = object.getJSONObject("uploads")
-								.getJSONObject("file0")
-								.getInt("image_id");
-					} catch (final Exception e) {
-						exception = e;
-					}
-				}
+    private void startProgress() {
+        uiHelper.startProgress(context.getString(R.string.upload_progress_title),
+                context.getString(R.string.upload_progress_message), true,
+                false);
+    }
 
-				@Override
-				public void failure(final int code, final String message) {
-					exception = new RavelryException(code);
-				}
-			};
-			ajaxCallback.url(context.getString(R.string.ravelry_url)
-					+ "/upload/image.json").params(params).type(JSONObject.class);
-			aq.sync(ajaxCallback);
-			if (exception != null) {
-				throw exception;
-			}
-			String result = addPhotoToProject(imageId, projectId);
-			stopProgressDialog();
-
-			return result;
-		} catch (final FileNotFoundException e) {
-			onError(e);
-			throw e;
-		}
-	}
-
-	private String addPhotoToProject(final int imageId, final int projectId) throws RavelryException {
-		final OAuthRequest request = new OAuthRequest(Verb.POST,
-				context.getString(R.string.ravelry_url)
-						+ String.format("/projects/%s/%s/create_photo.json",
-						prefs.username().get(), projectId));
-		request.addBodyParameter("image_id", String.valueOf(imageId));
-		Response response = executeRequest(request);
-		return response.getBody();
-	}
-
-	private void onError(final Exception exception) {
-		AQUtility.report(exception);
-		stopProgressDialog();
-	}
-
-	private void startProgress() {
-		uiHelper.startProgress(context.getString(R.string.upload_progress_title),
-				context.getString(R.string.upload_progress_message), true,
-				false);
-	}
-
-	private void stopProgressDialog() {
-		uiHelper.stopProgress();
-	}
+    private void stopProgressDialog() {
+        uiHelper.stopProgress();
+    }
 
 }

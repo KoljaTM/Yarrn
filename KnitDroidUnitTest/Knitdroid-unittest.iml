@@ -9,8 +9,6 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Maven: com.google.android:support-v4:r13" level="project" />
-    <orderEntry type="library" name="Maven: com.actionbarsherlock:actionbarsherlock:4.4.0" level="project" />
     <orderEntry type="library" name="Maven: org.robolectric:robolectric:2.2" level="project" />
     <orderEntry type="library" name="Maven: org.objenesis:objenesis:1.3" level="project" />
     <orderEntry type="library" name="Maven: org.xerial:sqlite-jdbc:3.7.2" level="project" />
@@ -52,18 +50,16 @@
     <orderEntry type="library" name="Maven: nekohtml:nekohtml:1.9.6.2" level="project" />
     <orderEntry type="module" module-name="KnitDroid" />
     <orderEntry type="library" name="Maven: org.androidannotations:androidannotations-api:3.0.1" level="project" />
-    <orderEntry type="library" name="Maven: com.googlecode.android-query:android-query:0.24.3" level="project" />
+    <orderEntry type="library" name="Maven: com.googlecode.android-query:android-query:0.25.9" level="project" />
     <orderEntry type="library" name="Maven: org.scribe:scribe:1.3.5" level="project" />
     <orderEntry type="library" name="Maven: com.octo.android.robospice:robospice:1.4.6" level="project" />
     <orderEntry type="library" name="Maven: com.octo.android.robospice:robospice-cache:1.4.6" level="project" />
     <orderEntry type="library" name="Maven: org.apache.commons:commons-lang3:3.1" level="project" />
     <orderEntry type="library" name="Maven: commons-io:commons-io:1.3.2" level="project" />
-    <orderEntry type="library" name="Maven: com.octo.android.robospice:robospice-google-http-client:1.4.6" level="project" />
-    <orderEntry type="library" name="Maven: com.google.http-client:google-http-client-android:1.15.0-rc" level="project" />
-    <orderEntry type="library" name="Maven: com.google.http-client:google-http-client:1.16.0-rc" level="project" />
-    <orderEntry type="library" name="Maven: com.google.code.findbugs:jsr305:1.3.9" level="project" />
-    <orderEntry type="library" name="Maven: com.google.http-client:google-http-client-gson:1.16.0-rc" level="project" />
-    <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.1" level="project" />
+    <orderEntry type="library" name="Maven: com.octo.android.robospice:robospice-spring-android:1.4.4" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.android:spring-android-rest-template:1.0.1.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.android:spring-android-core:1.0.1.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.2.4" level="project" />
     <orderEntry type="library" name="Maven: junit:junit:4.8.2" level="project" />
     <orderEntry type="library" name="Maven: org.mockito:mockito-all:1.9.5" level="project" />
     <orderEntry type="library" name="Maven: org.json:json:20080701" level="project" />

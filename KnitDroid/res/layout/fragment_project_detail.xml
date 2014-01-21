@@ -6,37 +6,36 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/border">
-    
-    <com.meetme.android.horizontallistview.HorizontalListView 
-	    android:id="@+id/gallery"
-	    android:layout_width="match_parent"
-	    android:layout_height="80dp"
-	    app:dividerWidth="3dp"
-	    />
-    
-    <Button 
+
+    <com.meetme.android.horizontallistview.HorizontalListView
+        android:id="@+id/gallery"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        app:dividerWidth="3dp" />
+
+    <TextView
+        android:id="@+id/name"
+        style="@style/Headline"
+        android:textIsSelectable="true" />
+
+    <TextView
+        android:id="@+id/pattern_name"
+        style="@style/Text"
+        android:textIsSelectable="true" />
+
+    <TextView
+        android:id="@+id/status"
+        style="@style/Text"
+        android:textIsSelectable="true" />
+
+    <Button
         android:id="@+id/addPhoto"
-		style="@style/Button"
-        android:text="@string/gallery_upload"/>
-    
-    <Button 
+        style="@style/Button"
+        android:text="@string/gallery_upload" />
+
+    <Button
         android:id="@+id/takePhoto"
-		style="@style/Button"
-        android:text="@string/take_photo"/>
-    
-    <TextView android:id="@+id/name"
-		style="@style/Headline"
-	    android:textIsSelectable="true"
-        />
-
-    <TextView android:id="@+id/pattern_name"
-		style="@style/Text"
-	    android:textIsSelectable="true"
-        />
-
-    <TextView android:id="@+id/status"
-		style="@style/Text"
-	    android:textIsSelectable="true"
-        />
+        style="@style/Button"
+        android:text="@string/take_photo" />
 
 </LinearLayout>

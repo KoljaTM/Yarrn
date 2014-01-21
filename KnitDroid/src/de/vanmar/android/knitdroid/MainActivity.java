@@ -55,10 +55,21 @@ public class MainActivity extends AbstractRavelryActivity implements
     DrawerLayout drawerLayout;
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        // get fragments from backstack if available
+        projectsFragment = (ProjectsFragment) getSupportFragmentManager().findFragmentByTag(PROJECTS_TAG);
+        projectFragment = (ProjectFragment) getSupportFragmentManager().findFragmentByTag(PROJECT_DETAIL_TAG);
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
-
-        displayProjectsFragment();
+        if (getSupportFragmentManager().getBackStackEntryCount() <= 1) {
+            // if nothing else known, start projects list
+            displayProjectsFragment();
+        }
     }
 
     @Override
@@ -108,7 +119,7 @@ public class MainActivity extends AbstractRavelryActivity implements
     public void pickImage() {
         final Intent intent = new Intent();
         intent.setAction(Intent.ACTION_PICK);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+        //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
         intent.setType("image/*");
         startActivityForResult(intent, RequestCode.REQUEST_CODE_GALLERY);
     }
@@ -131,7 +142,7 @@ public class MainActivity extends AbstractRavelryActivity implements
                     storageDir);
             final Intent takePictureIntent = new Intent(
                     MediaStore.ACTION_IMAGE_CAPTURE);
-            takePictureIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+            //takePictureIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
             photoUri = Uri.fromFile(image);
             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
             startActivityForResult(takePictureIntent,
@@ -176,5 +187,10 @@ public class MainActivity extends AbstractRavelryActivity implements
     public void menuChangeUserClicked() {
         drawerLayout.closeDrawers();
         requestToken();
+    }
+
+    @Click(R.id.menu_refresh)
+    public void menuRefresh() {
+        // TODO find correct fragment to refresh
     }
 }

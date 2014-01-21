@@ -49,7 +49,7 @@
         <dependency>
             <groupId>com.googlecode.android-query</groupId>
             <artifactId>android-query</artifactId>
-            <version>0.24.3</version>
+            <version>0.25.9</version>
         </dependency>
 
         <dependency>
@@ -65,23 +65,13 @@
         </dependency>
         <dependency>
             <groupId>com.octo.android.robospice</groupId>
-            <artifactId>robospice-google-http-client</artifactId>
-            <version>1.4.6</version>
+            <artifactId>robospice-spring-android</artifactId>
+            <version>1.4.4</version>
         </dependency>
         <dependency>
-            <groupId>com.google.http-client</groupId>
-            <artifactId>google-http-client-gson</artifactId>
-            <version>1.16.0-rc</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>xpp3</groupId>
-                    <artifactId>xpp3</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>stax</groupId>
-                    <artifactId>stax-api</artifactId>
-                </exclusion>
-            </exclusions>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.2.4</version>
         </dependency>
     </dependencies>
 

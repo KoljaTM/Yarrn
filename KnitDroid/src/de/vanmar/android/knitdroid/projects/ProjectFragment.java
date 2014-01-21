@@ -8,8 +8,8 @@ import android.widget.Toast;
 
 import com.androidquery.util.AQUtility;
 import com.meetme.android.horizontallistview.HorizontalListView;
+import com.octo.android.robospice.GsonSpringAndroidSpiceService;
 import com.octo.android.robospice.SpiceManager;
-import com.octo.android.robospice.UncachedSpiceService;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
 
@@ -32,7 +32,7 @@ import de.vanmar.android.knitdroid.ravelry.dts.ProjectResult;
 public class ProjectFragment extends Fragment {
 
     public static final String ARG_PROJECT_ID = "projectId";
-    protected SpiceManager spiceManager = new SpiceManager(UncachedSpiceService.class);
+    protected SpiceManager spiceManager = new SpiceManager(GsonSpringAndroidSpiceService.class);
 
     public interface ProjectFragmentListener extends IRavelryActivity {
 
@@ -160,7 +160,8 @@ public class ProjectFragment extends Fragment {
 
     @UiThread
     public void onPhotoUploadSuccess() {
-        Toast.makeText(getActivity(), "Upload successful", Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), getActivity().getString(R.string.upload_successful), Toast.LENGTH_LONG).show();
+        onProjectSelected(projectId);
     }
 
     class ProjectsListener extends RavelryResultListener<ProjectResult> {
