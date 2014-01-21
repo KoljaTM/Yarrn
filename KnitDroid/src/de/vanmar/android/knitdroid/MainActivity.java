@@ -168,11 +168,13 @@ public class MainActivity extends AbstractRavelryActivity implements
 
     @Click(R.id.menu_my_projects)
     public void menuMyProjectsClicked() {
+        drawerLayout.closeDrawers();
         displayProjectsFragment();
     }
 
     @Click(R.id.menu_change_user)
     public void menuChangeUserClicked() {
+        drawerLayout.closeDrawers();
         requestToken();
     }
 }
