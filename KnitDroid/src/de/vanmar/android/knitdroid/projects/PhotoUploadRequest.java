@@ -4,12 +4,13 @@ import android.content.Context;
 import android.net.Uri;
 
 import com.androidquery.util.AQUtility;
+import com.octo.android.robospice.retry.DefaultRetryPolicy;
 
 import org.json.JSONObject;
 import org.scribe.model.OAuthRequest;
 import org.scribe.model.Response;
 import org.scribe.model.Verb;
-import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.converter.FormHttpMessageConverter;
@@ -18,6 +19,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 
 import de.vanmar.android.knitdroid.KnitdroidPrefs_;
@@ -32,14 +34,13 @@ public class PhotoUploadRequest extends AbstractRavelryRequest<String> {
     private final Uri photoUri;
     private final int projectId;
     private UiHelper uiHelper;
-    private Integer imageId = null;
-    private Exception exception = null;
 
     public PhotoUploadRequest(Context context, KnitdroidPrefs_ prefs, Uri photoUri, int projectId) {
         super(String.class, prefs, context);
         this.photoUri = photoUri;
         this.projectId = projectId;
         this.uiHelper = UiHelper_.getInstance_(context);
+        setRetryPolicy(new DefaultRetryPolicy(1, 0, 0));
     }
 
     @Override
@@ -52,16 +53,24 @@ public class PhotoUploadRequest extends AbstractRavelryRequest<String> {
 
         final String token = new JSONObject(requestTokenResponse.getBody()).getString("upload_token");
 
-        InputStream inputStream;
         try {
             MultiValueMap<String, Object> parts = new LinkedMultiValueMap<String, Object>();
             parts.add("upload_token", token);
             parts.add("access_key", context.getString(R.string.api_key));
-            inputStream = context.getContentResolver().openInputStream(photoUri);
-            parts.add("file0", new FileSystemResource(photoUri.getPath()));
+            final InputStream inputStream = context.getContentResolver().openInputStream(photoUri);
+            parts.add("file0", new InputStreamResource(inputStream) {
+                @Override
+                public long contentLength() throws IOException {
+                    return inputStream.available();
+                }
+
+                @Override
+                public String getFilename() throws IllegalStateException {
+                    return photoUri.getLastPathSegment();
+                }
+            });
 
             MultiValueMap<String, String> headers = new HttpHeaders();
-            // headers.add("Accept", "application/json");
             headers.add("Content-Type", "multipart/form-data");
             HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<MultiValueMap<String, Object>>(parts, headers);
             RestTemplate restTemplate = getRestTemplate();
@@ -69,10 +78,9 @@ public class PhotoUploadRequest extends AbstractRavelryRequest<String> {
 
             UploadResult uploadResult = restTemplate.postForObject(context.getString(R.string.ravelry_url)
                     + "/upload/image.json", requestEntity, UploadResult.class);
-            imageId = uploadResult.uploads.get("file0").get("image_id");
-            String result = addPhotoToProject(imageId, projectId);
+            Integer imageId = uploadResult.get("uploads").get("file0").get("image_id");
 
-            return result;
+            return addPhotoToProject(imageId, projectId);
         } catch (final FileNotFoundException e) {
             onError(e);
             throw e;
