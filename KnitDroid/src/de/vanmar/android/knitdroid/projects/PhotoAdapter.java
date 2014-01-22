@@ -1,11 +1,16 @@
 package de.vanmar.android.knitdroid.projects;
 
 import android.app.Activity;
+import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+
 import com.androidquery.AQuery;
+
+import java.util.Collection;
+
 import de.vanmar.android.knitdroid.R;
 import de.vanmar.android.knitdroid.ravelry.dts.Photo;
 
@@ -22,8 +27,24 @@ public class PhotoAdapter extends ArrayAdapter<Photo> {
 		this.context = context;
 	}
 
-	@Override
-	public View getView(final int position, final View convertView,
+    @Override
+    public void addAll(Collection<? extends Photo> collection) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            super.addAll(collection);
+        } else {
+            setNotifyOnChange(false);
+            clear();
+            for (Photo photo : collection) {
+                add(photo);
+            }
+            // this sets notifyOnChange to true, regardless of former state
+            notifyDataSetChanged();
+        }
+    }
+
+
+    @Override
+    public View getView(final int position, final View convertView,
 	                    final ViewGroup parent) {
 		final View view;
 		final ViewHolder holder;
