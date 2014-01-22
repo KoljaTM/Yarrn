@@ -18,6 +18,7 @@
     </content>
     <orderEntry type="jdk" jdkName="Maven Android API 16 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.googlecode.android-query:android-query:0.25.9" level="project" />
     <orderEntry type="module" module-name="KnitDroid" scope="PROVIDED" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.google.android:support-v4:r13" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.androidannotations:androidannotations-api:3.0.1" level="project" />

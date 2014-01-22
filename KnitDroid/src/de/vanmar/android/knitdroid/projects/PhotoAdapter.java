@@ -16,16 +16,16 @@ import de.vanmar.android.knitdroid.ravelry.dts.Photo;
 
 public class PhotoAdapter extends ArrayAdapter<Photo> {
 
-	private class ViewHolder {
-		private ImageView photo;
-	}
+    private class ViewHolder {
+        private ImageView photo;
+    }
 
-	private final Activity context;
+    private final Activity context;
 
-	public PhotoAdapter(final Activity context) {
-		super(context, 0);
-		this.context = context;
-	}
+    public PhotoAdapter(final Activity context) {
+        super(context, 0);
+        this.context = context;
+    }
 
     @Override
     public void addAll(Collection<? extends Photo> collection) {
@@ -45,22 +45,22 @@ public class PhotoAdapter extends ArrayAdapter<Photo> {
 
     @Override
     public View getView(final int position, final View convertView,
-	                    final ViewGroup parent) {
-		final View view;
-		final ViewHolder holder;
-		if (convertView != null) {
-			view = convertView;
-			holder = (ViewHolder) view.getTag();
-		} else {
-			view = context.getLayoutInflater().inflate(
-					R.layout.photogallery_item, parent, false);
-			holder = new ViewHolder();
-			holder.photo = (ImageView) view.findViewById(R.id.photo);
-			view.setTag(holder);
-		}
-		final Photo photo = getItem(position);
-		new AQuery(view).id(holder.photo).image(photo.squareUrl);
+                        final ViewGroup parent) {
+        final View view;
+        final ViewHolder holder;
+        if (convertView != null) {
+            view = convertView;
+            holder = (ViewHolder) view.getTag();
+        } else {
+            view = context.getLayoutInflater().inflate(
+                    R.layout.photogallery_item, parent, false);
+            holder = new ViewHolder();
+            holder.photo = (ImageView) view.findViewById(R.id.photo);
+            view.setTag(holder);
+        }
+        final Photo photo = getItem(position);
+        new AQuery(view).id(holder.photo).image(photo.squareUrl);
 
-		return view;
-	}
+        return view;
+    }
 }

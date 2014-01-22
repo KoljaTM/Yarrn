@@ -31,6 +31,7 @@ import java.text.SimpleDateFormat;
 
 import de.vanmar.android.knitdroid.KnitdroidPrefs_;
 import de.vanmar.android.knitdroid.R;
+import de.vanmar.android.knitdroid.dialogs.ImageDialog;
 import de.vanmar.android.knitdroid.ravelry.IRavelryActivity;
 import de.vanmar.android.knitdroid.ravelry.RavelryResultListener;
 import de.vanmar.android.knitdroid.ravelry.dts.Project;
@@ -92,6 +93,12 @@ public class ProjectFragment extends Fragment {
 
         adapter = new PhotoAdapter(getActivity());
         gallery.setAdapter(adapter);
+        gallery.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                new ImageDialog(getActivity(), adapter.getItem(position).mediumUrl).show();
+            }
+        });
 
         progressListener = new AdapterView.OnItemSelectedListener() {
             @Override

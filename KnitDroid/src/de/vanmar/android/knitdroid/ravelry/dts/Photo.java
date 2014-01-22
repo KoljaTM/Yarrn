@@ -8,4 +8,8 @@ import com.google.gson.annotations.SerializedName;
 public class Photo {
 	@SerializedName("square_url")
 	public String squareUrl;
+    @SerializedName("shelved_url")
+    public String shelvedUrl;
+    @SerializedName("medium_url")
+    public String mediumUrl;
 }
