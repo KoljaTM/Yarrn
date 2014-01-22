@@ -16,13 +16,23 @@
         <TextView
             android:id="@+id/menu_my_projects"
             style="@style/menu_entry"
+            android:drawableLeft="@drawable/projects"
             android:text="@string/menu_my_projects" />
+
+        <View style="@style/divider_line" />
+
+        <TextView
+            android:id="@+id/menu_open_ravelry"
+            style="@style/menu_entry"
+            android:drawableLeft="@drawable/ravelry"
+            android:text="@string/menu_open_ravelry" />
 
         <View style="@style/divider_line" />
 
         <TextView
             android:id="@+id/menu_change_user"
             style="@style/menu_entry"
+            android:drawableLeft="@drawable/login"
             android:text="@string/menu_change_user" />
 
     </LinearLayout>

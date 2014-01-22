@@ -3,8 +3,13 @@ package de.vanmar.android.knitdroid.ravelry;
 public class RavelryException extends Exception {
 	private final int statusCode;
 
-	public RavelryException(int statusCode) {
-		this.statusCode = statusCode;
+    @Override
+    public String toString() {
+        return "Unexpected Status code: " + statusCode;
+    }
+
+    public RavelryException(int statusCode) {
+        this.statusCode = statusCode;
 	}
 
 	public int getStatusCode() {

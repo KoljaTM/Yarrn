@@ -24,4 +24,6 @@
     <string name="menu_refresh">Refresh</string>
     <string name="menu_drawer">Go to…</string>
     <string name="upload_successful">Upload successful. Refresh when image is processed on server.</string>
+    <string name="menu_open_ravelry">Open Ravelry</string>
+    <string name="open_ravelry_url">http://m.ravelry.com/</string>
 </resources>

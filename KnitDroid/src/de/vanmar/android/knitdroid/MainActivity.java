@@ -183,6 +183,13 @@ public class MainActivity extends AbstractRavelryActivity implements
         displayProjectsFragment();
     }
 
+    @Click(R.id.menu_open_ravelry)
+    public void menuOpenRavelryClicked() {
+        drawerLayout.closeDrawers();
+        startActivity(new Intent(Intent.ACTION_VIEW,
+                Uri.parse(getString(R.string.open_ravelry_url))));
+    }
+
     @Click(R.id.menu_change_user)
     public void menuChangeUserClicked() {
         drawerLayout.closeDrawers();
