@@ -1,13 +1,16 @@
 package de.vanmar.android.knitdroid.projects;
 
 import android.content.Context;
-import com.google.gson.Gson;
+
+import com.google.gson.GsonBuilder;
+
+import org.scribe.model.OAuthRequest;
+import org.scribe.model.Verb;
+
 import de.vanmar.android.knitdroid.KnitdroidPrefs_;
 import de.vanmar.android.knitdroid.R;
 import de.vanmar.android.knitdroid.ravelry.AbstractRavelryGetRequest;
 import de.vanmar.android.knitdroid.ravelry.dts.ProjectResult;
-import org.scribe.model.OAuthRequest;
-import org.scribe.model.Verb;
 
 public class GetProjectRequest extends AbstractRavelryGetRequest<ProjectResult> {
 
@@ -19,8 +22,8 @@ public class GetProjectRequest extends AbstractRavelryGetRequest<ProjectResult> 
 	}
 
 	protected ProjectResult parseResult(String responseBody) {
-		return new Gson().fromJson(responseBody, ProjectResult.class);
-	}
+        return new GsonBuilder().setDateFormat("yyyy/MM/dd HH:mm:ss Z").create().fromJson(responseBody, ProjectResult.class);
+    }
 
 	protected OAuthRequest getRequest() {
 		return new OAuthRequest(Verb.GET, String.format(

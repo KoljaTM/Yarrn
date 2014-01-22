@@ -33,7 +33,41 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
 
-        <ProgressBar
+        <TextView
+            style="@style/Text"
+            android:textIsSelectable="false"
+            android:text="@string/started_title" />
+
+        <TextView
+            android:id="@+id/started"
+            style="@style/Text"
+            android:textIsSelectable="true" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            style="@style/Text"
+            android:textIsSelectable="false"
+            android:text="@string/finished_title" />
+
+        <TextView
+            android:id="@+id/completed"
+            style="@style/Text"
+            android:textIsSelectable="true" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+    <ProgressBar
             android:id="@+id/progressBar"
             style="@android:style/Widget.ProgressBar.Horizontal"
             android:layout_width="match_parent"

@@ -7,7 +7,7 @@
     <artifactId>Knitdroid-unittest</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <name>Knitdroid Unittest</name>
-    <packaging>apk</packaging>
+    <packaging>jar</packaging>
 
     <dependencies>
 

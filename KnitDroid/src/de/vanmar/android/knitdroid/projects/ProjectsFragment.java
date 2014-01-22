@@ -24,7 +24,7 @@ import de.vanmar.android.knitdroid.ravelry.dts.ProjectsResult;
 @EFragment(R.layout.fragment_projects)
 public class ProjectsFragment extends Fragment {
 
-    protected SpiceManager spiceManager = new SpiceManager(GsonSpringAndroidSpiceService.class);
+    protected SpiceManager spiceManager;
 
     public interface ProjectsFragmentListener extends IRavelryActivity {
         /**
@@ -45,6 +45,9 @@ public class ProjectsFragment extends Fragment {
 
     @AfterViews
     public void afterViews() {
+        if (spiceManager == null) {
+            spiceManager = new SpiceManager(GsonSpringAndroidSpiceService.class);
+        }
         adapter = new ProjectsAdapter(getActivity()) {
 
             @Override

@@ -36,11 +36,11 @@ public class MainActivityUnitTest {
     @Before
     public void prepare() {
         MockitoAnnotations.initMocks(this);
-        ActivityController<MainActivity_> activityController = Robolectric.buildActivity(MainActivity_.class);
+        ActivityController<MainActivity_> activityController = Robolectric.buildActivity(MainActivity_.class).attach().create();
         activity = activityController.get();
         activity.projectsFragment = this.projectsFragment;
         activity.projectFragment = this.projectFragment;
-        activityController.attach().create().start().resume();
+        activityController.start().resume();
     }
 
     @Test

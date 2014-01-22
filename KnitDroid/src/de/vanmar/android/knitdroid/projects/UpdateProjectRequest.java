@@ -2,7 +2,7 @@ package de.vanmar.android.knitdroid.projects;
 
 import android.content.Context;
 
-import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
 import org.scribe.model.OAuthRequest;
@@ -26,6 +26,14 @@ public class UpdateProjectRequest extends AbstractRavelryRequest<ProjectResult> 
         this.updateData = updateData;
     }
 
+    public int getProjectId() {
+        return projectId;
+    }
+
+    public JsonObject getUpdateData() {
+        return updateData;
+    }
+
     @Override
     public ProjectResult loadDataFromNetwork() throws Exception {
         final OAuthRequest request = new OAuthRequest(Verb.POST,
@@ -34,6 +42,7 @@ public class UpdateProjectRequest extends AbstractRavelryRequest<ProjectResult> 
                         prefs.username().get(), projectId));
         request.addBodyParameter("data", updateData.toString());
         Response response = executeRequest(request);
-        return new Gson().fromJson(response.getBody(), ProjectResult.class);
+        return new GsonBuilder().setDateFormat("yyyy/MM/dd HH:mm:ss Z").create().fromJson(response.getBody(), ProjectResult.class);
+
     }
 }

@@ -48,8 +48,8 @@ public class MainActivity extends AbstractRavelryActivity implements
     @NonConfigurationInstance
     Uri photoUri;
 
-    ProjectFragment projectFragment;
-    ProjectsFragment projectsFragment;
+    public ProjectFragment projectFragment;
+    public ProjectsFragment projectsFragment;
 
     @ViewById(R.id.drawer_layout)
     DrawerLayout drawerLayout;
