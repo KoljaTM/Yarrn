@@ -22,7 +22,7 @@ public class GetProjectRequest extends AbstractRavelryGetRequest<ProjectResult> 
 	}
 
 	protected ProjectResult parseResult(String responseBody) {
-        return new GsonBuilder().setDateFormat("yyyy/MM/dd HH:mm:ss Z").create().fromJson(responseBody, ProjectResult.class);
+        return new GsonBuilder().setDateFormat("yyyy/MM/dd").create().fromJson(responseBody, ProjectResult.class);
     }
 
 	protected OAuthRequest getRequest() {

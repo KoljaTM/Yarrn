@@ -120,7 +120,6 @@ public class ProjectFragment extends Fragment {
                 // do nothing
             }
         };
-        progressSpinner.setOnItemSelectedListener(progressListener);
     }
 
     @Override
@@ -141,9 +140,8 @@ public class ProjectFragment extends Fragment {
     }
 
     public void onProjectSelected(final int projectId) {
-        if (projectId == 0) {
-            clearProject();
-        } else {
+        clearProject();
+        if (projectId != 0) {
             spiceManager.execute(new GetProjectRequest(this.getActivity(), prefs, projectId), new ProjectsListener(listener));
         }
     }
@@ -169,10 +167,15 @@ public class ProjectFragment extends Fragment {
 
     @UiThread
     protected void clearProject() {
+        progressSpinner.setOnItemSelectedListener(null);
+        progressSpinner.setSelection(0);
+        progressBar.setProgress(0);
         name.setText(null);
         patternName.setText(null);
         status.setText(null);
-
+        status.setText(null);
+        started.setText(null);
+        completed.setText(null);
         adapter.clear();
     }
 
@@ -184,7 +187,6 @@ public class ProjectFragment extends Fragment {
         patternName.setText(project.patternName);
         status.setText(project.status);
         started.setText(SimpleDateFormat.getDateInstance().format(project.started));
-
         completed.setText(getCompletedDateText(project));
         adapter.clear();
         adapter.addAll(project.photos);
@@ -192,7 +194,7 @@ public class ProjectFragment extends Fragment {
     }
 
     private String getCompletedDateText(Project project) {
-        if (project.getCompleted() == null) {
+        if (project.completed == null) {
             return getActivity().getString(R.string.no_completed_date);
         }
         DateFormat dateFormat;
@@ -201,7 +203,7 @@ public class ProjectFragment extends Fragment {
         } else {
             dateFormat = new SimpleDateFormat("MMMM yyyy");
         }
-        return dateFormat.format(project.getCompleted());
+        return dateFormat.format(project.completed);
     }
 
     private void displayProgress(int progress) {

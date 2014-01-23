@@ -42,7 +42,7 @@ public class UpdateProjectRequest extends AbstractRavelryRequest<ProjectResult> 
                         prefs.username().get(), projectId));
         request.addBodyParameter("data", updateData.toString());
         Response response = executeRequest(request);
-        return new GsonBuilder().setDateFormat("yyyy/MM/dd HH:mm:ss Z").create().fromJson(response.getBody(), ProjectResult.class);
+        return new GsonBuilder().setDateFormat("yyyy/MM/dd").create().fromJson(response.getBody(), ProjectResult.class);
 
     }
 }
