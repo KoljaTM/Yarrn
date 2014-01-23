@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res/de.vanmar.android.knitdroid"
     android:id="@+id/fragment_project_detail"
     android:layout_width="match_parent"
@@ -7,70 +7,87 @@
     android:orientation="vertical"
     android:background="@drawable/border">
 
+    <ImageButton
+        android:id="@+id/takePhoto"
+        style="@style/Button"
+        android:background="@drawable/take_picture"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:contentDescription="@string/take_photo" />
+
+    <ImageButton
+        android:id="@+id/addPhoto"
+        style="@style/Button"
+        android:background="@drawable/pick_image"
+        android:layout_below="@id/takePhoto"
+        android:layout_alignParentLeft="true"
+        android:contentDescription="@string/gallery_upload" />
+
     <com.meetme.android.horizontallistview.HorizontalListView
         android:id="@+id/gallery"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        app:dividerWidth="3dp" />
+        app:dividerWidth="3dp"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@id/takePhoto" />
+
 
     <TextView
         android:id="@+id/name"
         style="@style/Headline"
-        android:textIsSelectable="true" />
+        android:textIsSelectable="true"
+        android:layout_below="@id/gallery" />
 
     <TextView
         android:id="@+id/pattern_name"
         style="@style/Text"
-        android:textIsSelectable="true" />
+        android:textIsSelectable="true"
+        android:layout_below="@id/name" />
 
     <TextView
         android:id="@+id/status"
         style="@style/Text"
-        android:textIsSelectable="true" />
+        android:textIsSelectable="true"
+        android:layout_below="@id/pattern_name" />
+
+    <TextView
+        style="@style/Text"
+        android:id="@+id/started_title"
+        android:textIsSelectable="false"
+        android:text="@string/started_title"
+        android:layout_below="@id/status" />
+
+    <TextView
+        android:id="@+id/started"
+        style="@style/Text"
+        android:textIsSelectable="true"
+        android:layout_below="@id/status"
+        android:layout_toRightOf="@+id/completed_title" />
+
+    <TextView
+        style="@style/Text"
+        android:id="@+id/completed_title"
+        android:textIsSelectable="false"
+        android:text="@string/completed_title"
+        android:layout_below="@id/started_title" />
+
+    <TextView
+        android:id="@+id/completed"
+        style="@style/Text"
+        android:textIsSelectable="true"
+        android:layout_below="@id/started"
+        android:layout_toRightOf="@+id/completed_title" />
 
     <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:id="@+id/progress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/completed_title">
 
-        <TextView
-            style="@style/Text"
-            android:textIsSelectable="false"
-            android:text="@string/started_title" />
-
-        <TextView
-            android:id="@+id/started"
-            style="@style/Text"
-            android:textIsSelectable="true" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            style="@style/Text"
-            android:textIsSelectable="false"
-            android:text="@string/finished_title" />
-
-        <TextView
-            android:id="@+id/completed"
-            style="@style/Text"
-            android:textIsSelectable="true" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
-
-    <ProgressBar
+        <ProgressBar
             android:id="@+id/progressBar"
             style="@android:style/Widget.ProgressBar.Horizontal"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:max="100"
@@ -87,14 +104,5 @@
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/addPhoto"
-        style="@style/Button"
-        android:text="@string/gallery_upload" />
 
-    <Button
-        android:id="@+id/takePhoto"
-        style="@style/Button"
-        android:text="@string/take_photo" />
-
-</LinearLayout>
+</RelativeLayout>

@@ -1,6 +1,7 @@
 package de.vanmar.android.knitdroid.test;
 
 import android.test.ActivityInstrumentationTestCase2;
+import android.view.View;
 
 import com.jayway.android.robotium.solo.Solo;
 
@@ -38,7 +39,7 @@ public class MainActivityTest extends
         solo.clickOnText("aqua diva");
 
         // then
-        assertText("Upload photo");
+        assertText("Finished:");
     }
 
     public void testBackAndForthNavigation() {
@@ -47,7 +48,7 @@ public class MainActivityTest extends
 
         // open detail page
         solo.clickOnText("aqua diva");
-        assertText("Upload photo");
+        assertText("Started:");
 
         // navigate to my projects by back button and to project again
         solo.goBack();
@@ -56,18 +57,24 @@ public class MainActivityTest extends
 
         // navigate to my projects from navigation drawer
         solo.clickOnActionBarItem(R.id.menu_drawer);
-        solo.clickOnText("My Projects");
+        selectMyProjectsMenuEntry();
 
         // my projects page is shown
         assertText("Welthasen Viajante");
 
         // navigate to my projects from navigation drawer again (check for duplicate on stack)
         solo.clickOnActionBarItem(R.id.menu_drawer);
-        solo.clickOnText("My Projects");
+        selectMyProjectsMenuEntry();
 
         // back button closes the app
         solo.goBack();
+        assertTrue(solo.getCurrentActivity() instanceof MainActivity_);
         assertTrue(solo.getCurrentActivity().isFinishing());
+    }
+
+    private void selectMyProjectsMenuEntry() {
+        View menuItem = solo.getCurrentActivity().findViewById(R.id.menu_my_projects);
+        solo.clickOnView(menuItem);
     }
 
     private void assertText(String text) {

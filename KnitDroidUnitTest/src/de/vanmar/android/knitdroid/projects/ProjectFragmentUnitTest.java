@@ -74,7 +74,7 @@ public class ProjectFragmentUnitTest {
         assertThat(projectFragment.progressBar.getProgress(), is(5));
         assertThat((String) projectFragment.progressSpinner.getSelectedItem(), is("5%"));
         assertThat((String) projectFragment.started.getText().toString(), is("17.05.2013")); // testing with German Locale
-        assertThat((String) projectFragment.completed.getText().toString(), is("Mai 2013"));
+        assertThat((String) projectFragment.completed.getText().toString(), is("Juni 2013"));
     }
 
     @Test
@@ -83,6 +83,7 @@ public class ProjectFragmentUnitTest {
         Spinner progressSpinner = projectFragment.progressSpinner;
         assertThat((String) progressSpinner.getItemAtPosition(7), is("35%"));
         mockSpiceCall(createProjectResult());
+        projectFragment.onProjectSelected(PROJECT_ID);
 
         // when
         progressSpinner.getOnItemSelectedListener().onItemSelected(progressSpinner, null, 7, 0);
@@ -112,10 +113,13 @@ public class ProjectFragmentUnitTest {
         project.name = "aqua diva";
         project.progress = 5;
         project.status = "Started";
-        GregorianCalendar calendar = new GregorianCalendar();
-        calendar.set(2013, Calendar.MAY, 17);
-        project.started = calendar.getTime();
-        project.completed = "Mai 2013";//calendar.getTime();
+        GregorianCalendar started = new GregorianCalendar();
+        started.set(2013, Calendar.MAY, 17);
+        project.started = started.getTime();
+        project.startedDaySet = true;
+        GregorianCalendar completed = new GregorianCalendar();
+        completed.set(2013, Calendar.JUNE, 21);
+        project.completed = completed.getTime();
         project.completedDaySet = false;
         projectResult.project = project;
         return projectResult;

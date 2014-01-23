@@ -27,6 +27,6 @@
     <string name="menu_open_ravelry">Open Ravelry</string>
     <string name="open_ravelry_url">http://m.ravelry.com/</string>
     <string name="started_title">Started:</string>
-    <string name="finished_title">Finished:</string>
-    <string name="no_completed_date">-</string>
+    <string name="completed_title">Finished:</string>
+    <string name="date_unknown">-</string>
 </resources>

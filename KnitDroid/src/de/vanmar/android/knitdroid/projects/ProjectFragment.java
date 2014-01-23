@@ -28,6 +28,7 @@ import org.androidannotations.annotations.sharedpreferences.Pref;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import de.vanmar.android.knitdroid.KnitdroidPrefs_;
 import de.vanmar.android.knitdroid.R;
@@ -186,24 +187,24 @@ public class ProjectFragment extends Fragment {
         name.setText(project.name);
         patternName.setText(project.patternName);
         status.setText(project.status);
-        started.setText(SimpleDateFormat.getDateInstance().format(project.started));
-        completed.setText(getCompletedDateText(project));
+        started.setText(getCompletedDateText(project.started, project.startedDaySet));
+        completed.setText(getCompletedDateText(project.completed, project.completedDaySet));
         adapter.clear();
         adapter.addAll(project.photos);
         displayProgress(project.progress);
     }
 
-    private String getCompletedDateText(Project project) {
-        if (project.completed == null) {
-            return getActivity().getString(R.string.no_completed_date);
+    private String getCompletedDateText(Date date, boolean withDay) {
+        if (date == null) {
+            return getActivity().getString(R.string.date_unknown);
         }
         DateFormat dateFormat;
-        if (project.completedDaySet) {
+        if (withDay) {
             dateFormat = SimpleDateFormat.getDateInstance();
         } else {
             dateFormat = new SimpleDateFormat("MMMM yyyy");
         }
-        return dateFormat.format(project.completed);
+        return dateFormat.format(date);
     }
 
     private void displayProgress(int progress) {
