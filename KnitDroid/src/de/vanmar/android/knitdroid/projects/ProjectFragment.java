@@ -3,6 +3,7 @@ package de.vanmar.android.knitdroid.projects;
 import android.app.Activity;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ProgressBar;
@@ -32,7 +33,9 @@ import java.util.Date;
 
 import de.vanmar.android.knitdroid.KnitdroidPrefs_;
 import de.vanmar.android.knitdroid.R;
-import de.vanmar.android.knitdroid.dialogs.ImageDialog;
+import de.vanmar.android.knitdroid.components.ImageDialog;
+import de.vanmar.android.knitdroid.components.ViewEditText;
+import de.vanmar.android.knitdroid.components.ViewEditText_;
 import de.vanmar.android.knitdroid.ravelry.IRavelryActivity;
 import de.vanmar.android.knitdroid.ravelry.RavelryResultListener;
 import de.vanmar.android.knitdroid.ravelry.dts.Project;
@@ -76,6 +79,9 @@ public class ProjectFragment extends Fragment {
     @ViewById(R.id.completed)
     public TextView completed;
 
+    @ViewById(R.id.notes)
+    public ViewEditText_ notes;
+
     @FragmentArg(ARG_PROJECT_ID)
     int projectId;
 
@@ -91,6 +97,19 @@ public class ProjectFragment extends Fragment {
         if (spiceManager == null) {
             spiceManager = new SpiceManager(GsonSpringAndroidSpiceService.class);
         }
+        notes.setOnSaveListener(new ViewEditText.OnSaveListener() {
+            @Override
+            public void onSave(ViewEditText view, Editable text) {
+                JsonObject updateData = new JsonObject();
+                updateData.addProperty("notes", text.toString());
+                spiceManager.execute(new UpdateProjectRequest(prefs, getActivity(), projectId, updateData), new RavelryResultListener<ProjectResult>(listener) {
+                    @Override
+                    public void onRequestSuccess(ProjectResult projectResult) {
+                        displayProject(projectResult);
+                    }
+                });
+            }
+        });
 
         adapter = new PhotoAdapter(getActivity());
         gallery.setAdapter(adapter);
@@ -111,7 +130,7 @@ public class ProjectFragment extends Fragment {
                 spiceManager.execute(new UpdateProjectRequest(prefs, getActivity(), projectId, updateData), new RavelryResultListener<ProjectResult>(listener) {
                     @Override
                     public void onRequestSuccess(ProjectResult projectResult) {
-                        // nothing to do
+                        displayProject(projectResult);
                     }
                 });
             }
@@ -189,6 +208,7 @@ public class ProjectFragment extends Fragment {
         status.setText(project.status);
         started.setText(getCompletedDateText(project.started, project.startedDaySet));
         completed.setText(getCompletedDateText(project.completed, project.completedDaySet));
+        notes.setBodyText(project.notes);
         adapter.clear();
         adapter.addAll(project.photos);
         displayProgress(project.progress);

@@ -9,4 +9,13 @@
         <attr name="android:fadingEdgeLength" />
     </declare-styleable>
 
+    <!-- Defines the custom XML attributes supported for a HorizontalListView -->
+    <declare-styleable name="ViewEditText_">
+        <attr name="titleText" format="string" />
+        <attr name="bodyText" format="string" />
+        <attr name="android:inputType" />
+        <attr name="android:ems" />
+        <attr name="android:lines" />
+    </declare-styleable>
+
 </resources>

@@ -29,4 +29,5 @@
     <string name="started_title">Started:</string>
     <string name="completed_title">Finished:</string>
     <string name="date_unknown">-</string>
+    <string name="notes_title">Notes</string>
 </resources>

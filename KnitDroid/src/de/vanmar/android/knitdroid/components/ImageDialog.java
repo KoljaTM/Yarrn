@@ -1,4 +1,4 @@
-package de.vanmar.android.knitdroid.dialogs;
+package de.vanmar.android.knitdroid.components;
 
 import android.app.Dialog;
 import android.content.Context;

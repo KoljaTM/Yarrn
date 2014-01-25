@@ -104,5 +104,14 @@
 
     </LinearLayout>
 
+    <de.vanmar.android.knitdroid.components.ViewEditText_
+        android:id="@+id/notes"
+        app:titleText="@string/notes_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/progress"
+        android:inputType="textMultiLine"
+        android:ems="20"
+        android:lines="6" />
 
 </RelativeLayout>

@@ -19,6 +19,8 @@ public class Project {
     public List<Photo> photos = new LinkedList<Photo>();
     @SerializedName("status_name")
     public String status;
+    @SerializedName("notes")
+    public String notes;
     @SerializedName("started")
     public Date started;
     @SerializedName("started_day_set")
