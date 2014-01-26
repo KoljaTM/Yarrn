@@ -22,9 +22,9 @@ public class CheckEnvironmentUnitTest {
 
     @Before
     public void prepare() {
-        ActivityController<MainActivity_> projectListActivityActivityController = Robolectric.buildActivity(MainActivity_.class);
-        projectListActivityActivityController.create();
-        activity = projectListActivityActivityController.get();
+        ActivityController<MainActivity_> activityController = Robolectric.buildActivity(MainActivity_.class);
+        activityController.create();
+        activity = activityController.get();
     }
 
     @Test
