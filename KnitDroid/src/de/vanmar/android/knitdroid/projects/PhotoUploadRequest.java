@@ -1,6 +1,6 @@
 package de.vanmar.android.knitdroid.projects;
 
-import android.content.Context;
+import android.app.Application;
 import android.net.Uri;
 
 import com.androidquery.util.AQUtility;
@@ -35,11 +35,11 @@ public class PhotoUploadRequest extends AbstractRavelryRequest<String> {
     private final int projectId;
     private UiHelper uiHelper;
 
-    public PhotoUploadRequest(Context context, KnitdroidPrefs_ prefs, Uri photoUri, int projectId) {
-        super(String.class, prefs, context);
+    public PhotoUploadRequest(Application application, KnitdroidPrefs_ prefs, Uri photoUri, int projectId) {
+        super(String.class, prefs, application);
         this.photoUri = photoUri;
         this.projectId = projectId;
-        this.uiHelper = UiHelper_.getInstance_(context);
+        this.uiHelper = UiHelper_.getInstance_(application);
         setRetryPolicy(new DefaultRetryPolicy(1, 0, 0));
     }
 
@@ -47,7 +47,7 @@ public class PhotoUploadRequest extends AbstractRavelryRequest<String> {
     public String loadDataFromNetwork() throws Exception {
         startProgress();
         final OAuthRequest request = new OAuthRequest(Verb.POST,
-                context.getString(R.string.ravelry_url)
+                application.getString(R.string.ravelry_url)
                         + "/upload/request_token.json");
         Response requestTokenResponse = executeRequest(request);
 
@@ -56,8 +56,8 @@ public class PhotoUploadRequest extends AbstractRavelryRequest<String> {
         try {
             MultiValueMap<String, Object> parts = new LinkedMultiValueMap<String, Object>();
             parts.add("upload_token", token);
-            parts.add("access_key", context.getString(R.string.api_key));
-            final InputStream inputStream = context.getContentResolver().openInputStream(photoUri);
+            parts.add("access_key", application.getString(R.string.api_key));
+            final InputStream inputStream = application.getContentResolver().openInputStream(photoUri);
             parts.add("file0", new InputStreamResource(inputStream) {
                 @Override
                 public long contentLength() throws IOException {
@@ -76,7 +76,7 @@ public class PhotoUploadRequest extends AbstractRavelryRequest<String> {
             RestTemplate restTemplate = getRestTemplate();
             restTemplate.getMessageConverters().add(0, new FormHttpMessageConverter());
 
-            UploadResult uploadResult = restTemplate.postForObject(context.getString(R.string.ravelry_url)
+            UploadResult uploadResult = restTemplate.postForObject(application.getString(R.string.ravelry_url)
                     + "/upload/image.json", requestEntity, UploadResult.class);
             Integer imageId = uploadResult.get("uploads").get("file0").get("image_id");
 
@@ -91,7 +91,7 @@ public class PhotoUploadRequest extends AbstractRavelryRequest<String> {
 
     private String addPhotoToProject(final int imageId, final int projectId) throws RavelryException {
         final OAuthRequest request = new OAuthRequest(Verb.POST,
-                context.getString(R.string.ravelry_url)
+                application.getString(R.string.ravelry_url)
                         + String.format("/projects/%s/%s/create_photo.json",
                         prefs.username().get(), projectId));
         request.addBodyParameter("image_id", String.valueOf(imageId));
@@ -105,8 +105,8 @@ public class PhotoUploadRequest extends AbstractRavelryRequest<String> {
     }
 
     private void startProgress() {
-        uiHelper.startProgress(context.getString(R.string.upload_progress_title),
-                context.getString(R.string.upload_progress_message), true,
+        uiHelper.startProgress(application.getString(R.string.upload_progress_title),
+                application.getString(R.string.upload_progress_message), true,
                 false);
     }
 

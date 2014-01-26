@@ -150,8 +150,8 @@ public class ProjectFragment extends Fragment {
     }
 
     private void executeUpdate(JsonObject updateData) {
-        spiceManager.execute(new UpdateProjectRequest(prefs, getActivity(), projectId, updateData), new ProjectListener(listener));
-        spiceManager.removeDataFromCache(ProjectResult.class, new GetProjectRequest(getActivity(), prefs, projectId).getCacheKey());
+        spiceManager.execute(new UpdateProjectRequest(prefs, getActivity().getApplication(), projectId, updateData), new ProjectListener(listener));
+        spiceManager.removeDataFromCache(ProjectResult.class, new GetProjectRequest(getActivity().getApplication(), prefs, projectId).getCacheKey());
     }
 
     @Override
@@ -174,7 +174,7 @@ public class ProjectFragment extends Fragment {
     public void onProjectSelected(final int projectId) {
         clearProject();
         if (projectId != 0) {
-            GetProjectRequest request = new GetProjectRequest(this.getActivity(), prefs, projectId);
+            GetProjectRequest request = new GetProjectRequest(this.getActivity().getApplication(), prefs, projectId);
             spiceManager.execute(request, request.getCacheKey(), DurationInMillis.ONE_MINUTE, new ProjectListener(listener));
         }
     }
@@ -251,7 +251,7 @@ public class ProjectFragment extends Fragment {
     }
 
     public void uploadPhotoToProject(final Uri photoUri) {
-        spiceManager.execute(new PhotoUploadRequest(getActivity(), prefs, photoUri, projectId), new RequestListener<String>() {
+        spiceManager.execute(new PhotoUploadRequest(getActivity().getApplication(), prefs, photoUri, projectId), new RequestListener<String>() {
 
             @Override
             public void onRequestFailure(SpiceException spiceException) {

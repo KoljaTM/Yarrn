@@ -100,7 +100,7 @@ public class ProjectsFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        ListProjectsRequest request = new ListProjectsRequest(this.getActivity(), prefs);
+        ListProjectsRequest request = new ListProjectsRequest(this.getActivity().getApplication(), prefs);
         spiceManager.execute(request, request.getCacheKey(), DurationInMillis.ONE_MINUTE, new RavelryResultListener<ProjectsResult>(ProjectsFragment.this.listener) {
             @Override
             public void onRequestSuccess(ProjectsResult projectsResult) {

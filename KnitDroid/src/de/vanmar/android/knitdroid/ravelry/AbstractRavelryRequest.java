@@ -1,6 +1,6 @@
 package de.vanmar.android.knitdroid.ravelry;
 
-import android.content.Context;
+import android.app.Application;
 
 import com.octo.android.robospice.request.springandroid.SpringAndroidSpiceRequest;
 
@@ -17,13 +17,13 @@ import de.vanmar.android.knitdroid.R;
 import de.vanmar.android.knitdroid.util.PrefsUtils;
 
 public abstract class AbstractRavelryRequest<T> extends SpringAndroidSpiceRequest<T> {
-    protected final Context context;
+    protected final Application application;
     protected final KnitdroidPrefs_ prefs;
 
-    public AbstractRavelryRequest(Class<T> clazz, KnitdroidPrefs_ prefs, Context context) {
+    public AbstractRavelryRequest(Class<T> clazz, KnitdroidPrefs_ prefs, Application application) {
         super(clazz);
         this.prefs = prefs;
-        this.context = context;
+        this.application = application;
     }
 
     protected Response executeRequest(OAuthRequest request) throws RavelryException {
@@ -50,11 +50,11 @@ public abstract class AbstractRavelryRequest<T> extends SpringAndroidSpiceReques
     }
 
     private void signRequest(OAuthRequest request) {
-        final String apiKey = context.getString(R.string.api_key);
-        final String apiSecret = context.getString(R.string.api_secret);
-        final String callback = context.getString(R.string.api_callback);
+        final String apiKey = application.getString(R.string.api_key);
+        final String apiSecret = application.getString(R.string.api_secret);
+        final String callback = application.getString(R.string.api_callback);
         OAuthService service = new ServiceBuilder()
-                .provider(new RavelryApi(context.getString(R.string.ravelry_url)))
+                .provider(new RavelryApi(application.getString(R.string.ravelry_url)))
                 .apiKey(apiKey).apiSecret(apiSecret).callback(callback).build();
 
         final Token accessToken = new Token(prefs.accessToken()

@@ -1,6 +1,6 @@
 package de.vanmar.android.knitdroid.projects;
 
-import android.content.Context;
+import android.app.Application;
 
 import com.google.gson.GsonBuilder;
 
@@ -16,9 +16,9 @@ public class GetProjectRequest extends AbstractRavelryGetRequest<ProjectResult> 
 
 	private final int projectId;
 
-	public GetProjectRequest(Context context, KnitdroidPrefs_ prefs, int projectId) {
-		super(ProjectResult.class, context, prefs);
-		this.projectId = projectId;
+    public GetProjectRequest(Application application, KnitdroidPrefs_ prefs, int projectId) {
+        super(ProjectResult.class, application, prefs);
+        this.projectId = projectId;
 	}
 
 	protected ProjectResult parseResult(String responseBody) {
@@ -27,7 +27,7 @@ public class GetProjectRequest extends AbstractRavelryGetRequest<ProjectResult> 
 
 	protected OAuthRequest getRequest() {
 		return new OAuthRequest(Verb.GET, String.format(
-				context.getString(R.string.ravelry_url) + "/projects/%s/%s.json", prefs
-				.username().get(), projectId));
+                application.getString(R.string.ravelry_url) + "/projects/%s/%s.json", prefs
+                .username().get(), projectId));
 	}
 }

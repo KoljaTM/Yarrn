@@ -1,6 +1,6 @@
 package de.vanmar.android.knitdroid.projects;
 
-import android.content.Context;
+import android.app.Application;
 
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -20,8 +20,8 @@ public class UpdateProjectRequest extends AbstractRavelryRequest<ProjectResult> 
     private int projectId;
     private JsonObject updateData;
 
-    public UpdateProjectRequest(KnitdroidPrefs_ prefs, Context context, int projectId, JsonObject updateData) {
-        super(ProjectResult.class, prefs, context);
+    public UpdateProjectRequest(KnitdroidPrefs_ prefs, Application application, int projectId, JsonObject updateData) {
+        super(ProjectResult.class, prefs, application);
         this.projectId = projectId;
         this.updateData = updateData;
     }
@@ -37,7 +37,7 @@ public class UpdateProjectRequest extends AbstractRavelryRequest<ProjectResult> 
     @Override
     public ProjectResult loadDataFromNetwork() throws Exception {
         final OAuthRequest request = new OAuthRequest(Verb.POST,
-                context.getString(R.string.ravelry_url)
+                application.getString(R.string.ravelry_url)
                         + String.format("/projects/%s/%s.json",
                         prefs.username().get(), projectId));
         request.addBodyParameter("data", updateData.toString());
