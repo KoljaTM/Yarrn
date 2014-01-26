@@ -31,4 +31,6 @@ public class Project {
     public boolean completedDaySet;
     @SerializedName("rating")
     public int rating;
+    @SerializedName("user")
+    public User user;
 }

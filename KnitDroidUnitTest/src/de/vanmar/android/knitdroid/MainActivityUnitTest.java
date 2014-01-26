@@ -25,6 +25,7 @@ import static org.robolectric.Robolectric.shadowOf;
 @RunWith(RobolectricTestRunner.class)
 public class MainActivityUnitTest {
 
+    public static final String USERNAME = "Jillda";
     private MainActivity activity;
 
     @Mock
@@ -56,7 +57,7 @@ public class MainActivityUnitTest {
         args.putInt(ProjectFragment.ARG_PROJECT_ID, PROJECT_ID);
 
         // when
-        activity.onProjectSelected(PROJECT_ID);
+        activity.onProjectSelected(PROJECT_ID, USERNAME);
 
         // then
         verify(projectFragment).setArguments(args);
@@ -68,7 +69,7 @@ public class MainActivityUnitTest {
     @Test
     public void shouldCallProjectListFromMenu() {
         // when
-        activity.onProjectSelected(PROJECT_ID);
+        activity.onProjectSelected(PROJECT_ID, USERNAME);
         activity.menuMyProjectsClicked();
 
         // then

@@ -19,6 +19,12 @@
             android:drawableLeft="@drawable/projects"
             android:text="@string/menu_my_projects" />
 
+        <TextView
+            android:id="@+id/menu_my_favorites"
+            style="@style/menu_entry"
+            android:drawableLeft="@drawable/favorites"
+            android:text="@string/menu_my_favorites" />
+
         <View style="@style/divider_line" />
 
         <TextView

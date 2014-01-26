@@ -31,7 +31,7 @@ public class ProjectsFragment extends Fragment {
         /**
          * Project with projectId was selected, 0 if no project selected
          */
-        void onProjectSelected(int projectId);
+        void onProjectSelected(int projectId, String username);
     }
 
     @ViewById(R.id.projectlist)
@@ -53,7 +53,7 @@ public class ProjectsFragment extends Fragment {
 
             @Override
             protected void onProjectClicked(final ProjectShort project) {
-                listener.onProjectSelected(project.id);
+                listener.onProjectSelected(project.id, prefs.username().get());
             }
 
         };

@@ -36,7 +36,6 @@ import de.vanmar.android.knitdroid.KnitdroidPrefs_;
 import de.vanmar.android.knitdroid.R;
 import de.vanmar.android.knitdroid.components.ImageDialog;
 import de.vanmar.android.knitdroid.components.ViewEditText;
-import de.vanmar.android.knitdroid.components.ViewEditText_;
 import de.vanmar.android.knitdroid.ravelry.AbstractRavelryGetRequest;
 import de.vanmar.android.knitdroid.ravelry.IRavelryActivity;
 import de.vanmar.android.knitdroid.ravelry.RavelryResultListener;
@@ -47,6 +46,7 @@ import de.vanmar.android.knitdroid.ravelry.dts.ProjectResult;
 public class ProjectFragment extends Fragment {
 
     public static final String ARG_PROJECT_ID = "projectId";
+    public static final String ARG_USERNAME = "username";
     protected SpiceManager spiceManager;
     private AdapterView.OnItemSelectedListener progressListener;
 
@@ -82,13 +82,16 @@ public class ProjectFragment extends Fragment {
     public TextView completed;
 
     @ViewById(R.id.notes)
-    public ViewEditText_ notes;
+    public ViewEditText notes;
 
     @ViewById(R.id.rating)
     public RatingBar rating;
 
     @FragmentArg(ARG_PROJECT_ID)
     int projectId;
+
+    @FragmentArg(ARG_USERNAME)
+    String username;
 
     private ProjectFragmentListener listener;
 
@@ -151,7 +154,7 @@ public class ProjectFragment extends Fragment {
 
     private void executeUpdate(JsonObject updateData) {
         spiceManager.execute(new UpdateProjectRequest(prefs, getActivity().getApplication(), projectId, updateData), new ProjectListener(listener));
-        spiceManager.removeDataFromCache(ProjectResult.class, new GetProjectRequest(getActivity().getApplication(), prefs, projectId).getCacheKey());
+        spiceManager.removeDataFromCache(ProjectResult.class, new GetProjectRequest(getActivity().getApplication(), prefs, projectId, prefs.username().get()).getCacheKey());
     }
 
     @Override
@@ -171,10 +174,10 @@ public class ProjectFragment extends Fragment {
         listener = null;
     }
 
-    public void onProjectSelected(final int projectId) {
+    public void onProjectSelected(final int projectId, final String username) {
         clearProject();
         if (projectId != 0) {
-            GetProjectRequest request = new GetProjectRequest(this.getActivity().getApplication(), prefs, projectId);
+            GetProjectRequest request = new GetProjectRequest(this.getActivity().getApplication(), prefs, projectId, username);
             spiceManager.execute(request, request.getCacheKey(), AbstractRavelryGetRequest.CACHE_DURATION, new ProjectListener(listener));
         }
     }
@@ -184,7 +187,7 @@ public class ProjectFragment extends Fragment {
         super.onStart();
         spiceManager.start(this.getActivity());
 
-        onProjectSelected(projectId);
+        onProjectSelected(projectId, username);
     }
 
     @Override
@@ -217,7 +220,9 @@ public class ProjectFragment extends Fragment {
         adapter.clear();
         adapter.addAll(project.photos);
         displayProgress(project.progress);
+        progressSpinner.setOnItemSelectedListener(null);
         getView().setVisibility(View.VISIBLE);
+        progressSpinner.setOnItemSelectedListener(progressListener);
     }
 
     private String getCompletedDateText(Date date, boolean withDay) {
@@ -236,7 +241,7 @@ public class ProjectFragment extends Fragment {
     private void displayProgress(int progress) {
         progressBar.setProgress(progress);
         progressSpinner.setOnItemSelectedListener(null);
-        progressSpinner.setSelection(progress / 5);
+        progressSpinner.setSelection(progress / 5, false);
         progressSpinner.setOnItemSelectedListener(progressListener);
     }
 
@@ -268,7 +273,7 @@ public class ProjectFragment extends Fragment {
     @UiThread
     public void onPhotoUploadSuccess() {
         Toast.makeText(getActivity(), getActivity().getString(R.string.upload_successful), Toast.LENGTH_LONG).show();
-        onProjectSelected(projectId);
+        onProjectSelected(projectId, username);
     }
 
     @Click(R.id.progressBar)

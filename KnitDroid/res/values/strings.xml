@@ -30,4 +30,6 @@
     <string name="completed_title">Finished:</string>
     <string name="date_unknown">-</string>
     <string name="notes_title">Notes</string>
+    <string name="menu_my_favorites">My Favorites</string>
+    <string name="my_favorites_title">My Favorites</string>
 </resources>

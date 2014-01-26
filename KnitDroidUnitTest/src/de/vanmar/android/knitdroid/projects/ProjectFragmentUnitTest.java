@@ -40,6 +40,7 @@ import static org.mockito.Mockito.doAnswer;
 public class ProjectFragmentUnitTest {
 
     public static final int PROJECT_ID = 10014463;
+    public static final String USERNAME = "Jillda";
 
     @Mock
     private SpiceManager spiceManager;
@@ -62,7 +63,7 @@ public class ProjectFragmentUnitTest {
         activity.projectFragment = this.projectFragment;
         activityController.start().resume();
 
-        activity.onProjectSelected(PROJECT_ID);
+        activity.onProjectSelected(PROJECT_ID, USERNAME);
     }
 
     @Test
@@ -71,7 +72,7 @@ public class ProjectFragmentUnitTest {
         mockSpiceCall(createProjectResult());
 
         // when
-        projectFragment.onProjectSelected(PROJECT_ID);
+        projectFragment.onProjectSelected(PROJECT_ID, USERNAME);
 
         // then
         assertThat(projectFragment.name.getText().toString(), is("aqua diva"));
@@ -88,7 +89,7 @@ public class ProjectFragmentUnitTest {
         Spinner progressSpinner = projectFragment.progressSpinner;
         assertThat((String) progressSpinner.getItemAtPosition(7), is("35%"));
         mockSpiceCall(createProjectResult());
-        projectFragment.onProjectSelected(PROJECT_ID);
+        projectFragment.onProjectSelected(PROJECT_ID, USERNAME);
 
         // when
         progressSpinner.getOnItemSelectedListener().onItemSelected(progressSpinner, null, 7, 0);
@@ -105,7 +106,7 @@ public class ProjectFragmentUnitTest {
         // given
         ViewEditText_ notes = projectFragment.notes;
         mockSpiceCall(createProjectResult());
-        projectFragment.onProjectSelected(PROJECT_ID);
+        projectFragment.onProjectSelected(PROJECT_ID, USERNAME);
         assertThat(notes.getBodyText().toString(), is("Notizfeld"));
         assertFalse(notes.isEditMode());
 
@@ -128,7 +129,7 @@ public class ProjectFragmentUnitTest {
         // given
         RatingBar rating = projectFragment.rating;
         mockSpiceCall(createProjectResult());
-        projectFragment.onProjectSelected(PROJECT_ID);
+        projectFragment.onProjectSelected(PROJECT_ID, USERNAME);
         assertThat(rating.getRating(), is(3.0f));
 
         // when

@@ -27,6 +27,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import de.vanmar.android.knitdroid.favorites.FavoritesFragment;
+import de.vanmar.android.knitdroid.favorites.FavoritesFragment_;
 import de.vanmar.android.knitdroid.projects.ProjectFragment;
 import de.vanmar.android.knitdroid.projects.ProjectFragment_;
 import de.vanmar.android.knitdroid.projects.ProjectsFragment;
@@ -37,19 +39,21 @@ import de.vanmar.android.knitdroid.util.RequestCode;
 @EActivity(resName = "activity_main")
 @OptionsMenu(R.menu.main)
 public class MainActivity extends AbstractRavelryActivity implements
-        ProjectsFragmentListener, ProjectFragment.ProjectFragmentListener {
+        ProjectsFragmentListener, ProjectFragment.ProjectFragmentListener, FavoritesFragment.FavoritesFragmentListener {
 
     private static final String JPEG_FILE_PREFIX = "IMG_";
 
     private static final String JPEG_FILE_SUFFIX = ".jpg";
     public static final String PROJECT_DETAIL_TAG = "projectDetail";
     public static final String PROJECTS_TAG = "projects";
+    public static final String FAVORITES_TAG = "favorites";
 
     @NonConfigurationInstance
     Uri photoUri;
 
     public ProjectFragment projectFragment;
     public ProjectsFragment projectsFragment;
+    public FavoritesFragment favoritesFragment;
 
     @ViewById(R.id.drawer_layout)
     DrawerLayout drawerLayout;
@@ -95,13 +99,27 @@ public class MainActivity extends AbstractRavelryActivity implements
                 .commit();
     }
 
+    private void displayFavoritesFragment() {
+        if (favoritesFragment == null) {
+            favoritesFragment = new FavoritesFragment_();
+        }
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentManager.popBackStackImmediate(FAVORITES_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        fragmentTransaction
+                .replace(R.id.content_frame, favoritesFragment, FAVORITES_TAG)
+                .addToBackStack(FAVORITES_TAG)
+                .commit();
+    }
 
-    private void displayProjectDetailFragment(final int projectId) {
+
+    private void displayProjectDetailFragment(final int projectId, String username) {
         if (projectFragment == null) {
             projectFragment = new ProjectFragment_();
         }
         Bundle args = new Bundle();
         args.putInt(ProjectFragment.ARG_PROJECT_ID, projectId);
+        args.putString(ProjectFragment.ARG_USERNAME, username);
         projectFragment.setArguments(args);
 
         getSupportFragmentManager().beginTransaction()
@@ -111,8 +129,8 @@ public class MainActivity extends AbstractRavelryActivity implements
     }
 
     @Override
-    public void onProjectSelected(final int projectId) {
-        displayProjectDetailFragment(projectId);
+    public void onProjectSelected(final int projectId, String username) {
+        displayProjectDetailFragment(projectId, username);
     }
 
     @Override
@@ -181,6 +199,12 @@ public class MainActivity extends AbstractRavelryActivity implements
     public void menuMyProjectsClicked() {
         drawerLayout.closeDrawers();
         displayProjectsFragment();
+    }
+
+    @Click(R.id.menu_my_favorites)
+    public void menuMyFavoritesClicked() {
+        drawerLayout.closeDrawers();
+        displayFavoritesFragment();
     }
 
     @Click(R.id.menu_open_ravelry)
