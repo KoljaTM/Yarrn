@@ -17,6 +17,7 @@ import com.google.gson.JsonObject;
 import com.meetme.android.horizontallistview.HorizontalListView;
 import com.octo.android.robospice.GsonSpringAndroidSpiceService;
 import com.octo.android.robospice.SpiceManager;
+import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
 
@@ -106,12 +107,7 @@ public class ProjectFragment extends Fragment {
             public void onSave(ViewEditText view, Editable text) {
                 JsonObject updateData = new JsonObject();
                 updateData.addProperty("notes", text.toString());
-                spiceManager.execute(new UpdateProjectRequest(prefs, getActivity(), projectId, updateData), new RavelryResultListener<ProjectResult>(listener) {
-                    @Override
-                    public void onRequestSuccess(ProjectResult projectResult) {
-                        displayProject(projectResult);
-                    }
-                });
+                executeUpdate(updateData);
             }
         });
 
@@ -122,12 +118,7 @@ public class ProjectFragment extends Fragment {
                     int newRating = (int) Math.floor(rating - 1);
                     JsonObject updateData = new JsonObject();
                     updateData.addProperty("rating", newRating);
-                    spiceManager.execute(new UpdateProjectRequest(prefs, getActivity(), projectId, updateData), new RavelryResultListener<ProjectResult>(listener) {
-                        @Override
-                        public void onRequestSuccess(ProjectResult projectResult) {
-                            displayProject(projectResult);
-                        }
-                    });
+                    executeUpdate(updateData);
                 }
             }
         });
@@ -148,12 +139,7 @@ public class ProjectFragment extends Fragment {
                 displayProgress(newProgress);
                 JsonObject updateData = new JsonObject();
                 updateData.addProperty("progress", newProgress);
-                spiceManager.execute(new UpdateProjectRequest(prefs, getActivity(), projectId, updateData), new RavelryResultListener<ProjectResult>(listener) {
-                    @Override
-                    public void onRequestSuccess(ProjectResult projectResult) {
-                        displayProject(projectResult);
-                    }
-                });
+                executeUpdate(updateData);
             }
 
             @Override
@@ -161,6 +147,11 @@ public class ProjectFragment extends Fragment {
                 // do nothing
             }
         };
+    }
+
+    private void executeUpdate(JsonObject updateData) {
+        spiceManager.execute(new UpdateProjectRequest(prefs, getActivity(), projectId, updateData), new ProjectListener(listener));
+        spiceManager.removeDataFromCache(ProjectResult.class, new GetProjectRequest(getActivity(), prefs, projectId).getCacheKey());
     }
 
     @Override
@@ -183,7 +174,8 @@ public class ProjectFragment extends Fragment {
     public void onProjectSelected(final int projectId) {
         clearProject();
         if (projectId != 0) {
-            spiceManager.execute(new GetProjectRequest(this.getActivity(), prefs, projectId), new ProjectsListener(listener));
+            GetProjectRequest request = new GetProjectRequest(this.getActivity(), prefs, projectId);
+            spiceManager.execute(request, request.getCacheKey(), DurationInMillis.ONE_MINUTE, new ProjectListener(listener));
         }
     }
 
@@ -284,9 +276,9 @@ public class ProjectFragment extends Fragment {
         progressSpinner.performClick();
     }
 
-    class ProjectsListener extends RavelryResultListener<ProjectResult> {
+    class ProjectListener extends RavelryResultListener<ProjectResult> {
 
-        protected ProjectsListener(IRavelryActivity activity) {
+        protected ProjectListener(IRavelryActivity activity) {
             super(activity);
         }
 

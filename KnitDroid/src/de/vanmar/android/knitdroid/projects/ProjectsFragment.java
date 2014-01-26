@@ -7,6 +7,7 @@ import android.widget.ListView;
 
 import com.octo.android.robospice.GsonSpringAndroidSpiceService;
 import com.octo.android.robospice.SpiceManager;
+import com.octo.android.robospice.persistence.DurationInMillis;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -99,7 +100,8 @@ public class ProjectsFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        spiceManager.execute(new ListProjectsRequest(this.getActivity(), prefs), new RavelryResultListener<ProjectsResult>(ProjectsFragment.this.listener) {
+        ListProjectsRequest request = new ListProjectsRequest(this.getActivity(), prefs);
+        spiceManager.execute(request, request.getCacheKey(), DurationInMillis.ONE_MINUTE, new RavelryResultListener<ProjectsResult>(ProjectsFragment.this.listener) {
             @Override
             public void onRequestSuccess(ProjectsResult projectsResult) {
                 displayProjects(projectsResult);

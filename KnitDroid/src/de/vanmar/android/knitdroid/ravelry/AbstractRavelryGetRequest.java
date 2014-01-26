@@ -1,9 +1,11 @@
 package de.vanmar.android.knitdroid.ravelry;
 
 import android.content.Context;
-import de.vanmar.android.knitdroid.KnitdroidPrefs_;
+
 import org.scribe.model.OAuthRequest;
 import org.scribe.model.Response;
+
+import de.vanmar.android.knitdroid.KnitdroidPrefs_;
 
 public abstract class AbstractRavelryGetRequest<T> extends AbstractRavelryRequest<T> {
 
@@ -22,5 +24,10 @@ public abstract class AbstractRavelryGetRequest<T> extends AbstractRavelryReques
 	protected abstract T parseResult(String responseBody);
 
 	protected abstract OAuthRequest getRequest();
+
+    public Object getCacheKey() {
+        OAuthRequest request = getRequest();
+        return request.getCompleteUrl() + "#" + request.getQueryStringParams().asFormUrlEncodedString();
+    }
 
 }
