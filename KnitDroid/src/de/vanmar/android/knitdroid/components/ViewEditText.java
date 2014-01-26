@@ -107,6 +107,10 @@ public class ViewEditText extends RelativeLayout {
         toggleButton.setBackgroundResource(isEditMode ? R.drawable.save : R.drawable.edit);
     }
 
+    public boolean isEditMode() {
+        return isEditMode;
+    }
+
     public void setTitleText(String titleText) {
         title.setText(titleText);
     }
@@ -114,5 +118,9 @@ public class ViewEditText extends RelativeLayout {
     public void setBodyText(String bodyText) {
         editText.setText(bodyText);
         viewText.setText(bodyText);
+    }
+
+    public CharSequence getBodyText() {
+        return viewText.getText();
     }
 }

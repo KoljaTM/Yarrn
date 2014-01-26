@@ -23,7 +23,7 @@
     "updated_at":"2013/02/15 03:51:04 -0500",
     "photos_count":1,
     "project_status_id":3,
-    "progress":5,
+    "progress":15,
     "made_for_user_id":null,
     "made_for":"",
     "craft_id":2,
@@ -119,7 +119,7 @@
         "total_yards":328.1
       }
     ],
-    "notes":"",
+    "notes":"Notizfeld",
     "user_id":900340,
     "notes_html":null,
     "favorites_count":0,

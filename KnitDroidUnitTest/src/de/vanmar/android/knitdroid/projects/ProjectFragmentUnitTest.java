@@ -22,12 +22,16 @@ import java.util.GregorianCalendar;
 
 import de.vanmar.android.knitdroid.MainActivity;
 import de.vanmar.android.knitdroid.MainActivity_;
+import de.vanmar.android.knitdroid.R;
+import de.vanmar.android.knitdroid.components.ViewEditText_;
 import de.vanmar.android.knitdroid.ravelry.dts.Project;
 import de.vanmar.android.knitdroid.ravelry.dts.ProjectResult;
 import de.vanmar.android.knitdroid.util.TestUtil;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doAnswer;
 
@@ -95,6 +99,29 @@ public class ProjectFragmentUnitTest {
         assertThat(updateProjectRequest.getUpdateData().get("progress").getAsInt(), is(35));
     }
 
+    @Test
+    public void shouldUpdateNotes() {
+        // given
+        ViewEditText_ notes = projectFragment.notes;
+        mockSpiceCall(createProjectResult());
+        projectFragment.onProjectSelected(PROJECT_ID);
+        assertThat(notes.getBodyText().toString(), is("Notizfeld"));
+        assertFalse(notes.isEditMode());
+
+        // when
+        notes.findViewById(R.id.toggleButton).performClick();
+        assertTrue(notes.isEditMode());
+        notes.setBodyText("Neue Notiz");
+        notes.findViewById(R.id.toggleButton).performClick();
+        assertFalse(notes.isEditMode());
+
+        // then
+        assertThat(request, is(UpdateProjectRequest.class));
+        UpdateProjectRequest updateProjectRequest = (UpdateProjectRequest) request;
+        assertThat(updateProjectRequest.getProjectId(), is(PROJECT_ID));
+        assertThat(updateProjectRequest.getUpdateData().get("notes").getAsString(), is("Neue Notiz"));
+    }
+
     private void mockSpiceCall(final ProjectResult projectResult) {
         doAnswer(new Answer<Void>() {
             @Override
@@ -113,6 +140,7 @@ public class ProjectFragmentUnitTest {
         project.name = "aqua diva";
         project.progress = 5;
         project.status = "Started";
+        project.notes = "Notizfeld";
         GregorianCalendar started = new GregorianCalendar();
         started.set(2013, Calendar.MAY, 17);
         project.started = started.getTime();

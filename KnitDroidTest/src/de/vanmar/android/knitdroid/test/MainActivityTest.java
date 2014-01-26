@@ -39,7 +39,10 @@ public class MainActivityTest extends
         solo.clickOnText("aqua diva");
 
         // then
+        assertText("Started:");
         assertText("Finished:");
+        assertText("Notizfeld");
+        assertText("15%");
     }
 
     public void testBackAndForthNavigation() {
