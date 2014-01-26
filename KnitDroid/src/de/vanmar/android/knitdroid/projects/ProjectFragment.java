@@ -208,16 +208,7 @@ public class ProjectFragment extends Fragment {
 
     @UiThread
     protected void clearProject() {
-        progressSpinner.setOnItemSelectedListener(null);
-        progressSpinner.setSelection(0);
-        progressBar.setProgress(0);
-        name.setText(null);
-        patternName.setText(null);
-        status.setText(null);
-        status.setText(null);
-        started.setText(null);
-        completed.setText(null);
-        adapter.clear();
+        getView().setVisibility(View.GONE);
     }
 
     @UiThread
@@ -234,6 +225,7 @@ public class ProjectFragment extends Fragment {
         adapter.clear();
         adapter.addAll(project.photos);
         displayProgress(project.progress);
+        getView().setVisibility(View.VISIBLE);
     }
 
     private String getCompletedDateText(Date date, boolean withDay) {
