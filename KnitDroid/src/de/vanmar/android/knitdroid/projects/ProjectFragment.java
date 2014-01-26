@@ -17,7 +17,6 @@ import com.google.gson.JsonObject;
 import com.meetme.android.horizontallistview.HorizontalListView;
 import com.octo.android.robospice.GsonSpringAndroidSpiceService;
 import com.octo.android.robospice.SpiceManager;
-import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
 
@@ -38,6 +37,7 @@ import de.vanmar.android.knitdroid.R;
 import de.vanmar.android.knitdroid.components.ImageDialog;
 import de.vanmar.android.knitdroid.components.ViewEditText;
 import de.vanmar.android.knitdroid.components.ViewEditText_;
+import de.vanmar.android.knitdroid.ravelry.AbstractRavelryGetRequest;
 import de.vanmar.android.knitdroid.ravelry.IRavelryActivity;
 import de.vanmar.android.knitdroid.ravelry.RavelryResultListener;
 import de.vanmar.android.knitdroid.ravelry.dts.Project;
@@ -175,7 +175,7 @@ public class ProjectFragment extends Fragment {
         clearProject();
         if (projectId != 0) {
             GetProjectRequest request = new GetProjectRequest(this.getActivity().getApplication(), prefs, projectId);
-            spiceManager.execute(request, request.getCacheKey(), DurationInMillis.ONE_MINUTE, new ProjectListener(listener));
+            spiceManager.execute(request, request.getCacheKey(), AbstractRavelryGetRequest.CACHE_DURATION, new ProjectListener(listener));
         }
     }
 

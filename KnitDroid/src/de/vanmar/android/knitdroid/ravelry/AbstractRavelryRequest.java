@@ -34,6 +34,7 @@ public abstract class AbstractRavelryRequest<T> extends SpringAndroidSpiceReques
             final Response response = request.send();
             switch (response.getCode()) {
                 case 200:
+                case 304:
                     return response;
                 case 401:
                 case 403:

@@ -7,7 +7,6 @@ import android.widget.ListView;
 
 import com.octo.android.robospice.GsonSpringAndroidSpiceService;
 import com.octo.android.robospice.SpiceManager;
-import com.octo.android.robospice.persistence.DurationInMillis;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -17,6 +16,7 @@ import org.androidannotations.annotations.sharedpreferences.Pref;
 
 import de.vanmar.android.knitdroid.KnitdroidPrefs_;
 import de.vanmar.android.knitdroid.R;
+import de.vanmar.android.knitdroid.ravelry.AbstractRavelryGetRequest;
 import de.vanmar.android.knitdroid.ravelry.IRavelryActivity;
 import de.vanmar.android.knitdroid.ravelry.RavelryResultListener;
 import de.vanmar.android.knitdroid.ravelry.dts.ProjectShort;
@@ -101,7 +101,7 @@ public class ProjectsFragment extends Fragment {
         super.onResume();
 
         ListProjectsRequest request = new ListProjectsRequest(this.getActivity().getApplication(), prefs);
-        spiceManager.execute(request, request.getCacheKey(), DurationInMillis.ONE_MINUTE, new RavelryResultListener<ProjectsResult>(ProjectsFragment.this.listener) {
+        spiceManager.execute(request, request.getCacheKey(), AbstractRavelryGetRequest.CACHE_DURATION, new RavelryResultListener<ProjectsResult>(ProjectsFragment.this.listener) {
             @Override
             public void onRequestSuccess(ProjectsResult projectsResult) {
                 displayProjects(projectsResult);
