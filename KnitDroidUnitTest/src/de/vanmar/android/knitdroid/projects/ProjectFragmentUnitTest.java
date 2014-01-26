@@ -1,5 +1,6 @@
 package de.vanmar.android.knitdroid.projects;
 
+import android.widget.RatingBar;
 import android.widget.Spinner;
 
 import com.octo.android.robospice.SpiceManager;
@@ -122,6 +123,24 @@ public class ProjectFragmentUnitTest {
         assertThat(updateProjectRequest.getUpdateData().get("notes").getAsString(), is("Neue Notiz"));
     }
 
+    @Test
+    public void shouldUpdateRating() {
+        // given
+        RatingBar rating = projectFragment.rating;
+        mockSpiceCall(createProjectResult());
+        projectFragment.onProjectSelected(PROJECT_ID);
+        assertThat(rating.getRating(), is(3.0f));
+
+        // when
+        rating.getOnRatingBarChangeListener().onRatingChanged(rating, 5, true);
+
+        // then
+        assertThat(request, is(UpdateProjectRequest.class));
+        UpdateProjectRequest updateProjectRequest = (UpdateProjectRequest) request;
+        assertThat(updateProjectRequest.getProjectId(), is(PROJECT_ID));
+        assertThat(updateProjectRequest.getUpdateData().get("rating").getAsInt(), is(4));
+    }
+
     private void mockSpiceCall(final ProjectResult projectResult) {
         doAnswer(new Answer<Void>() {
             @Override
@@ -139,6 +158,7 @@ public class ProjectFragmentUnitTest {
         Project project = new Project();
         project.name = "aqua diva";
         project.progress = 5;
+        project.rating = 2;
         project.status = "Started";
         project.notes = "Notizfeld";
         GregorianCalendar started = new GregorianCalendar();

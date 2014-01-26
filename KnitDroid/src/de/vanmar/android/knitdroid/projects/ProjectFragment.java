@@ -7,6 +7,7 @@ import android.text.Editable;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ProgressBar;
+import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -82,6 +83,9 @@ public class ProjectFragment extends Fragment {
     @ViewById(R.id.notes)
     public ViewEditText_ notes;
 
+    @ViewById(R.id.rating)
+    public RatingBar rating;
+
     @FragmentArg(ARG_PROJECT_ID)
     int projectId;
 
@@ -108,6 +112,23 @@ public class ProjectFragment extends Fragment {
                         displayProject(projectResult);
                     }
                 });
+            }
+        });
+
+        rating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                if (fromUser) {
+                    int newRating = (int) Math.floor(rating - 1);
+                    JsonObject updateData = new JsonObject();
+                    updateData.addProperty("rating", newRating);
+                    spiceManager.execute(new UpdateProjectRequest(prefs, getActivity(), projectId, updateData), new RavelryResultListener<ProjectResult>(listener) {
+                        @Override
+                        public void onRequestSuccess(ProjectResult projectResult) {
+                            displayProject(projectResult);
+                        }
+                    });
+                }
             }
         });
 
@@ -204,6 +225,7 @@ public class ProjectFragment extends Fragment {
         Project project = projectResult.project;
         getActivity().setTitle(project.name);
         name.setText(project.name);
+        rating.setRating(project.rating + 1);
         patternName.setText(project.patternName);
         status.setText(project.status);
         started.setText(getCompletedDateText(project.started, project.startedDaySet));

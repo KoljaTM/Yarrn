@@ -29,4 +29,6 @@ public class Project {
     public Date completed;
     @SerializedName("completed_day_set")
     public boolean completedDaySet;
+    @SerializedName("rating")
+    public int rating;
 }
