@@ -2,7 +2,6 @@ package de.vanmar.android.knitdroid.projects;
 
 import android.app.Activity;
 import android.net.Uri;
-import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.view.View;
 import android.widget.AdapterView;
@@ -12,6 +11,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.actionbarsherlock.app.SherlockFragment;
 import com.androidquery.util.AQUtility;
 import com.google.gson.JsonObject;
 import com.meetme.android.horizontallistview.HorizontalListView;
@@ -24,6 +24,8 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
+import org.androidannotations.annotations.OptionsItem;
+import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.sharedpreferences.Pref;
@@ -43,7 +45,8 @@ import de.vanmar.android.knitdroid.ravelry.dts.Project;
 import de.vanmar.android.knitdroid.ravelry.dts.ProjectResult;
 
 @EFragment(R.layout.fragment_project_detail)
-public class ProjectFragment extends Fragment {
+@OptionsMenu(R.menu.fragment_menu)
+public class ProjectFragment extends SherlockFragment {
 
     public static final String ARG_PROJECT_ID = "projectId";
     public static final String ARG_USERNAME = "username";
@@ -280,6 +283,12 @@ public class ProjectFragment extends Fragment {
     @Click(R.id.progressBar)
     public void onProgressBarClicked() {
         progressSpinner.performClick();
+    }
+
+
+    @OptionsItem(R.id.menu_refresh)
+    public void menuRefresh() {
+        onProjectSelected(projectId, username);
     }
 
     class ProjectListener extends RavelryResultListener<ProjectResult> {

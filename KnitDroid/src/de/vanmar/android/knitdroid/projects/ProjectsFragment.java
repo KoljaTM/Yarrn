@@ -2,14 +2,16 @@ package de.vanmar.android.knitdroid.projects;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.widget.ListView;
 
+import com.actionbarsherlock.app.SherlockFragment;
 import com.octo.android.robospice.GsonSpringAndroidSpiceService;
 import com.octo.android.robospice.SpiceManager;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.OptionsItem;
+import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.sharedpreferences.Pref;
@@ -23,7 +25,8 @@ import de.vanmar.android.knitdroid.ravelry.dts.ProjectShort;
 import de.vanmar.android.knitdroid.ravelry.dts.ProjectsResult;
 
 @EFragment(R.layout.fragment_projects)
-public class ProjectsFragment extends Fragment {
+@OptionsMenu(R.menu.fragment_menu)
+public class ProjectsFragment extends SherlockFragment {
 
     protected SpiceManager spiceManager;
 
@@ -43,6 +46,12 @@ public class ProjectsFragment extends Fragment {
     private ProjectsAdapter adapter;
 
     private ProjectsFragmentListener listener;
+
+
+    @Override
+    public void onCreate(final Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
     @AfterViews
     public void afterViews() {
@@ -78,10 +87,6 @@ public class ProjectsFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onCreate(final Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
 
     @Override
     public void onDetach() {
@@ -99,7 +104,10 @@ public class ProjectsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        loadProjects();
+    }
 
+    private void loadProjects() {
         ListProjectsRequest request = new ListProjectsRequest(this.getActivity().getApplication(), prefs);
         spiceManager.execute(request, request.getCacheKey(), AbstractRavelryGetRequest.CACHE_DURATION, new RavelryResultListener<ProjectsResult>(ProjectsFragment.this.listener) {
             @Override
@@ -113,5 +121,10 @@ public class ProjectsFragment extends Fragment {
     public void onStop() {
         spiceManager.shouldStop();
         super.onStop();
+    }
+
+    @OptionsItem(R.id.menu_refresh)
+    public void menuRefresh() {
+        loadProjects();
     }
 }

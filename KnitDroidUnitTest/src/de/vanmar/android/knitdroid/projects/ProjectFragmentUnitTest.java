@@ -85,6 +85,24 @@ public class ProjectFragmentUnitTest {
     }
 
     @Test
+    public void shouldRefreshProjectDetails() throws Exception {
+        // given
+        assertThat(projectFragment.name.getText().toString(), is(""));
+        mockSpiceCall(createProjectResult());
+
+        // when
+        projectFragment.menuRefresh();
+
+        // then
+        assertThat(projectFragment.name.getText().toString(), is("aqua diva"));
+        assertThat(projectFragment.status.getText().toString(), is("Started"));
+        assertThat(projectFragment.progressBar.getProgress(), is(5));
+        assertThat((String) projectFragment.progressSpinner.getSelectedItem(), is("5%"));
+        assertThat(projectFragment.started.getText().toString(), is("17.05.2013")); // testing with German Locale
+        assertThat(projectFragment.completed.getText().toString(), is("Juni 2013"));
+    }
+
+    @Test
     public void shouldUpdateProgress() {
         // given
         Spinner progressSpinner = projectFragment.progressSpinner;

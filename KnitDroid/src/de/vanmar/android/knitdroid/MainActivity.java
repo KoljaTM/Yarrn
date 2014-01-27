@@ -219,9 +219,4 @@ public class MainActivity extends AbstractRavelryActivity implements
         drawerLayout.closeDrawers();
         requestToken();
     }
-
-    @Click(R.id.menu_refresh)
-    public void menuRefresh() {
-        // TODO find correct fragment to refresh
-    }
 }
