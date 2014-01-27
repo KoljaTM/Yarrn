@@ -256,6 +256,7 @@ public class ProjectFragment extends Fragment {
     }
 
     public void uploadPhotoToProject(final Uri photoUri) {
+        Toast.makeText(getActivity(), getActivity().getString(R.string.upload_started), Toast.LENGTH_LONG).show();
         spiceManager.execute(new PhotoUploadRequest(getActivity().getApplication(), prefs, photoUri, projectId), new RequestListener<String>() {
 
             @Override
@@ -273,7 +274,7 @@ public class ProjectFragment extends Fragment {
     @UiThread
     public void onPhotoUploadSuccess() {
         Toast.makeText(getActivity(), getActivity().getString(R.string.upload_successful), Toast.LENGTH_LONG).show();
-        onProjectSelected(projectId, username);
+        spiceManager.removeDataFromCache(ProjectResult.class, new GetProjectRequest(getActivity().getApplication(), prefs, projectId, prefs.username().get()).getCacheKey());
     }
 
     @Click(R.id.progressBar)

@@ -24,7 +24,7 @@ import java.util.GregorianCalendar;
 import de.vanmar.android.knitdroid.MainActivity;
 import de.vanmar.android.knitdroid.MainActivity_;
 import de.vanmar.android.knitdroid.R;
-import de.vanmar.android.knitdroid.components.ViewEditText_;
+import de.vanmar.android.knitdroid.components.ViewEditText;
 import de.vanmar.android.knitdroid.ravelry.dts.Project;
 import de.vanmar.android.knitdroid.ravelry.dts.ProjectResult;
 import de.vanmar.android.knitdroid.util.TestUtil;
@@ -34,6 +34,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.doAnswer;
 
 @RunWith(RobolectricTestRunner.class)
@@ -79,8 +80,8 @@ public class ProjectFragmentUnitTest {
         assertThat(projectFragment.status.getText().toString(), is("Started"));
         assertThat(projectFragment.progressBar.getProgress(), is(5));
         assertThat((String) projectFragment.progressSpinner.getSelectedItem(), is("5%"));
-        assertThat((String) projectFragment.started.getText().toString(), is("17.05.2013")); // testing with German Locale
-        assertThat((String) projectFragment.completed.getText().toString(), is("Juni 2013"));
+        assertThat(projectFragment.started.getText().toString(), is("17.05.2013")); // testing with German Locale
+        assertThat(projectFragment.completed.getText().toString(), is("Juni 2013"));
     }
 
     @Test
@@ -104,7 +105,7 @@ public class ProjectFragmentUnitTest {
     @Test
     public void shouldUpdateNotes() {
         // given
-        ViewEditText_ notes = projectFragment.notes;
+        ViewEditText notes = projectFragment.notes;
         mockSpiceCall(createProjectResult());
         projectFragment.onProjectSelected(PROJECT_ID, USERNAME);
         assertThat(notes.getBodyText().toString(), is("Notizfeld"));
@@ -143,6 +144,15 @@ public class ProjectFragmentUnitTest {
     }
 
     private void mockSpiceCall(final ProjectResult projectResult) {
+        doAnswer(new Answer<Void>() {
+            @Override
+            public Void answer(InvocationOnMock invocationOnMock) throws Throwable {
+                request = (SpiceRequest) invocationOnMock.getArguments()[0];
+                RequestListener<ProjectResult> listener = (RequestListener<ProjectResult>) invocationOnMock.getArguments()[3];
+                listener.onRequestSuccess(projectResult);
+                return null;
+            }
+        }).when(spiceManager).execute(any(SpiceRequest.class), any(), anyLong(), any(RequestListener.class));
         doAnswer(new Answer<Void>() {
             @Override
             public Void answer(InvocationOnMock invocationOnMock) throws Throwable {

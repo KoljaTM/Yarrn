@@ -27,25 +27,20 @@ import de.vanmar.android.knitdroid.R;
 import de.vanmar.android.knitdroid.ravelry.AbstractRavelryRequest;
 import de.vanmar.android.knitdroid.ravelry.RavelryException;
 import de.vanmar.android.knitdroid.ravelry.dts.UploadResult;
-import de.vanmar.android.knitdroid.util.UiHelper;
-import de.vanmar.android.knitdroid.util.UiHelper_;
 
 public class PhotoUploadRequest extends AbstractRavelryRequest<String> {
     private final Uri photoUri;
     private final int projectId;
-    private UiHelper uiHelper;
 
     public PhotoUploadRequest(Application application, KnitdroidPrefs_ prefs, Uri photoUri, int projectId) {
         super(String.class, prefs, application);
         this.photoUri = photoUri;
         this.projectId = projectId;
-        this.uiHelper = UiHelper_.getInstance_(application);
         setRetryPolicy(new DefaultRetryPolicy(1, 0, 0));
     }
 
     @Override
     public String loadDataFromNetwork() throws Exception {
-        startProgress();
         final OAuthRequest request = new OAuthRequest(Verb.POST,
                 application.getString(R.string.ravelry_url)
                         + "/upload/request_token.json");
@@ -84,8 +79,6 @@ public class PhotoUploadRequest extends AbstractRavelryRequest<String> {
         } catch (final FileNotFoundException e) {
             onError(e);
             throw e;
-        } finally {
-            stopProgressDialog();
         }
     }
 
@@ -101,17 +94,5 @@ public class PhotoUploadRequest extends AbstractRavelryRequest<String> {
 
     private void onError(final Exception exception) {
         AQUtility.report(exception);
-        stopProgressDialog();
     }
-
-    private void startProgress() {
-        uiHelper.startProgress(application.getString(R.string.upload_progress_title),
-                application.getString(R.string.upload_progress_message), true,
-                false);
-    }
-
-    private void stopProgressDialog() {
-        uiHelper.stopProgress();
-    }
-
 }

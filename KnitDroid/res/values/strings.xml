@@ -14,9 +14,6 @@
     <string name="gallery_upload">Upload photo</string>
     <string name="take_photo">Snap Photo</string>
 
-    <string name="upload_progress_title">Uploading</string>
-    <string name="upload_progress_message">Please wait&#8230;</string>
-
     <string name="network_not_available">No Internet connection</string>
     <string name="connection_timeout">Connection to Ravelry timed out</string>
     <string name="menu_my_projects">My Projects</string>
@@ -32,4 +29,5 @@
     <string name="notes_title">Notes</string>
     <string name="menu_my_favorites">My Favorites</string>
     <string name="my_favorites_title">My Favorites</string>
+    <string name="upload_started">Starting upload…</string>
 </resources>

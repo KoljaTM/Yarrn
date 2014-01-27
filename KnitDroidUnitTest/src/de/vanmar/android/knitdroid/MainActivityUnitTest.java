@@ -55,6 +55,7 @@ public class MainActivityUnitTest {
         // assume
         Bundle args = new Bundle();
         args.putInt(ProjectFragment.ARG_PROJECT_ID, PROJECT_ID);
+        args.putString(ProjectFragment.ARG_USERNAME, USERNAME);
 
         // when
         activity.onProjectSelected(PROJECT_ID, USERNAME);
