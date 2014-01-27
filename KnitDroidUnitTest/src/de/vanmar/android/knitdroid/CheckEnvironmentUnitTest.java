@@ -7,7 +7,6 @@ import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.util.ActivityController;
 
-import java.io.InputStream;
 import java.net.URL;
 
 import static org.hamcrest.CoreMatchers.not;
@@ -40,7 +39,7 @@ public class CheckEnvironmentUnitTest {
     public void httpMockShouldBeRunning() throws Exception {
         try {
             final URL mockUrl = new URL("http://localhost:8888");
-            final InputStream inputStream = mockUrl.openStream();
+            mockUrl.openStream();
         } catch (final Exception e) {
             e.printStackTrace();
             fail("Please check that the mock HttpServer is running.");

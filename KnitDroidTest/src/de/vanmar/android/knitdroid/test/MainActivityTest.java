@@ -22,6 +22,12 @@ public class MainActivityTest extends
     @Override
     public void setUp() {
         solo = new Solo(getInstrumentation(), getActivity());
+        final String ravelryUrl = getActivity().getString(R.string.ravelry_url);
+        System.out.println("RavelryUrl is: " + ravelryUrl);
+        assertFalse("Must not be configured for live environment to run tests! Run target <config-dev>",
+                ravelryUrl.contains("ravelry.com"));
+        assertFalse("Replace localhost with IP address running the mock server",
+                ravelryUrl.contains("localhost"));
     }
 
     @Override
