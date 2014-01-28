@@ -79,6 +79,16 @@ public class ViewEditText extends RelativeLayout {
         applyStyling();
     }
 
+    public void setEditable(boolean editable) {
+        toggleButton.setVisibility(editable ? VISIBLE : GONE);
+        if (!editable) {
+            isEditMode = false;
+            applyEditMode();
+        }
+    }
+
+    ;
+
     public void setOnSaveListener(OnSaveListener listener) {
         this.onSaveListener = listener;
     }

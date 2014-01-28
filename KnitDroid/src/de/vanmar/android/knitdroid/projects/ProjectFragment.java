@@ -56,6 +56,7 @@ public class ProjectFragment extends SherlockFragment {
     private AdapterView.OnItemSelectedListener progressListener;
     private ViewEditText.OnSaveListener notesListener;
     private RatingBar.OnRatingBarChangeListener ratingListener;
+    private View.OnClickListener progressBarListener;
 
     public interface ProjectFragmentListener extends IRavelryActivity {
 
@@ -132,6 +133,13 @@ public class ProjectFragment extends SherlockFragment {
                     updateData.addProperty("rating", newRating);
                     executeUpdate(updateData);
                 }
+            }
+        };
+
+        progressBarListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                progressSpinner.performClick();
             }
         };
 
@@ -240,18 +248,30 @@ public class ProjectFragment extends SherlockFragment {
 
     private void setEditable() {
         progressSpinner.setOnItemSelectedListener(progressListener);
+        progressBar.setOnClickListener(progressBarListener);
         notes.setOnSaveListener(notesListener);
         rating.setOnRatingBarChangeListener(ratingListener);
         isEditable = true;
-        getSherlockActivity().invalidateOptionsMenu();
+        setFieldsEditable();
     }
 
     private void setNonEditable() {
         progressSpinner.setOnItemSelectedListener(null);
+        progressBar.setOnClickListener(null);
         notes.setOnSaveListener(null);
         rating.setOnRatingBarChangeListener(null);
         isEditable = false;
+        setFieldsEditable();
+    }
+
+    private void setFieldsEditable() {
         getSherlockActivity().invalidateOptionsMenu();
+        progressSpinner.setEnabled(isEditable);
+        progressSpinner.setClickable(isEditable);
+        progressSpinner.setFocusable(isEditable);
+        rating.setClickable(isEditable);
+        rating.setEnabled(isEditable);
+        notes.setEditable(isEditable);
     }
 
     private String getCompletedDateText(Date date, boolean withDay) {
@@ -298,7 +318,7 @@ public class ProjectFragment extends SherlockFragment {
 
     @Click(R.id.progressBar)
     public void onProgressBarClicked() {
-        progressSpinner.performClick();
+
     }
 
     @Override
