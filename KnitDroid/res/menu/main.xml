@@ -2,7 +2,7 @@
 
     <item
         android:id="@+id/menu_drawer"
-        android:orderInCategory="200"
+        android:orderInCategory="999"
         android:showAsAction="always"
         android:title="@string/menu_drawer"
         android:icon="@drawable/ic_drawer" />
