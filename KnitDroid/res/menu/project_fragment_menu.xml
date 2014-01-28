@@ -1,0 +1,24 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_take_photo"
+        android:orderInCategory="120"
+        android:showAsAction="ifRoom"
+        android:title="@string/take_photo"
+        android:icon="@drawable/take_picture" />
+
+    <item
+        android:id="@+id/menu_add_photo"
+        android:orderInCategory="140"
+        android:showAsAction="ifRoom"
+        android:title="@string/gallery_upload"
+        android:icon="@drawable/pick_image" />
+
+    <item
+        android:id="@+id/menu_refresh"
+        android:orderInCategory="200"
+        android:showAsAction="ifRoom"
+        android:title="@string/menu_refresh"
+        android:icon="@drawable/refresh" />
+
+</menu>

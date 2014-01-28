@@ -12,6 +12,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
 import com.androidquery.util.AQUtility;
 import com.google.gson.JsonObject;
 import com.meetme.android.horizontallistview.HorizontalListView;
@@ -45,13 +47,15 @@ import de.vanmar.android.knitdroid.ravelry.dts.Project;
 import de.vanmar.android.knitdroid.ravelry.dts.ProjectResult;
 
 @EFragment(R.layout.fragment_project_detail)
-@OptionsMenu(R.menu.fragment_menu)
+@OptionsMenu(R.menu.project_fragment_menu)
 public class ProjectFragment extends SherlockFragment {
 
     public static final String ARG_PROJECT_ID = "projectId";
     public static final String ARG_USERNAME = "username";
     protected SpiceManager spiceManager;
     private AdapterView.OnItemSelectedListener progressListener;
+    private ViewEditText.OnSaveListener notesListener;
+    private RatingBar.OnRatingBarChangeListener ratingListener;
 
     public interface ProjectFragmentListener extends IRavelryActivity {
 
@@ -100,6 +104,8 @@ public class ProjectFragment extends SherlockFragment {
 
     private PhotoAdapter adapter;
 
+    private boolean isEditable = false;
+
     @Pref
     KnitdroidPrefs_ prefs;
 
@@ -108,16 +114,16 @@ public class ProjectFragment extends SherlockFragment {
         if (spiceManager == null) {
             spiceManager = new SpiceManager(GsonSpringAndroidSpiceService.class);
         }
-        notes.setOnSaveListener(new ViewEditText.OnSaveListener() {
+        notesListener = new ViewEditText.OnSaveListener() {
             @Override
             public void onSave(ViewEditText view, Editable text) {
                 JsonObject updateData = new JsonObject();
                 updateData.addProperty("notes", text.toString());
                 executeUpdate(updateData);
             }
-        });
+        };
 
-        rating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+        ratingListener = new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                 if (fromUser) {
@@ -127,7 +133,7 @@ public class ProjectFragment extends SherlockFragment {
                     executeUpdate(updateData);
                 }
             }
-        });
+        };
 
         adapter = new PhotoAdapter(getActivity());
         gallery.setAdapter(adapter);
@@ -225,7 +231,27 @@ public class ProjectFragment extends SherlockFragment {
         displayProgress(project.progress);
         progressSpinner.setOnItemSelectedListener(null);
         getView().setVisibility(View.VISIBLE);
+        if (project.user != null && prefs.username().get().equals(project.user.username)) {
+            setEditable();
+        } else {
+            setNonEditable();
+        }
+    }
+
+    private void setEditable() {
         progressSpinner.setOnItemSelectedListener(progressListener);
+        notes.setOnSaveListener(notesListener);
+        rating.setOnRatingBarChangeListener(ratingListener);
+        isEditable = true;
+        getSherlockActivity().invalidateOptionsMenu();
+    }
+
+    private void setNonEditable() {
+        progressSpinner.setOnItemSelectedListener(null);
+        notes.setOnSaveListener(null);
+        rating.setOnRatingBarChangeListener(null);
+        isEditable = false;
+        getSherlockActivity().invalidateOptionsMenu();
     }
 
     private String getCompletedDateText(Date date, boolean withDay) {
@@ -246,16 +272,6 @@ public class ProjectFragment extends SherlockFragment {
         progressSpinner.setOnItemSelectedListener(null);
         progressSpinner.setSelection(progress / 5, false);
         progressSpinner.setOnItemSelectedListener(progressListener);
-    }
-
-    @Click(R.id.addPhoto)
-    public void onAddPhotoClicked() {
-        listener.pickImage();
-    }
-
-    @Click(R.id.takePhoto)
-    public void onTakePhotoClicked() {
-        listener.takePhoto();
     }
 
     public void uploadPhotoToProject(final Uri photoUri) {
@@ -285,6 +301,22 @@ public class ProjectFragment extends SherlockFragment {
         progressSpinner.performClick();
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.findItem(R.id.menu_add_photo).setVisible(isEditable);
+        menu.findItem(R.id.menu_take_photo).setVisible(isEditable);
+    }
+
+    @OptionsItem(R.id.menu_add_photo)
+    public void onAddPhotoClicked() {
+        listener.pickImage();
+    }
+
+    @OptionsItem(R.id.menu_take_photo)
+    public void onTakePhotoClicked() {
+        listener.takePhoto();
+    }
 
     @OptionsItem(R.id.menu_refresh)
     public void menuRefresh() {
