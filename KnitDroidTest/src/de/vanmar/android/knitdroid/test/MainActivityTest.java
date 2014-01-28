@@ -51,6 +51,23 @@ public class MainActivityTest extends
         assertText("15%");
     }
 
+    public void testFavorites() {
+        // when
+        solo.clickOnActionBarItem(R.id.menu_drawer);
+        selectMyFavoritesMenuEntry();
+
+        // then
+        assertText("Trines Sleeves");
+
+        // when
+        solo.clickOnText("Trines Sleeves");
+
+        // then
+        assertText("Trines Sleeves");
+        assertText("Started:");
+        assertText("Finished:");
+    }
+
     public void testBackAndForthNavigation() {
         // start page
         assertText("Welthasen Viajante");
@@ -63,6 +80,26 @@ public class MainActivityTest extends
         solo.goBack();
         assertText("Welthasen Viajante");
         solo.clickOnText("aqua diva");
+        assertText("Started:");
+
+        // navigate to faqvorites from navigation drawer
+        solo.clickOnActionBarItem(R.id.menu_drawer);
+        selectMyFavoritesMenuEntry();
+        assertText("Trines Sleeves");
+
+        // call favorite
+        solo.clickOnText("Trines Sleeves");
+        assertText("Trines Sleeves");
+        assertText("Finished:");
+
+        // back to favorites list
+        solo.goBack();
+        assertText("Trines Sleeves");
+        assertText("Strata Sphere");
+
+        // back to previous project details
+        solo.goBack();
+        assertText("aqua diva");
 
         // navigate to my projects from navigation drawer
         solo.clickOnActionBarItem(R.id.menu_drawer);
@@ -83,6 +120,11 @@ public class MainActivityTest extends
 
     private void selectMyProjectsMenuEntry() {
         View menuItem = solo.getCurrentActivity().findViewById(R.id.menu_my_projects);
+        solo.clickOnView(menuItem);
+    }
+
+    private void selectMyFavoritesMenuEntry() {
+        View menuItem = solo.getCurrentActivity().findViewById(R.id.menu_my_favorites);
         solo.clickOnView(menuItem);
     }
 

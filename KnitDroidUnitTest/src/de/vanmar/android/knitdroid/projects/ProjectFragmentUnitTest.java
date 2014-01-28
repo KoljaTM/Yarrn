@@ -21,6 +21,7 @@ import org.robolectric.util.ActivityController;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import de.vanmar.android.knitdroid.FragmentFactory;
 import de.vanmar.android.knitdroid.MainActivity;
 import de.vanmar.android.knitdroid.MainActivity_;
 import de.vanmar.android.knitdroid.R;
@@ -33,6 +34,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.doAnswer;
@@ -43,6 +45,8 @@ public class ProjectFragmentUnitTest {
     public static final int PROJECT_ID = 10014463;
     public static final String USERNAME = "Jillda";
 
+    @Mock
+    private FragmentFactory fragmentFactory;
     @Mock
     private SpiceManager spiceManager;
     @Mock
@@ -60,8 +64,9 @@ public class ProjectFragmentUnitTest {
         projectFragment.spiceManager = this.spiceManager;
         ActivityController<MainActivity_> activityController = Robolectric.buildActivity(MainActivity_.class).create();
         MainActivity activity = activityController.get();
-        activity.projectsFragment = this.projectsFragment;
-        activity.projectFragment = this.projectFragment;
+        activity.fragmentFactory = this.fragmentFactory;
+        given(fragmentFactory.getProjectsFragment()).willReturn(projectsFragment);
+        given(fragmentFactory.getProjectFragment()).willReturn(projectFragment);
         activityController.start().resume();
 
         activity.onProjectSelected(PROJECT_ID, USERNAME);

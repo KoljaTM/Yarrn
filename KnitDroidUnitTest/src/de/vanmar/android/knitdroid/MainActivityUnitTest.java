@@ -18,6 +18,7 @@ import de.vanmar.android.knitdroid.projects.ProjectsFragment;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.robolectric.Robolectric.shadowOf;
@@ -29,6 +30,8 @@ public class MainActivityUnitTest {
     private MainActivity activity;
 
     @Mock
+    private FragmentFactory fragmentFactory;
+    @Mock
     private ProjectsFragment projectsFragment;
     @Mock
     private ProjectFragment projectFragment;
@@ -39,8 +42,9 @@ public class MainActivityUnitTest {
         MockitoAnnotations.initMocks(this);
         ActivityController<MainActivity_> activityController = Robolectric.buildActivity(MainActivity_.class).attach().create();
         activity = activityController.get();
-        activity.projectsFragment = this.projectsFragment;
-        activity.projectFragment = this.projectFragment;
+        activity.fragmentFactory = this.fragmentFactory;
+        given(fragmentFactory.getProjectsFragment()).willReturn(projectsFragment);
+        given(fragmentFactory.getProjectFragment()).willReturn(projectFragment);
         activityController.start().resume();
     }
 

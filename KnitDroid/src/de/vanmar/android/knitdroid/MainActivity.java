@@ -14,6 +14,7 @@ import android.view.View;
 
 import com.androidquery.util.AQUtility;
 
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.NonConfigurationInstance;
@@ -28,12 +29,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import de.vanmar.android.knitdroid.favorites.FavoritesFragment;
-import de.vanmar.android.knitdroid.favorites.FavoritesFragment_;
 import de.vanmar.android.knitdroid.projects.ProjectFragment;
-import de.vanmar.android.knitdroid.projects.ProjectFragment_;
 import de.vanmar.android.knitdroid.projects.ProjectsFragment;
 import de.vanmar.android.knitdroid.projects.ProjectsFragment.ProjectsFragmentListener;
-import de.vanmar.android.knitdroid.projects.ProjectsFragment_;
 import de.vanmar.android.knitdroid.util.RequestCode;
 
 @EActivity(resName = "activity_main")
@@ -51,9 +49,12 @@ public class MainActivity extends AbstractRavelryActivity implements
     @NonConfigurationInstance
     Uri photoUri;
 
-    public ProjectFragment projectFragment;
     public ProjectsFragment projectsFragment;
     public FavoritesFragment favoritesFragment;
+
+    @Bean
+    public
+    FragmentFactory fragmentFactory;
 
     @ViewById(R.id.drawer_layout)
     DrawerLayout drawerLayout;
@@ -64,7 +65,6 @@ public class MainActivity extends AbstractRavelryActivity implements
 
         // get fragments from backstack if available
         projectsFragment = (ProjectsFragment) getSupportFragmentManager().findFragmentByTag(PROJECTS_TAG);
-        projectFragment = (ProjectFragment) getSupportFragmentManager().findFragmentByTag(PROJECT_DETAIL_TAG);
     }
 
     @Override
@@ -88,7 +88,7 @@ public class MainActivity extends AbstractRavelryActivity implements
 
     private void displayProjectsFragment() {
         if (projectsFragment == null) {
-            projectsFragment = new ProjectsFragment_();
+            projectsFragment = fragmentFactory.getProjectsFragment();
         }
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -101,7 +101,7 @@ public class MainActivity extends AbstractRavelryActivity implements
 
     private void displayFavoritesFragment() {
         if (favoritesFragment == null) {
-            favoritesFragment = new FavoritesFragment_();
+            favoritesFragment = fragmentFactory.getFavoritesFragment();
         }
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -114,9 +114,7 @@ public class MainActivity extends AbstractRavelryActivity implements
 
 
     private void displayProjectDetailFragment(final int projectId, String username) {
-        if (projectFragment == null) {
-            projectFragment = new ProjectFragment_();
-        }
+        ProjectFragment projectFragment = fragmentFactory.getProjectFragment();
         Bundle args = new Bundle();
         args.putInt(ProjectFragment.ARG_PROJECT_ID, projectId);
         args.putString(ProjectFragment.ARG_USERNAME, username);
@@ -173,6 +171,7 @@ public class MainActivity extends AbstractRavelryActivity implements
     @OnActivityResult(RequestCode.REQUEST_CODE_CAMERA)
     void onCameraResult(final int resultCode, final Intent data) {
         if (resultCode == Activity.RESULT_OK && photoUri != null) {
+            ProjectFragment projectFragment = (ProjectFragment) getSupportFragmentManager().findFragmentByTag(PROJECT_DETAIL_TAG);
             projectFragment.uploadPhotoToProject(photoUri);
             photoUri = null;
         }
@@ -181,6 +180,7 @@ public class MainActivity extends AbstractRavelryActivity implements
     @OnActivityResult(RequestCode.REQUEST_CODE_GALLERY)
     void onGalleryResult(final int resultCode, final Intent data) {
         if (resultCode == Activity.RESULT_OK) {
+            ProjectFragment projectFragment = (ProjectFragment) getSupportFragmentManager().findFragmentByTag(PROJECT_DETAIL_TAG);
             projectFragment.uploadPhotoToProject(data.getData());
         }
     }
