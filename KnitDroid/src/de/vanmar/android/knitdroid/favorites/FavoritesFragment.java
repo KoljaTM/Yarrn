@@ -31,6 +31,11 @@ public class FavoritesFragment extends Fragment {
          * Project with projectId was selected, 0 if no project selected
          */
         void onProjectSelected(int projectId, String username);
+
+        /**
+         * Pattern with patternId was selected, 0 if no pattern selected
+         */
+        void onPatternSelected(int patternId);
     }
 
     @ViewById(R.id.favoritelist)
@@ -53,6 +58,11 @@ public class FavoritesFragment extends Fragment {
             @Override
             protected void onProjectClicked(final int id, final String username) {
                 listener.onProjectSelected(id, username);
+            }
+
+            @Override
+            protected void onPatternClicked(int patternId) {
+                listener.onPatternSelected(patternId);
             }
 
         };

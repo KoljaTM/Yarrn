@@ -29,6 +29,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import de.vanmar.android.knitdroid.favorites.FavoritesFragment;
+import de.vanmar.android.knitdroid.patterns.PatternFragment;
 import de.vanmar.android.knitdroid.projects.ProjectFragment;
 import de.vanmar.android.knitdroid.projects.ProjectsFragment;
 import de.vanmar.android.knitdroid.projects.ProjectsFragment.ProjectsFragmentListener;
@@ -37,12 +38,13 @@ import de.vanmar.android.knitdroid.util.RequestCode;
 @EActivity(resName = "activity_main")
 @OptionsMenu(R.menu.main)
 public class MainActivity extends AbstractRavelryActivity implements
-        ProjectsFragmentListener, ProjectFragment.ProjectFragmentListener, FavoritesFragment.FavoritesFragmentListener {
+        ProjectsFragmentListener, ProjectFragment.ProjectFragmentListener, FavoritesFragment.FavoritesFragmentListener, PatternFragment.PatternFragmentListener {
 
     private static final String JPEG_FILE_PREFIX = "IMG_";
 
     private static final String JPEG_FILE_SUFFIX = ".jpg";
     public static final String PROJECT_DETAIL_TAG = "projectDetail";
+    public static final String PATTERN_DETAIL_TAG = "patternDetail";
     public static final String PROJECTS_TAG = "projects";
     public static final String FAVORITES_TAG = "favorites";
 
@@ -129,6 +131,23 @@ public class MainActivity extends AbstractRavelryActivity implements
     @Override
     public void onProjectSelected(final int projectId, String username) {
         displayProjectDetailFragment(projectId, username);
+    }
+
+    private void displayPatternDetailFragment(final int patternId) {
+        PatternFragment patternFragment = fragmentFactory.getPatternFragment();
+        Bundle args = new Bundle();
+        args.putInt(PatternFragment.ARG_PATTERN_ID, patternId);
+        patternFragment.setArguments(args);
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.content_frame, patternFragment, PATTERN_DETAIL_TAG)
+                .addToBackStack(PATTERN_DETAIL_TAG)
+                .commit();
+    }
+
+    @Override
+    public void onPatternSelected(final int patternId) {
+        displayPatternDetailFragment(patternId);
     }
 
     @Override

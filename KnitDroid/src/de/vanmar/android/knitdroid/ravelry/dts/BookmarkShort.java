@@ -9,10 +9,15 @@ import java.util.List;
  */
 public class BookmarkShort {
 
+    public static final String PROJECT = "project";
+    public static final String PATTERN = "pattern";
+
     @SerializedName("comment")
     public String comment;
+    @SerializedName("type")
+    public String type;
     @SerializedName("tag_names")
     public List<String> tags;
     @SerializedName("favorited")
-    public ProjectShort project;
+    public Favorite favorite;
 }

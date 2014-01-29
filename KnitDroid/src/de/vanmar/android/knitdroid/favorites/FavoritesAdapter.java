@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.androidquery.AQuery;
@@ -15,7 +14,7 @@ import java.util.Collection;
 
 import de.vanmar.android.knitdroid.R;
 import de.vanmar.android.knitdroid.ravelry.dts.BookmarkShort;
-import de.vanmar.android.knitdroid.ravelry.dts.ProjectShort;
+import de.vanmar.android.knitdroid.ravelry.dts.Favorite;
 
 public abstract class FavoritesAdapter extends ArrayAdapter<BookmarkShort> {
     private final Activity context;
@@ -24,7 +23,7 @@ public abstract class FavoritesAdapter extends ArrayAdapter<BookmarkShort> {
         private ImageView thumb;
         private TextView name;
         private TextView patternName;
-        private LinearLayout progress;
+        private TextView comment;
     }
 
     public FavoritesAdapter(final Activity context) {
@@ -56,26 +55,25 @@ public abstract class FavoritesAdapter extends ArrayAdapter<BookmarkShort> {
             holder = (ViewHolder) view.getTag();
         } else {
             view = context.getLayoutInflater().inflate(
-                    R.layout.projectlist_item, parent, false);
+                    R.layout.favoritelist_item, parent, false);
             holder = new ViewHolder();
             holder.name = (TextView) view.findViewById(R.id.name);
             holder.patternName = (TextView) view
                     .findViewById(R.id.pattern_name);
-            holder.progress = (LinearLayout) view.findViewById(R.id.progress);
+            holder.comment = (TextView) view.findViewById(R.id.comment);
             holder.thumb = (ImageView) view.findViewById(R.id.thumb);
             view.setTag(holder);
         }
-        final BookmarkShort favorite = getItem(position);
-        final ProjectShort project = favorite.project;
+        final BookmarkShort bookmarkShort = getItem(position);
+        final Favorite favorite = bookmarkShort.favorite;
 
-        holder.name.setText(project.name);
-        holder.patternName.setText(project.patternName);
-        holder.progress.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT, 0, project.progress));
+        holder.name.setText(favorite.name);
+        holder.patternName.setText(favorite.patternName);
+        holder.comment.setText(bookmarkShort.comment);
 
         String imageUrl = null;
-        if (project.firstPhoto != null) {
-            imageUrl = project.firstPhoto.squareUrl;
+        if (favorite.firstPhoto != null) {
+            imageUrl = favorite.firstPhoto.squareUrl;
         }
         new AQuery(view).id(holder.thumb).image(imageUrl);
 
@@ -83,7 +81,11 @@ public abstract class FavoritesAdapter extends ArrayAdapter<BookmarkShort> {
 
             @Override
             public void onClick(final View v) {
-                onProjectClicked(project.id, favorite.project.user.username);
+                if (BookmarkShort.PROJECT.equals(bookmarkShort.type)) {
+                    onProjectClicked(favorite.id, favorite.user.username);
+                } else if (BookmarkShort.PATTERN.equals(bookmarkShort.type)) {
+                    onPatternClicked(favorite.id);
+                }
             }
         });
 
@@ -91,4 +93,6 @@ public abstract class FavoritesAdapter extends ArrayAdapter<BookmarkShort> {
     }
 
     protected abstract void onProjectClicked(int projectId, String username);
+
+    protected abstract void onPatternClicked(int patternId);
 }

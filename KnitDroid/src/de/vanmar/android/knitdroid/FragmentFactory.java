@@ -4,6 +4,8 @@ import org.androidannotations.annotations.EBean;
 
 import de.vanmar.android.knitdroid.favorites.FavoritesFragment;
 import de.vanmar.android.knitdroid.favorites.FavoritesFragment_;
+import de.vanmar.android.knitdroid.patterns.PatternFragment;
+import de.vanmar.android.knitdroid.patterns.PatternFragment_;
 import de.vanmar.android.knitdroid.projects.ProjectFragment;
 import de.vanmar.android.knitdroid.projects.ProjectFragment_;
 import de.vanmar.android.knitdroid.projects.ProjectsFragment;
@@ -25,5 +27,9 @@ public class FragmentFactory {
 
     public FavoritesFragment getFavoritesFragment() {
         return new FavoritesFragment_();
+    }
+
+    public PatternFragment getPatternFragment() {
+        return new PatternFragment_();
     }
 }
