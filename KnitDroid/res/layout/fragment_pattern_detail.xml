@@ -48,11 +48,17 @@
             android:textIsSelectable="true"
             android:layout_below="@id/yarn_weight_description" />
 
+        <TextView
+            android:id="@+id/needles"
+            style="@style/Text"
+            android:textIsSelectable="true"
+            android:layout_below="@id/yardage_description" />
+
         <WebView
             android:id="@+id/notes"
             style="@style/Text"
             android:textIsSelectable="true"
-            android:layout_below="@id/yardage_description" />
+            android:layout_below="@id/needles" />
 
     </RelativeLayout>
 

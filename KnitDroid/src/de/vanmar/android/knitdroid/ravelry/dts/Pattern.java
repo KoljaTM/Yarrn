@@ -23,4 +23,6 @@ public class Pattern {
     public String yardage_description;
     @SerializedName("gauge_description")
     public String gauge_description;
+    @SerializedName("pattern_needle_sizes")
+    public List<Needle> pattern_needle_sizes;
 }

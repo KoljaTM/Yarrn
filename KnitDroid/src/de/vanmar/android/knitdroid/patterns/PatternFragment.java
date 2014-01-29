@@ -20,6 +20,8 @@ import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 
+import java.util.List;
+
 import de.vanmar.android.knitdroid.KnitdroidPrefs_;
 import de.vanmar.android.knitdroid.R;
 import de.vanmar.android.knitdroid.components.ImageDialog;
@@ -27,6 +29,7 @@ import de.vanmar.android.knitdroid.projects.PhotoAdapter;
 import de.vanmar.android.knitdroid.ravelry.AbstractRavelryGetRequest;
 import de.vanmar.android.knitdroid.ravelry.IRavelryActivity;
 import de.vanmar.android.knitdroid.ravelry.RavelryResultListener;
+import de.vanmar.android.knitdroid.ravelry.dts.Needle;
 import de.vanmar.android.knitdroid.ravelry.dts.Pattern;
 import de.vanmar.android.knitdroid.ravelry.dts.PatternResult;
 
@@ -50,9 +53,6 @@ public class PatternFragment extends SherlockFragment {
     @ViewById(R.id.author)
     TextView author;
 
-    @ViewById(R.id.notes)
-    WebView notes;
-
     @ViewById(R.id.gauge_description)
     TextView gauge_description;
 
@@ -61,6 +61,12 @@ public class PatternFragment extends SherlockFragment {
 
     @ViewById(R.id.yardage_description)
     TextView yardage_description;
+
+    @ViewById(R.id.needles)
+    TextView needles;
+
+    @ViewById(R.id.notes)
+    WebView notes;
 
     @FragmentArg(ARG_PATTERN_ID)
     int patternId;
@@ -146,11 +152,21 @@ public class PatternFragment extends SherlockFragment {
         gauge_description.setText(getString(R.string.gauge_title) + pattern.gauge_description);
         yarn_weight_description.setText(getString(R.string.yarn_title) + pattern.yarn_weight_description);
         yardage_description.setText(getString(R.string.yardage_title) + pattern.yardage_description);
+        needles.setText(getString(R.string.needles_title) + getNeedlesDescription(pattern.pattern_needle_sizes));
         notes.loadDataWithBaseURL("", pattern.notes_html, "text/html", "UTF-8", "");
 
         adapter.clear();
         adapter.addAll(pattern.photos);
         getView().setVisibility(View.VISIBLE);
+    }
+
+    private String getNeedlesDescription(List<Needle> needles) {
+        StringBuilder needleString = new StringBuilder();
+        if (needles != null)
+            for (Needle needle : needles) {
+                needleString.append('\n').append(needle.name);
+            }
+        return needleString.toString();
     }
 
     @OptionsItem(R.id.menu_refresh)

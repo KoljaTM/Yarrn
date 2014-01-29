@@ -33,4 +33,5 @@
     <string name="gauge_title">gauge: </string>
     <string name="yarn_title">yarn: </string>
     <string name="yardage_title">yardage: </string>
+    <string name="needles_title">needles: </string>
 </resources>
