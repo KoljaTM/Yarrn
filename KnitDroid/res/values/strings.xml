@@ -30,4 +30,7 @@
     <string name="menu_my_favorites">My Favorites</string>
     <string name="my_favorites_title">My Favorites</string>
     <string name="upload_started">Starting upload…</string>
+    <string name="gauge_title">gauge: </string>
+    <string name="yarn_title">yarn: </string>
+    <string name="yardage_title">yardage: </string>
 </resources>

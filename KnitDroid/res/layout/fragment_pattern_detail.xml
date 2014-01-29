@@ -24,6 +24,36 @@
             android:textIsSelectable="true"
             android:layout_below="@id/gallery" />
 
+        <TextView
+            android:id="@+id/author"
+            style="@style/Text"
+            android:textIsSelectable="true"
+            android:layout_below="@id/name" />
+
+        <TextView
+            android:id="@+id/gauge_description"
+            style="@style/Text"
+            android:textIsSelectable="true"
+            android:layout_below="@id/author" />
+
+        <TextView
+            android:id="@+id/yarn_weight_description"
+            style="@style/Text"
+            android:textIsSelectable="true"
+            android:layout_below="@id/gauge_description" />
+
+        <TextView
+            android:id="@+id/yardage_description"
+            style="@style/Text"
+            android:textIsSelectable="true"
+            android:layout_below="@id/yarn_weight_description" />
+
+        <WebView
+            android:id="@+id/notes"
+            style="@style/Text"
+            android:textIsSelectable="true"
+            android:layout_below="@id/yardage_description" />
+
     </RelativeLayout>
 
 </ScrollView>

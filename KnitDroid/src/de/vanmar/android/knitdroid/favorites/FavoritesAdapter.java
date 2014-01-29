@@ -68,7 +68,7 @@ public abstract class FavoritesAdapter extends ArrayAdapter<BookmarkShort> {
         final Favorite favorite = bookmarkShort.favorite;
 
         holder.name.setText(favorite.name);
-        holder.patternName.setText(favorite.patternName);
+        holder.patternName.setText(favorite.patternName == null ? null : '(' + favorite.patternName + ')');
         holder.comment.setText(bookmarkShort.comment);
 
         String imageUrl = null;

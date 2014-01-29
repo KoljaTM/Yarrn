@@ -2,6 +2,7 @@ package de.vanmar.android.knitdroid.patterns;
 
 import android.app.Activity;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.TextView;
 
@@ -40,11 +41,26 @@ public class PatternFragment extends SherlockFragment {
     public interface PatternFragmentListener extends IRavelryActivity {
     }
 
+    @ViewById(R.id.gallery)
+    HorizontalListView gallery;
+
     @ViewById(R.id.name)
     TextView name;
 
-    @ViewById(R.id.gallery)
-    HorizontalListView gallery;
+    @ViewById(R.id.author)
+    TextView author;
+
+    @ViewById(R.id.notes)
+    WebView notes;
+
+    @ViewById(R.id.gauge_description)
+    TextView gauge_description;
+
+    @ViewById(R.id.yarn_weight_description)
+    TextView yarn_weight_description;
+
+    @ViewById(R.id.yardage_description)
+    TextView yardage_description;
 
     @FragmentArg(ARG_PATTERN_ID)
     int patternId;
@@ -126,6 +142,11 @@ public class PatternFragment extends SherlockFragment {
         Pattern pattern = patternResult.pattern;
         getActivity().setTitle(pattern.name);
         name.setText(pattern.name);
+        author.setText(pattern.patternAuthor == null ? null : pattern.patternAuthor.name);
+        gauge_description.setText(getString(R.string.gauge_title) + pattern.gauge_description);
+        yarn_weight_description.setText(getString(R.string.yarn_title) + pattern.yarn_weight_description);
+        yardage_description.setText(getString(R.string.yardage_title) + pattern.yardage_description);
+        notes.loadDataWithBaseURL("", pattern.notes_html, "text/html", "UTF-8", "");
 
         adapter.clear();
         adapter.addAll(pattern.photos);
