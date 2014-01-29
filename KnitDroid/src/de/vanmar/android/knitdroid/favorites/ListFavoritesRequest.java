@@ -24,7 +24,7 @@ public class ListFavoritesRequest extends AbstractRavelryGetRequest<FavoritesRes
 
     protected OAuthRequest getRequest() {
         return new OAuthRequest(Verb.GET, String.format(
-                application.getString(R.string.ravelry_url) + "/people/%s/favorites/list.json?types=project",
+                application.getString(R.string.ravelry_url) + "/people/%s/favorites/list.json?types=project%%20pattern",
                 prefs.username().get()));
     }
 }
