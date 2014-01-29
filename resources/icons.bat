@@ -6,3 +6,11 @@ convert -geometry 48x48 login.png ../KnitDroid/res/drawable-hdpi/login.png
 convert -geometry 32x32 login.png ../KnitDroid/res/drawable-mdpi/login.png
 convert -geometry 64x64 login.png ../KnitDroid/res/drawable-xhdpi/login.png
 
+convert -geometry 48x48 favorites.png ../KnitDroid/res/drawable-hdpi/favorites.png
+convert -geometry 32x32 favorites.png ../KnitDroid/res/drawable-mdpi/favorites.png
+convert -geometry 64x64 favorites.png ../KnitDroid/res/drawable-xhdpi/favorites.png
+
+convert -geometry 48x48 logo.png ../KnitDroid/res/drawable-hdpi/logo.png
+convert -geometry 32x32 logo.png ../KnitDroid/res/drawable-mdpi/logo.png
+convert -geometry 64x64 logo.png ../KnitDroid/res/drawable-xhdpi/logo.png
+
