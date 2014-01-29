@@ -31,18 +31,18 @@ public abstract class AbstractRavelryGetRequest<T extends ETaggable> extends Abs
     @Override
     public T loadDataFromNetwork() throws Exception {
         final OAuthRequest request = getRequest();
-        T dataFromCache = persisterFactory.createObjectPersister(getResultType()).loadDataFromCache(getCacheKey(), DurationInMillis.ALWAYS_RETURNED);
+        /*T dataFromCache = persisterFactory.createObjectPersister(getResultType()).loadDataFromCache(getCacheKey(), DurationInMillis.ALWAYS_RETURNED);
         if (dataFromCache != null) {
             request.addHeader("If-None-Match", dataFromCache.getETag());
-        }
+        }*/
         final Response response = executeRequest(request);
-        if (response.getCode() == 304) {
+        /*if (response.getCode() == 304) {
             return dataFromCache;
-        } else {
-            T result = parseResult(response.getBody());
-            result.setETag(response.getHeader("ETag"));
-            return result;
-        }
+        } else {*/
+        T result = parseResult(response.getBody());
+        result.setETag(response.getHeader("ETag"));
+        return result;
+        /*}*/
     }
 
 
@@ -52,7 +52,7 @@ public abstract class AbstractRavelryGetRequest<T extends ETaggable> extends Abs
 
     public Object getCacheKey() {
         OAuthRequest request = getRequest();
-        return request.getCompleteUrl() + "#" + request.getQueryStringParams().asFormUrlEncodedString();
+        return request.getCompleteUrl();
     }
 
 }
