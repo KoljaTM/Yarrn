@@ -58,14 +58,14 @@ public class MainActivityTest extends
 
         // then
         assertText("Trines Sleeves");
+        assertText("Martian Boy");
 
         // when
-        solo.clickOnText("Trines Sleeves");
+        solo.clickOnText("Martian Boy");
 
         // then
-        assertText("Trines Sleeves");
-        assertText("Started:");
-        assertText("Finished:");
+        assertText("Kati Galusz");
+        assertText("Tenth Doctor");
     }
 
     public void testBackAndForthNavigation() {

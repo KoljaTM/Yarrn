@@ -7,6 +7,7 @@ import java.util.List;
  */
 public class FavoritesResult implements ETaggable {
 
+    public Paginator paginator;
     public List<BookmarkShort> favorites;
     private String etag;
 

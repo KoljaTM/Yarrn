@@ -1,10 +1,10 @@
 {
    "paginator":{
-      "last_page":10,
+      "page_size":25,
       "page":1,
-      "results":250,
-      "page_count":10,
-      "page_size":25
+      "results":50,
+      "last_page":2,
+      "page_count":2
    },
    "favorites":[
       {

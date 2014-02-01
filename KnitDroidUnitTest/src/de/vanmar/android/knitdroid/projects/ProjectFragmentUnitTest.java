@@ -28,6 +28,7 @@ import de.vanmar.android.knitdroid.R;
 import de.vanmar.android.knitdroid.components.ViewEditText;
 import de.vanmar.android.knitdroid.ravelry.dts.Project;
 import de.vanmar.android.knitdroid.ravelry.dts.ProjectResult;
+import de.vanmar.android.knitdroid.ravelry.dts.User;
 import de.vanmar.android.knitdroid.util.TestUtil;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -64,6 +65,7 @@ public class ProjectFragmentUnitTest {
         projectFragment.spiceManager = this.spiceManager;
         ActivityController<MainActivity_> activityController = Robolectric.buildActivity(MainActivity_.class).create();
         MainActivity activity = activityController.get();
+        TestUtil.mockValidUser(activity.prefs);
         activity.fragmentFactory = this.fragmentFactory;
         given(fragmentFactory.getProjectsFragment()).willReturn(projectsFragment);
         given(fragmentFactory.getProjectFragment()).willReturn(projectFragment);
@@ -203,6 +205,9 @@ public class ProjectFragmentUnitTest {
         completed.set(2013, Calendar.JUNE, 21);
         project.completed = completed.getTime();
         project.completedDaySet = false;
+        User user = new User();
+        user.username = TestUtil.USERNAME;
+        project.user = user;
         projectResult.project = project;
         return projectResult;
     }

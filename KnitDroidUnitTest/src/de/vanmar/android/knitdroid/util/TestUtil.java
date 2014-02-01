@@ -14,8 +14,10 @@ import static org.mockito.Mockito.mock;
 
 public class TestUtil {
 
-	public static void mockBackgroundExecutor() {
-		final Executor executor = mock(Executor.class);
+    public static final String USERNAME = "username";
+
+    public static void mockBackgroundExecutor() {
+        final Executor executor = mock(Executor.class);
 
 		BackgroundExecutor.setExecutor(executor);
 		doAnswer(new Answer<Void>() {
@@ -31,8 +33,8 @@ public class TestUtil {
 	}
 
 	public static void mockValidUser(final KnitdroidPrefs_ prefs) {
-		prefs.username().put("username");
-		prefs.accessToken().put("accesstoken");
+        prefs.username().put(USERNAME);
+        prefs.accessToken().put("accesstoken");
 		prefs.accessSecret().put("accesssecret");
 	}
 }

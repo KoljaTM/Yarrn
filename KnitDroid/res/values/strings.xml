@@ -34,4 +34,6 @@
     <string name="yarn_title">yarn: </string>
     <string name="yardage_title">yardage: </string>
     <string name="needles_title">needles: </string>
+    <string name="load_more">More…</string>
+    <string name="loading">Loading…</string>
 </resources>

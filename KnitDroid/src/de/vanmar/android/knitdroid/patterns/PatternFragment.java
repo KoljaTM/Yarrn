@@ -20,6 +20,7 @@ import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 
+import java.util.Collection;
 import java.util.List;
 
 import de.vanmar.android.knitdroid.KnitdroidPrefs_;
@@ -154,10 +155,22 @@ public class PatternFragment extends SherlockFragment {
         yardage_description.setText(getString(R.string.yardage_title) + pattern.yardage_description);
         needles.setText(getString(R.string.needles_title) + getNeedlesDescription(pattern.pattern_needle_sizes));
         notes.loadDataWithBaseURL("", pattern.notes_html, "text/html", "UTF-8", "");
+        hideIfEmpty(gauge_description, pattern.gauge_description);
+        hideIfEmpty(yarn_weight_description, pattern.yarn_weight_description);
+        hideIfEmpty(yardage_description, pattern.yardage_description);
+        hideIfEmpty(needles, pattern.pattern_needle_sizes);
 
         adapter.clear();
         adapter.addAll(pattern.photos);
         getView().setVisibility(View.VISIBLE);
+    }
+
+    private void hideIfEmpty(View view, String value) {
+        view.setVisibility(value != null && !"".equals(value) ? View.VISIBLE : View.GONE);
+    }
+
+    private void hideIfEmpty(View view, Collection values) {
+        view.setVisibility(values != null && !values.isEmpty() ? View.VISIBLE : View.GONE);
     }
 
     private String getNeedlesDescription(List<Needle> needles) {
