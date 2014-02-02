@@ -4,7 +4,6 @@ import android.app.Application;
 import android.net.Uri;
 
 import com.androidquery.util.AQUtility;
-import com.octo.android.robospice.retry.DefaultRetryPolicy;
 
 import org.json.JSONObject;
 import org.scribe.model.OAuthRequest;
@@ -36,7 +35,6 @@ public class PhotoUploadRequest extends AbstractRavelryRequest<String> {
         super(String.class, prefs, application);
         this.photoUri = photoUri;
         this.projectId = projectId;
-        setRetryPolicy(new DefaultRetryPolicy(1, 0, 0));
     }
 
     @Override

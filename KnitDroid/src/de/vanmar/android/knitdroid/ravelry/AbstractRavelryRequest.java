@@ -3,6 +3,7 @@ package de.vanmar.android.knitdroid.ravelry;
 import android.app.Application;
 
 import com.octo.android.robospice.request.springandroid.SpringAndroidSpiceRequest;
+import com.octo.android.robospice.retry.DefaultRetryPolicy;
 
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.model.OAuthRequest;
@@ -24,6 +25,7 @@ public abstract class AbstractRavelryRequest<T> extends SpringAndroidSpiceReques
         super(clazz);
         this.prefs = prefs;
         this.application = application;
+        setRetryPolicy(new DefaultRetryPolicy(1, 0, 0));
     }
 
     protected Response executeRequest(OAuthRequest request) throws RavelryException {
