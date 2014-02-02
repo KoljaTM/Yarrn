@@ -38,4 +38,9 @@
         <item>happiness</item>
         <item>created</item>
     </string-array>
+
+    <string-array name="favorite_search_options">
+        <item>Tags</item>
+        <item>All</item>
+    </string-array>
 </resources>

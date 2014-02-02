@@ -17,4 +17,6 @@ public interface KnitdroidPrefs {
     int projectSort();
 
     boolean projectSortReverse();
+
+    int favoriteSearchOption();
 }

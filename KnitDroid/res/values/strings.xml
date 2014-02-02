@@ -38,4 +38,6 @@
     <string name="loading">Loading…</string>
     <string name="sort_reverse">reverse</string>
     <string name="sort_title">Sort by:</string>
+    <string name="search_title">Search</string>
+    <string name="favorite_search_hint">Search for</string>
 </resources>
