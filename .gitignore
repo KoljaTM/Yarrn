@@ -18,6 +18,7 @@ build
 *.swp
 .DS_Store
 tmp
+Thumbs.db
 
 # Emacs temp files
 *~

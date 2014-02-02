@@ -2,7 +2,12 @@ package de.vanmar.android.knitdroid.projects;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.octo.android.robospice.GsonSpringAndroidSpiceService;
@@ -40,6 +45,12 @@ public class ProjectsFragment extends SherlockFragment {
     @ViewById(R.id.projectlist)
     ListView projectlist;
 
+    @ViewById(R.id.sort)
+    Spinner sort;
+
+    @ViewById(R.id.sort_reverse)
+    CheckBox sortReverse;
+
     @Pref
     KnitdroidPrefs_ prefs;
 
@@ -67,6 +78,31 @@ public class ProjectsFragment extends SherlockFragment {
 
         };
         projectlist.setAdapter(adapter);
+
+        sort.setSelection(prefs.projectSort().get());
+        sort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                applySort();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+        sortReverse.setChecked(prefs.projectSortReverse().get());
+        sortReverse.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                applySort();
+            }
+        });
+    }
+
+    private void applySort() {
+        prefs.projectSort().put(sort.getSelectedItemPosition());
+        prefs.projectSortReverse().put(sortReverse.isChecked());
+        loadProjects();
     }
 
     @UiThread
@@ -107,7 +143,7 @@ public class ProjectsFragment extends SherlockFragment {
         loadProjects();
     }
 
-    private void loadProjects() {
+    void loadProjects() {
         ListProjectsRequest request = new ListProjectsRequest(this.getActivity().getApplication(), prefs);
         spiceManager.execute(request, request.getCacheKey(), AbstractRavelryGetRequest.CACHE_DURATION, new RavelryResultListener<ProjectsResult>(ProjectsFragment.this.listener) {
             @Override

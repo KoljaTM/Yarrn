@@ -24,4 +24,18 @@
         <item>95%</item>
         <item>100%</item>
     </string-array>
+
+    <string-array name="sort_option_names">
+        <item>Name</item>
+        <item>Status</item>
+        <item>Happiness</item>
+        <item>Created</item>
+    </string-array>
+
+    <string-array name="sort_option_values">
+        <item>name</item>
+        <item>status</item>
+        <item>happiness</item>
+        <item>created</item>
+    </string-array>
 </resources>

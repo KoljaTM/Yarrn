@@ -14,4 +14,7 @@ public interface KnitdroidPrefs {
 
     String username();
 
+    int projectSort();
+
+    boolean projectSortReverse();
 }

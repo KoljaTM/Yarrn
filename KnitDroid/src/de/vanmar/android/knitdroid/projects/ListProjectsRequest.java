@@ -24,7 +24,16 @@ public class ListProjectsRequest extends AbstractRavelryGetRequest<ProjectsResul
 
     protected OAuthRequest getRequest() {
         return new OAuthRequest(Verb.GET, String.format(
-                application.getString(R.string.ravelry_url) + "/projects/%s/list.json",
-                prefs.username().get()));
+                application.getString(R.string.ravelry_url) + "/projects/%s/list.json?sort=%s",
+                prefs.username().get(), getSort()));
+    }
+
+    private String getSort() {
+        String sortParam = application.getResources().getStringArray(R.array.sort_option_values)[prefs.projectSort().get()];
+        if (prefs.projectSortReverse().get()) {
+            return sortParam + "_";
+        } else {
+            return sortParam;
+        }
     }
 }

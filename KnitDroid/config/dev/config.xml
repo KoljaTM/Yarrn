@@ -6,6 +6,4 @@
 
     <!--  adjust for actual url where NanoHTTPD is running! -->
     <string name="ravelry_url">http://localhost:8888</string>
-    
-    <string name="bugsense_key"></string>
 </resources>
