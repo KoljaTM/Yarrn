@@ -15,7 +15,6 @@
         <attr name="bodyText" format="string" />
         <attr name="android:inputType" />
         <attr name="android:ems" />
-        <attr name="android:lines" />
     </declare-styleable>
 
 </resources>

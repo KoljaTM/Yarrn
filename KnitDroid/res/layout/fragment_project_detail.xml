@@ -106,8 +106,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/progress"
             android:inputType="textMultiLine"
-            android:ems="20"
-            android:lines="6" />
+            android:ems="20" />
 
     </RelativeLayout>
 

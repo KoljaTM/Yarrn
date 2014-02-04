@@ -26,7 +26,6 @@ public class ViewEditText extends RelativeLayout {
     private final String bodyText;
     private final int inputType;
     private final int ems;
-    private final int lines;
 
     @ViewById(R.id.title)
     TextView title;
@@ -56,7 +55,6 @@ public class ViewEditText extends RelativeLayout {
             bodyText = a.getString(R.styleable.ViewEditText__bodyText);
             this.inputType = a.getInt(R.styleable.ViewEditText__android_inputType, 0);
             this.ems = a.getInt(R.styleable.ViewEditText__android_ems, 10);
-            this.lines = a.getInt(R.styleable.ViewEditText__android_lines, 1);
         } finally {
             a.recycle();
         }
@@ -87,8 +85,6 @@ public class ViewEditText extends RelativeLayout {
         }
     }
 
-    ;
-
     public void setOnSaveListener(OnSaveListener listener) {
         this.onSaveListener = listener;
     }
@@ -107,8 +103,6 @@ public class ViewEditText extends RelativeLayout {
         viewText.setInputType(inputType);
         editText.setEms(ems);
         viewText.setEms(ems);
-        editText.setLines(lines);
-        viewText.setLines(lines);
     }
 
     private void applyEditMode() {
