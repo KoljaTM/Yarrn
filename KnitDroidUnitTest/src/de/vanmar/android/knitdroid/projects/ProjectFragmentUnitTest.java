@@ -29,6 +29,7 @@ import de.vanmar.android.knitdroid.components.ViewEditText;
 import de.vanmar.android.knitdroid.ravelry.dts.Project;
 import de.vanmar.android.knitdroid.ravelry.dts.ProjectResult;
 import de.vanmar.android.knitdroid.ravelry.dts.User;
+import de.vanmar.android.knitdroid.requests.UpdateProjectRequest;
 import de.vanmar.android.knitdroid.util.TestUtil;
 
 import static org.hamcrest.CoreMatchers.is;

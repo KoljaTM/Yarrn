@@ -1,4 +1,4 @@
-package de.vanmar.android.knitdroid.projects;
+package de.vanmar.android.knitdroid.requests;
 
 import android.app.Application;
 
@@ -11,7 +11,6 @@ import org.scribe.model.Verb;
 
 import de.vanmar.android.knitdroid.KnitdroidPrefs_;
 import de.vanmar.android.knitdroid.R;
-import de.vanmar.android.knitdroid.ravelry.AbstractRavelryRequest;
 import de.vanmar.android.knitdroid.ravelry.dts.ProjectResult;
 
 public class UpdateProjectRequest extends AbstractRavelryRequest<ProjectResult> {

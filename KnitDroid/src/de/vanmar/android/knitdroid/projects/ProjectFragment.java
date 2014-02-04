@@ -40,11 +40,13 @@ import de.vanmar.android.knitdroid.KnitdroidPrefs_;
 import de.vanmar.android.knitdroid.R;
 import de.vanmar.android.knitdroid.components.ImageDialog;
 import de.vanmar.android.knitdroid.components.ViewEditText;
-import de.vanmar.android.knitdroid.ravelry.AbstractRavelryGetRequest;
 import de.vanmar.android.knitdroid.ravelry.IRavelryActivity;
 import de.vanmar.android.knitdroid.ravelry.RavelryResultListener;
 import de.vanmar.android.knitdroid.ravelry.dts.Project;
 import de.vanmar.android.knitdroid.ravelry.dts.ProjectResult;
+import de.vanmar.android.knitdroid.requests.AbstractRavelryGetRequest;
+import de.vanmar.android.knitdroid.requests.GetProjectRequest;
+import de.vanmar.android.knitdroid.requests.UpdateProjectRequest;
 
 @EFragment(R.layout.fragment_project_detail)
 @OptionsMenu(R.menu.project_fragment_menu)

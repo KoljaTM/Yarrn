@@ -19,6 +19,7 @@ import de.vanmar.android.knitdroid.FragmentFactory;
 import de.vanmar.android.knitdroid.MainActivity;
 import de.vanmar.android.knitdroid.MainActivity_;
 import de.vanmar.android.knitdroid.R;
+import de.vanmar.android.knitdroid.requests.ListProjectsRequest;
 import de.vanmar.android.knitdroid.util.TestUtil;
 
 import static org.junit.Assert.assertTrue;

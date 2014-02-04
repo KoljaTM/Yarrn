@@ -23,9 +23,9 @@ import java.io.InputStream;
 
 import de.vanmar.android.knitdroid.KnitdroidPrefs_;
 import de.vanmar.android.knitdroid.R;
-import de.vanmar.android.knitdroid.ravelry.AbstractRavelryRequest;
 import de.vanmar.android.knitdroid.ravelry.RavelryException;
 import de.vanmar.android.knitdroid.ravelry.dts.UploadResult;
+import de.vanmar.android.knitdroid.requests.AbstractRavelryRequest;
 
 public class PhotoUploadRequest extends AbstractRavelryRequest<String> {
     private final Uri photoUri;

@@ -32,7 +32,7 @@
         <activity
             android:name="de.vanmar.android.knitdroid.ravelry.GetAccessTokenActivity_"
             android:label="@string/app_name"
-            android:configChanges="orientation|keyboardHidden"></activity>
+            android:configChanges="orientation|keyboardHidden" />
 
         <service
             android:name="com.octo.android.robospice.GsonSpringAndroidSpiceService"

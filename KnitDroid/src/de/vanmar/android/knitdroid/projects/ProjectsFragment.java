@@ -23,11 +23,12 @@ import org.androidannotations.annotations.sharedpreferences.Pref;
 
 import de.vanmar.android.knitdroid.KnitdroidPrefs_;
 import de.vanmar.android.knitdroid.R;
-import de.vanmar.android.knitdroid.ravelry.AbstractRavelryGetRequest;
 import de.vanmar.android.knitdroid.ravelry.IRavelryActivity;
 import de.vanmar.android.knitdroid.ravelry.RavelryResultListener;
 import de.vanmar.android.knitdroid.ravelry.dts.ProjectShort;
 import de.vanmar.android.knitdroid.ravelry.dts.ProjectsResult;
+import de.vanmar.android.knitdroid.requests.AbstractRavelryGetRequest;
+import de.vanmar.android.knitdroid.requests.ListProjectsRequest;
 
 @EFragment(R.layout.fragment_projects)
 @OptionsMenu(R.menu.fragment_menu)

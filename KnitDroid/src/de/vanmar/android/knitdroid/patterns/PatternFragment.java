@@ -27,12 +27,13 @@ import de.vanmar.android.knitdroid.KnitdroidPrefs_;
 import de.vanmar.android.knitdroid.R;
 import de.vanmar.android.knitdroid.components.ImageDialog;
 import de.vanmar.android.knitdroid.projects.PhotoAdapter;
-import de.vanmar.android.knitdroid.ravelry.AbstractRavelryGetRequest;
 import de.vanmar.android.knitdroid.ravelry.IRavelryActivity;
 import de.vanmar.android.knitdroid.ravelry.RavelryResultListener;
 import de.vanmar.android.knitdroid.ravelry.dts.Needle;
 import de.vanmar.android.knitdroid.ravelry.dts.Pattern;
 import de.vanmar.android.knitdroid.ravelry.dts.PatternResult;
+import de.vanmar.android.knitdroid.requests.AbstractRavelryGetRequest;
+import de.vanmar.android.knitdroid.requests.GetPatternRequest;
 
 @EFragment(R.layout.fragment_pattern_detail)
 @OptionsMenu(R.menu.fragment_menu)

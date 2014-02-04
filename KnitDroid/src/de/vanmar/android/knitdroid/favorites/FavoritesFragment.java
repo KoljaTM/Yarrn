@@ -27,13 +27,14 @@ import org.androidannotations.annotations.sharedpreferences.Pref;
 
 import de.vanmar.android.knitdroid.KnitdroidPrefs_;
 import de.vanmar.android.knitdroid.R;
-import de.vanmar.android.knitdroid.ravelry.AbstractRavelryGetRequest;
 import de.vanmar.android.knitdroid.ravelry.IRavelryActivity;
 import de.vanmar.android.knitdroid.ravelry.RavelryResultListener;
 import de.vanmar.android.knitdroid.ravelry.dts.FavoritesResult;
 import de.vanmar.android.knitdroid.ravelry.dts.Paginator;
+import de.vanmar.android.knitdroid.requests.AbstractRavelryGetRequest;
+import de.vanmar.android.knitdroid.requests.ListFavoritesRequest;
 
-import static de.vanmar.android.knitdroid.favorites.ListFavoritesRequest.SearchOption;
+import static de.vanmar.android.knitdroid.requests.ListFavoritesRequest.SearchOption;
 
 @EFragment(R.layout.fragment_favorites)
 public class FavoritesFragment extends Fragment {
@@ -193,7 +194,6 @@ public class FavoritesFragment extends Fragment {
 
     private void requestFavorites(int page) {
         loadingStarted();
-        new RuntimeException().printStackTrace();
         ListFavoritesRequest request = new ListFavoritesRequest(this.getActivity().getApplication(), prefs, page, PAGE_SIZE, searchQuery, searchOption);
         spiceManager.execute(request, request.getCacheKey(), AbstractRavelryGetRequest.CACHE_DURATION, new RavelryResultListener<FavoritesResult>(FavoritesFragment.this.listener) {
             @Override

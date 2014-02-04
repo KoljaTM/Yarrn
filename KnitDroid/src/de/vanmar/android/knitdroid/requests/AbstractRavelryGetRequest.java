@@ -1,4 +1,4 @@
-package de.vanmar.android.knitdroid.ravelry;
+package de.vanmar.android.knitdroid.requests;
 
 import android.app.Application;
 

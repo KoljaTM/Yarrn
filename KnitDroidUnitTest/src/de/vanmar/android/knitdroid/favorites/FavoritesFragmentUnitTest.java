@@ -20,6 +20,7 @@ import de.vanmar.android.knitdroid.FragmentFactory;
 import de.vanmar.android.knitdroid.MainActivity;
 import de.vanmar.android.knitdroid.MainActivity_;
 import de.vanmar.android.knitdroid.projects.ProjectsFragment;
+import de.vanmar.android.knitdroid.requests.ListFavoritesRequest;
 import de.vanmar.android.knitdroid.util.TestUtil;
 
 import static org.mockito.BDDMockito.given;

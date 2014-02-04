@@ -1,4 +1,4 @@
-package de.vanmar.android.knitdroid.ravelry;
+package de.vanmar.android.knitdroid.requests;
 
 import android.app.Application;
 
@@ -15,6 +15,8 @@ import java.util.concurrent.TimeUnit;
 
 import de.vanmar.android.knitdroid.KnitdroidPrefs_;
 import de.vanmar.android.knitdroid.R;
+import de.vanmar.android.knitdroid.ravelry.RavelryApi;
+import de.vanmar.android.knitdroid.ravelry.RavelryException;
 import de.vanmar.android.knitdroid.util.PrefsUtils;
 
 public abstract class AbstractRavelryRequest<T> extends SpringAndroidSpiceRequest<T> {
