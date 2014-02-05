@@ -17,7 +17,6 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.androidquery.util.AQUtility;
 import com.google.gson.JsonObject;
 import com.meetme.android.horizontallistview.HorizontalListView;
-import com.octo.android.robospice.GsonSpringAndroidSpiceService;
 import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
@@ -36,6 +35,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import de.vanmar.android.knitdroid.KnitDroidSpiceService;
 import de.vanmar.android.knitdroid.KnitdroidPrefs_;
 import de.vanmar.android.knitdroid.R;
 import de.vanmar.android.knitdroid.components.ImageDialog;
@@ -115,7 +115,7 @@ public class ProjectFragment extends SherlockFragment {
     @AfterViews
     public void afterViews() {
         if (spiceManager == null) {
-            spiceManager = new SpiceManager(GsonSpringAndroidSpiceService.class);
+            spiceManager = new SpiceManager(KnitDroidSpiceService.class);
         }
         notesListener = new ViewEditText.OnSaveListener() {
             @Override

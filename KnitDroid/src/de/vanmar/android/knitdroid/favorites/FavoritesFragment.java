@@ -14,7 +14,6 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.octo.android.robospice.GsonSpringAndroidSpiceService;
 import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 
@@ -25,6 +24,7 @@ import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 
+import de.vanmar.android.knitdroid.KnitDroidSpiceService;
 import de.vanmar.android.knitdroid.KnitdroidPrefs_;
 import de.vanmar.android.knitdroid.R;
 import de.vanmar.android.knitdroid.ravelry.IRavelryActivity;
@@ -82,7 +82,7 @@ public class FavoritesFragment extends Fragment {
     @AfterViews
     public void afterViews() {
         if (spiceManager == null) {
-            spiceManager = new SpiceManager(GsonSpringAndroidSpiceService.class);
+            spiceManager = new SpiceManager(KnitDroidSpiceService.class);
         }
         adapter = new FavoritesAdapter(getActivity()) {
 

@@ -35,7 +35,7 @@
             android:configChanges="orientation|keyboardHidden" />
 
         <service
-            android:name="com.octo.android.robospice.GsonSpringAndroidSpiceService"
+            android:name="KnitDroidSpiceService"
             android:exported="false" />
     </application>
 

@@ -10,7 +10,6 @@ import android.widget.ListView;
 import android.widget.Spinner;
 
 import com.actionbarsherlock.app.SherlockFragment;
-import com.octo.android.robospice.GsonSpringAndroidSpiceService;
 import com.octo.android.robospice.SpiceManager;
 
 import org.androidannotations.annotations.AfterViews;
@@ -21,6 +20,7 @@ import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 
+import de.vanmar.android.knitdroid.KnitDroidSpiceService;
 import de.vanmar.android.knitdroid.KnitdroidPrefs_;
 import de.vanmar.android.knitdroid.R;
 import de.vanmar.android.knitdroid.ravelry.IRavelryActivity;
@@ -68,7 +68,7 @@ public class ProjectsFragment extends SherlockFragment {
     @AfterViews
     public void afterViews() {
         if (spiceManager == null) {
-            spiceManager = new SpiceManager(GsonSpringAndroidSpiceService.class);
+            spiceManager = new SpiceManager(KnitDroidSpiceService.class);
         }
         adapter = new ProjectsAdapter(getActivity()) {
 

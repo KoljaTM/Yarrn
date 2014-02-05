@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.meetme.android.horizontallistview.HorizontalListView;
-import com.octo.android.robospice.GsonSpringAndroidSpiceService;
 import com.octo.android.robospice.SpiceManager;
 
 import org.androidannotations.annotations.AfterViews;
@@ -23,6 +22,7 @@ import org.androidannotations.annotations.sharedpreferences.Pref;
 import java.util.Collection;
 import java.util.List;
 
+import de.vanmar.android.knitdroid.KnitDroidSpiceService;
 import de.vanmar.android.knitdroid.KnitdroidPrefs_;
 import de.vanmar.android.knitdroid.R;
 import de.vanmar.android.knitdroid.components.ImageDialog;
@@ -83,7 +83,7 @@ public class PatternFragment extends SherlockFragment {
     @AfterViews
     public void afterViews() {
         if (spiceManager == null) {
-            spiceManager = new SpiceManager(GsonSpringAndroidSpiceService.class);
+            spiceManager = new SpiceManager(KnitDroidSpiceService.class);
         }
 
         adapter = new PhotoAdapter(getActivity());
