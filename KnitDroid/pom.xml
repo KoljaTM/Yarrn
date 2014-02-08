@@ -73,6 +73,12 @@
             <artifactId>gson</artifactId>
             <version>2.2.4</version>
         </dependency>
+
+        <dependency>
+            <groupId>ch.acra</groupId>
+            <artifactId>acra</artifactId>
+            <version>4.5.0</version>
+        </dependency>
     </dependencies>
 
     <build>

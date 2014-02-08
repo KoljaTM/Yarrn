@@ -51,6 +51,7 @@
     <orderEntry type="library" name="Maven: org.springframework.android:spring-android-rest-template:1.0.1.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.android:spring-android-core:1.0.1.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.2.4" level="project" />
+    <orderEntry type="library" name="Maven: ch.acra:acra:4.5.0" level="project" />
     <orderEntry type="module" module-name="~apklib-com.actionbarsherlock_actionbarsherlock_4.4.0" />
   </component>
 </module>
