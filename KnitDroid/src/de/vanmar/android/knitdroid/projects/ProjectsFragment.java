@@ -80,7 +80,8 @@ public class ProjectsFragment extends SherlockFragment {
         };
         projectlist.setAdapter(adapter);
 
-        sort.setSelection(prefs.projectSort().get());
+        sort.setOnItemSelectedListener(null);
+        sort.setSelection(prefs.projectSort().get(), false);
         sort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -91,6 +92,8 @@ public class ProjectsFragment extends SherlockFragment {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+
+        sortReverse.setOnCheckedChangeListener(null);
         sortReverse.setChecked(prefs.projectSortReverse().get());
         sortReverse.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
