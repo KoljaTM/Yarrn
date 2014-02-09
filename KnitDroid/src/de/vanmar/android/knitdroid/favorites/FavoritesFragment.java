@@ -97,8 +97,10 @@ public class FavoritesFragment extends Fragment {
             }
 
         };
-        listFooter = getActivity().getLayoutInflater().inflate(R.layout.loading_indicator, favoritelist, false);
-        favoritelist.addFooterView(listFooter);
+        if (listFooter == null) {
+            listFooter = getActivity().getLayoutInflater().inflate(R.layout.loading_indicator, favoritelist, false);
+            favoritelist.addFooterView(listFooter);
+        }
         favoritelist.setAdapter(adapter);
         favoritelist.setOnScrollListener(new FavoritesScrollListener());
 
