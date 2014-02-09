@@ -14,6 +14,8 @@ public class Project {
     public String name;
     @SerializedName("pattern_name")
     public String patternName;
+    @SerializedName("pattern_id")
+    public Integer patternId;
     public int progress;
     @SerializedName("photos")
     public List<Photo> photos = new LinkedList<Photo>();

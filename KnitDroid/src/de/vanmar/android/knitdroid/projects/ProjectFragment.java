@@ -3,6 +3,8 @@ package de.vanmar.android.knitdroid.projects;
 import android.app.Activity;
 import android.net.Uri;
 import android.text.Editable;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ProgressBar;
@@ -65,6 +67,8 @@ public class ProjectFragment extends SherlockFragment {
         void takePhoto();
 
         void pickImage();
+
+        void onPatternSelected(int patternId);
     }
 
     @ViewById(R.id.name)
@@ -231,7 +235,7 @@ public class ProjectFragment extends SherlockFragment {
         getActivity().setTitle(project.name);
         name.setText(project.name);
         rating.setRating(project.rating + 1);
-        patternName.setText(project.patternName);
+        setPatternName(project);
         status.setText(project.status);
         started.setText(getCompletedDateText(project.started, project.startedDaySet));
         completed.setText(getCompletedDateText(project.completed, project.completedDaySet));
@@ -246,6 +250,23 @@ public class ProjectFragment extends SherlockFragment {
         } else {
             setNonEditable();
         }
+    }
+
+    private void setPatternName(final Project project) {
+        String name = project.patternName == null ? "" : project.patternName;
+        SpannableString patternNameText = new SpannableString(name);
+        if (project.patternId != null) {
+            patternNameText.setSpan(new UnderlineSpan(), 0, name.length(), 0);
+            patternName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onPatternSelected(project.patternId);
+                }
+            });
+        } else {
+            patternName.setOnClickListener(null);
+        }
+        patternName.setText(patternNameText);
     }
 
     private void setEditable() {
