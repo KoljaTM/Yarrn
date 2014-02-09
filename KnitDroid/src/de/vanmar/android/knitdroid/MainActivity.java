@@ -2,6 +2,7 @@ package de.vanmar.android.knitdroid;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
+import android.widget.Toast;
 
 import com.androidquery.util.AQUtility;
 
@@ -231,6 +233,24 @@ public class MainActivity extends AbstractRavelryActivity implements
         drawerLayout.closeDrawers();
         startActivity(new Intent(Intent.ACTION_VIEW,
                 Uri.parse(getString(R.string.open_ravelry_url))));
+    }
+
+    @Click(R.id.menu_send_mail)
+    public void menuSendMailClicked() {
+        drawerLayout.closeDrawers();
+        final Intent emailIntent = new Intent(
+                android.content.Intent.ACTION_SEND);
+        final String emailList[] = {getString(R.string.feedback_mail)};
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, emailList);
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.feedback_mail_subject));
+        emailIntent.setType("plain/text");
+        try {
+            startActivity(emailIntent);
+        } catch (final ActivityNotFoundException e) {
+            Toast.makeText(this,
+                    R.string.cannot_send_mail,
+                    Toast.LENGTH_LONG).show();
+        }
     }
 
     @Click(R.id.menu_change_user)

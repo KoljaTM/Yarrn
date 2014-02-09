@@ -33,7 +33,11 @@
             android:drawableLeft="@drawable/ravelry"
             android:text="@string/menu_open_ravelry" />
 
-        <View style="@style/divider_line" />
+        <TextView
+            android:id="@+id/menu_send_mail"
+            style="@style/menu_entry"
+            android:drawableLeft="@drawable/mail"
+            android:text="@string/menu_send_mail" />
 
         <TextView
             android:id="@+id/menu_change_user"

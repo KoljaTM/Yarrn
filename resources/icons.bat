@@ -14,3 +14,7 @@ convert -geometry 48x48 logo.png ../KnitDroid/res/drawable-hdpi/logo.png
 convert -geometry 32x32 logo.png ../KnitDroid/res/drawable-mdpi/logo.png
 convert -geometry 64x64 logo.png ../KnitDroid/res/drawable-xhdpi/logo.png
 
+convert -geometry 48x48 mail.png ../KnitDroid/res/drawable-hdpi/mail.png
+convert -geometry 32x32 mail.png ../KnitDroid/res/drawable-mdpi/mail.png
+convert -geometry 64x64 mail.png ../KnitDroid/res/drawable-xhdpi/mail.png
+
