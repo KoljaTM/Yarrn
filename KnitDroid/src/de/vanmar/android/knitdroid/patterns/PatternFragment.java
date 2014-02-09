@@ -136,7 +136,9 @@ public class PatternFragment extends SherlockFragment {
 
     @Override
     public void onStop() {
-        spiceManager.shouldStop();
+        if (spiceManager.isStarted()) {
+            spiceManager.shouldStop();
+        }
         super.onStop();
     }
 

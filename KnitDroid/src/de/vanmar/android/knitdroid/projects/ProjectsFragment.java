@@ -138,7 +138,6 @@ public class ProjectsFragment extends SherlockFragment {
     public void onStart() {
         super.onStart();
         spiceManager.start(this.getActivity());
-
     }
 
     @Override
@@ -159,7 +158,9 @@ public class ProjectsFragment extends SherlockFragment {
 
     @Override
     public void onStop() {
-        spiceManager.shouldStop();
+        if (spiceManager.isStarted()) {
+            spiceManager.shouldStop();
+        }
         super.onStop();
     }
 

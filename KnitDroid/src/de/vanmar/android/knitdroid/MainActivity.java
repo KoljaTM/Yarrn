@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
@@ -94,26 +95,34 @@ public class MainActivity extends AbstractRavelryActivity implements
         if (projectsFragment == null) {
             projectsFragment = fragmentFactory.getProjectsFragment();
         }
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentManager.popBackStackImmediate(PROJECTS_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-        fragmentTransaction
-                .replace(R.id.content_frame, projectsFragment, PROJECTS_TAG)
-                .addToBackStack(PROJECTS_TAG)
-                .commit();
+        ensureFragment(PROJECTS_TAG, projectsFragment);
     }
 
     private void displayFavoritesFragment() {
         if (favoritesFragment == null) {
             favoritesFragment = fragmentFactory.getFavoritesFragment();
         }
+        ensureFragment(FAVORITES_TAG, favoritesFragment);
+    }
+
+    private void ensureFragment(String tag, Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
+        int backStackEntryCount = fragmentManager.getBackStackEntryCount();
+        if (backStackEntryCount > 0) {
+            FragmentManager.BackStackEntry lastBackStackEntry = fragmentManager.getBackStackEntryAt(backStackEntryCount - 1);
+            if (lastBackStackEntry != null && tag.equals(lastBackStackEntry.getName())) {
+                // already at correct fragment
+                return;
+            }
+        }
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentManager.popBackStackImmediate(FAVORITES_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-        fragmentTransaction
-                .replace(R.id.content_frame, favoritesFragment, FAVORITES_TAG)
-                .addToBackStack(FAVORITES_TAG)
-                .commit();
+        boolean wasPopped = fragmentManager.popBackStackImmediate(tag, 0);
+        if (!wasPopped) {
+            fragmentTransaction
+                    .replace(R.id.content_frame, fragment, tag)
+                    .addToBackStack(tag)
+                    .commit();
+        }
     }
 
 

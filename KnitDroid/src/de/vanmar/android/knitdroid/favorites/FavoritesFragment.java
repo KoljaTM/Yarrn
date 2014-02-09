@@ -184,7 +184,6 @@ public class FavoritesFragment extends Fragment {
     public void onStart() {
         super.onStart();
         spiceManager.start(this.getActivity());
-
     }
 
     @Override
@@ -230,7 +229,9 @@ public class FavoritesFragment extends Fragment {
 
     @Override
     public void onStop() {
-        spiceManager.shouldStop();
+        if (spiceManager.isStarted()) {
+            spiceManager.shouldStop();
+        }
         super.onStop();
     }
 
