@@ -5,11 +5,8 @@
 -verbose
 -optimizations !code/simplification/arithmetic,!field/*,!class/merging/*,!code/allocation/variable
 -ignorewarnings
--renamesourcefileattribute SourceFile
+# -renamesourcefileattribute SourceFile
 -keepattributes SourceFile,LineNumberTable,*Annotation*,Signature
-
-
--keepattributes *Annotation*
 
 -keep public class * extends android.app.Activity
 -keep public class * extends android.app.Application
@@ -113,6 +110,10 @@
 # Note: if you are removing log messages elsewhere in this file then this isn't necessary
 -keep class org.acra.ACRA {
 	*;
+}
+
+-keepnames class org.acra.sender.HttpSender$** {
+    *;
 }
 
 # keep this around for some enums that ACRA needs
