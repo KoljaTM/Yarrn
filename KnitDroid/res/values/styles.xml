@@ -8,12 +8,10 @@
 
 
     <style name="AppBaseTheme" parent="Theme.Sherlock.Light">
-        <item name="android:windowBackground">@drawable/background</item>
         <item name="android:colorBackground">@color/custom_bg_color</item>
     </style>
 
     <style name="KnitDroidTheme" parent="AppBaseTheme">
-        <item name="android:windowBackground">@drawable/background</item>
         <item name="android:colorBackground">@color/custom_bg_color</item>
     </style>
 
