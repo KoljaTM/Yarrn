@@ -15,6 +15,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.widget.Toast;
 
+import com.actionbarsherlock.app.ActionBar;
 import com.androidquery.util.AQUtility;
 
 import org.androidannotations.annotations.Bean;
@@ -23,7 +24,6 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.NonConfigurationInstance;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
-import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 
 import java.io.File;
@@ -39,7 +39,6 @@ import de.vanmar.android.knitdroid.projects.ProjectsFragment.ProjectsFragmentLis
 import de.vanmar.android.knitdroid.util.RequestCode;
 
 @EActivity(resName = "activity_main")
-@OptionsMenu(R.menu.main)
 public class MainActivity extends AbstractRavelryActivity implements
         ProjectsFragmentListener, ProjectFragment.ProjectFragmentListener, FavoritesFragment.FavoritesFragmentListener, PatternFragment.PatternFragmentListener {
 
@@ -67,6 +66,12 @@ public class MainActivity extends AbstractRavelryActivity implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeButtonEnabled(true);
+        }
 
         // get fragments from backstack if available
         projectsFragment = (ProjectsFragment) getSupportFragmentManager().findFragmentByTag(PROJECTS_TAG);
@@ -215,7 +220,8 @@ public class MainActivity extends AbstractRavelryActivity implements
         }
     }
 
-    @OptionsItem(R.id.menu_drawer)
+    @SuppressLint("InlinedApi")
+    @OptionsItem(android.R.id.home)
     void toggleMenu() {
         View drawer = findViewById(R.id.right_drawer);
         if (drawerLayout.isDrawerOpen(drawer)) {

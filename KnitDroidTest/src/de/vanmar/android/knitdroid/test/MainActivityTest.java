@@ -53,7 +53,7 @@ public class MainActivityTest extends
 
     public void testFavorites() {
         // when
-        solo.clickOnActionBarItem(R.id.menu_drawer);
+        openNavigationDrawer();
         selectMyFavoritesMenuEntry();
 
         // then
@@ -83,7 +83,7 @@ public class MainActivityTest extends
         assertText("Started:");
 
         // navigate to faqvorites from navigation drawer
-        solo.clickOnActionBarItem(R.id.menu_drawer);
+        openNavigationDrawer();
         selectMyFavoritesMenuEntry();
         assertText("Trines Sleeves");
 
@@ -102,20 +102,24 @@ public class MainActivityTest extends
         assertText("aqua diva");
 
         // navigate to my projects from navigation drawer
-        solo.clickOnActionBarItem(R.id.menu_drawer);
+        openNavigationDrawer();
         selectMyProjectsMenuEntry();
 
         // my projects page is shown
         assertText("Welthasen Viajante");
 
         // navigate to my projects from navigation drawer again (check for duplicate on stack)
-        solo.clickOnActionBarItem(R.id.menu_drawer);
+        openNavigationDrawer();
         selectMyProjectsMenuEntry();
 
         // back button closes the app
         solo.goBack();
         assertTrue(solo.getCurrentActivity() instanceof MainActivity_);
         assertTrue(solo.getCurrentActivity().isFinishing());
+    }
+
+    private void openNavigationDrawer() {
+        solo.clickOnView(solo.getCurrentActivity().findViewById(android.R.id.home));
     }
 
     private void selectMyProjectsMenuEntry() {
