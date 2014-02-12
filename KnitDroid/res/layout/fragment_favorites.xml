@@ -21,6 +21,12 @@
             android:layout_height="wrap_content"
             android:layout_weight="1" />
 
+        <ImageButton
+            android:id="@+id/delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/delete" />
+
         <Spinner
             android:id="@+id/search_options"
             android:entries="@array/favorite_search_options"

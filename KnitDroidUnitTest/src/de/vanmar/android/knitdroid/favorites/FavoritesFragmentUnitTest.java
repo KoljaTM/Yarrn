@@ -19,10 +19,12 @@ import org.robolectric.util.ActivityController;
 import de.vanmar.android.knitdroid.FragmentFactory;
 import de.vanmar.android.knitdroid.MainActivity;
 import de.vanmar.android.knitdroid.MainActivity_;
+import de.vanmar.android.knitdroid.R;
 import de.vanmar.android.knitdroid.projects.ProjectsFragment;
 import de.vanmar.android.knitdroid.requests.ListFavoritesRequest;
 import de.vanmar.android.knitdroid.util.TestUtil;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
@@ -92,5 +94,17 @@ public class FavoritesFragmentUnitTest {
         // then
         verify(spiceManager).execute(request.capture(), anyString(), anyInt(), any(RequestListener.class));
         request.getValue().getCacheKey().toString().endsWith("tag=Doctor");
+    }
+
+    @Test
+    public void shouldEmptyQueryOnDelete() {
+        // given
+        favoritesFragment.query.setText("Doctor");
+
+        // when
+        favoritesFragment.getView().findViewById(R.id.delete).performClick();
+
+        // then
+        assertEquals("", favoritesFragment.query.getText().toString());
     }
 }

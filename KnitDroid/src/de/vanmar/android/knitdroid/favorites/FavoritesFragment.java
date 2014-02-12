@@ -18,6 +18,7 @@ import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.SystemService;
 import org.androidannotations.annotations.UiThread;
@@ -249,5 +250,10 @@ public class FavoritesFragment extends Fragment {
                 }
             }
         }
+    }
+
+    @Click(R.id.delete)
+    public void onDeleteClicked() {
+        query.setText(null);
     }
 }
