@@ -79,6 +79,12 @@
             <artifactId>acra</artifactId>
             <version>4.5.0</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.google.android.admob</groupId>
+            <artifactId>admob</artifactId>
+            <version>6.4.1-r11.0.0</version>
+        </dependency>
     </dependencies>
 
     <build>
