@@ -4,11 +4,11 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>de.vanmar.android.knitdroid</groupId>
-    <artifactId>knitdroid-parent</artifactId>
+    <groupId>de.vanmar.android.yarrn</groupId>
+    <artifactId>yarrn-parent</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>KnitDroid - Parent</name>
+    <name>Yarrn - Parent</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -87,9 +87,9 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <modules>
-                <module>KnitDroid</module>
-                <module>KnitDroidTest</module>
-                <module>KnitDroidUnitTest</module>
+                <module>Yarrn</module>
+                <module>YarrnTest</module>
+                <module>YarrnUnitTest</module>
             </modules>
         </profile>
         <profile>
@@ -105,14 +105,14 @@
                 </property>
             </activation>
             <modules>
-                <module>KnitDroid</module>
+                <module>Yarrn</module>
             </modules>
         </profile>
     </profiles>
 
     <modules>
-        <module>KnitDroid</module>
-        <module>KnitDroidTest</module>
-        <module>KnitDroidUnitTest</module>
+        <module>Yarrn</module>
+        <module>YarrnTest</module>
+        <module>YarrnUnitTest</module>
     </modules>
 </project>

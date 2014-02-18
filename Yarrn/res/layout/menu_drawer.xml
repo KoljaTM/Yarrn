@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/right_drawer"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_gravity="right"
+    android:background="@color/custom_header_color_light">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:padding="4dp">
+
+        <TextView
+            android:id="@+id/menu_my_projects"
+            style="@style/menu_entry"
+            android:drawableLeft="@drawable/projects"
+            android:text="@string/menu_my_projects" />
+
+        <TextView
+            android:id="@+id/menu_my_favorites"
+            style="@style/menu_entry"
+            android:drawableLeft="@drawable/favorites"
+            android:text="@string/menu_my_favorites" />
+
+        <View style="@style/divider_line" />
+
+        <TextView
+            android:id="@+id/menu_open_ravelry"
+            style="@style/menu_entry"
+            android:drawableLeft="@drawable/ravelry"
+            android:text="@string/menu_open_ravelry" />
+
+        <TextView
+            android:id="@+id/menu_send_mail"
+            style="@style/menu_entry"
+            android:drawableLeft="@drawable/mail"
+            android:text="@string/menu_send_mail" />
+
+        <TextView
+            android:id="@+id/menu_change_user"
+            style="@style/menu_entry"
+            android:drawableLeft="@drawable/login"
+            android:text="@string/menu_change_user" />
+
+    </LinearLayout>
+
+</ScrollView>

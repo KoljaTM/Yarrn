@@ -1,0 +1,138 @@
+{
+  "project":{
+    "tag_names":[
+
+    ],
+    "status_name":"Finished",
+    "rating":4,
+    "permalink":"grumpybum-monster-longies",
+    "name":"Grumpybum Longies - Spielplatztauglich",
+    "size":"6-12M",
+    "pattern_id":172501,
+    "created_at":"2013/02/20 03:10:15 -0500",
+    "user":{
+      "photo_url":"http://avatars.ravelry.com/Jillda/147694414/IMG-20130127-WA0001_Sun_Vignette_Soft_Kevin_Fabric_Ground_large.jpg",
+      "tiny_photo_url":"http://avatars.ravelry.com/Jillda/147694414/IMG-20130127-WA0001_Sun_Vignette_Soft_Kevin_Fabric_Ground_tiny.jpg",
+      "id":900340,
+      "small_photo_url":"http://avatars.ravelry.com/Jillda/147694414/IMG-20130127-WA0001_Sun_Vignette_Soft_Kevin_Fabric_Ground_small.jpg",
+      "username":"Jillda"
+    },
+    "project_status_changed":"2013/03/12 18:40:11 -0400",
+    "completed":"2013/03/12",
+    "updated_at":"2013/03/27 06:48:02 -0400",
+    "photos_count":2,
+    "project_status_id":2,
+    "progress":100,
+    "made_for_user_id":null,
+    "made_for":"no 2",
+    "craft_id":2,
+    "needle_sizes":[
+      {
+        "metric":4.0,
+        "us":"6 ",
+        "hook":"G",
+        "us_steel":null,
+        "knitting":true,
+        "name":"US 6  - 4.0 mm",
+        "id":6,
+        "crochet":false
+      }
+    ],
+    "pattern_name":"Grumpybum Monster Longies",
+    "started":"2013/02/20",
+    "id":10060692,
+    "packs":[
+      {
+        "yarn":null,
+        "yarn_id":null,
+        "yarn_weight":null,
+        "yarn_name":null,
+        "total_grams":null,
+        "project_id":10060692,
+        "shop_id":null,
+        "prefer_metric_weight":true,
+        "prefer_metric_length":false,
+        "ounces_per_skein":null,
+        "dye_lot":"",
+        "shop_name":null,
+        "skeins":null,
+        "id":28507193,
+        "grams_per_skein":null,
+        "color_family_id":null,
+        "colorway":"",
+        "total_meters":null,
+        "stash_id":null,
+        "total_ounces":null,
+        "primary_pack_id":null,
+        "personal_name":"",
+        "quantity_description":null,
+        "meters_per_skein":null,
+        "yards_per_skein":null,
+        "total_yards":null
+      },
+      {
+        "yarn":null,
+        "yarn_id":null,
+        "yarn_weight":null,
+        "yarn_name":"Merino mit Elastan",
+        "total_grams":57,
+        "project_id":10060692,
+        "shop_id":null,
+        "prefer_metric_weight":true,
+        "prefer_metric_length":true,
+        "ounces_per_skein":4.06,
+        "dye_lot":"",
+        "shop_name":"Hamburger Wollfabrik in Hamburg, Hamburg",
+        "skeins":0.5,
+        "id":28507214,
+        "grams_per_skein":115,
+        "color_family_id":9,
+        "colorway":"blau grau",
+        "total_meters":57.5,
+        "stash_id":8034806,
+        "total_ounces":2.01,
+        "primary_pack_id":28507152,
+        "personal_name":null,
+        "quantity_description":"0.5 skeins = 62.9 yards (57.5m)",
+        "meters_per_skein":115.0,
+        "yards_per_skein":125.8,
+        "total_yards":62.9
+      }
+    ],
+    "notes":"Für Größe 38/39: (meine Lieblingskombination)\r\n-60 Maschen italienisch angeschlagen\r\n-dann 6 Übergangsrunden.\r\n-danach 1 Übergangsrunde auf 2/2 Muster für\r\n-70 Runden, \r\n-dann Bumerang -Ferse\r\n-dann Fuß (72 Runden? :unten glatt re. und oben weiter 2/2 Muster )\r\n-dann Bumerang-Ferse als Spitze \r\n-unter den Zähen mit Maschenstich zusammen nähen.\r\n",
+    "user_id":900340,
+    "notes_html":"<p>Für Größe 38/39: (meine Lieblingskombination) <br />-60 Maschen italienisch angeschlagen <br />-dann 6 Übergangsrunden. <br />-danach 1 Übergangsrunde auf 2/2 Muster für <br />-70 Runden, <br />-dann Bumerang -Ferse <br />-dann Fuß (72 Runden? :unten glatt re. und oben weiter 2/2 Muster ) <br />-dann Bumerang-Ferse als Spitze <br />-unter den Zähen mit Maschenstich zusammen nähen.</p>",
+    "favorites_count":0,
+    "craft_name":"Knitting",
+    "comments_count":0,
+    "photos":[
+      {
+        "medium_url":"http://images4.ravelrycache.com/uploads/Jillda/152720832/IMAG0562_medium.jpg",
+        "thumbnail_url":"http://images4.ravelrycache.com/uploads/Jillda/152720832/IMAG0562_thumbnail.jpg",
+        "sort_order":1,
+        "small_url":"http://images4.ravelrycache.com/uploads/Jillda/152720832/IMAG0562_small_best_fit.jpg",
+        "id":30294733,
+        "x_offset":0,
+        "shelved_url":"http://images4.ravelrycache.com/uploads/Jillda/152720832/IMAG0562_shelved.jpg",
+        "y_offset":-43,
+        "flickr_url":null,
+        "square_url":"http://images4-b.ravelrycache.com/uploads/Jillda/152720832/IMAG0562_square.jpg"
+      },
+      {
+        "medium_url":"http://images4-b.ravelrycache.com/uploads/Jillda/149076804/IMAG0341_medium.jpg",
+        "thumbnail_url":"http://images4.ravelrycache.com/uploads/Jillda/149076804/IMAG0341_thumbnail.jpg",
+        "sort_order":2,
+        "small_url":"http://images4.ravelrycache.com/uploads/Jillda/149076804/IMAG0341_small_best_fit.jpg",
+        "id":29826649,
+        "x_offset":-43,
+        "shelved_url":"http://images4-b.ravelrycache.com/uploads/Jillda/149076804/IMAG0341_shelved.jpg",
+        "y_offset":0,
+        "flickr_url":null,
+        "square_url":"http://images4.ravelrycache.com/uploads/Jillda/149076804/IMAG0341_square.jpg"
+      }
+    ]
+  },
+  "comments":[
+
+  ]
+}

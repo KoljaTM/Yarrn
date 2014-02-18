@@ -1,0 +1,95 @@
+{
+  "project":{
+    "tag_names":[
+      "socken"
+    ],
+    "status_name":"Finished",
+    "rating":3,
+    "permalink":"grundmodell-2---die-bumerang-socke",
+    "name":"Socke mit Bumerang Ferse,  auch als Spitze",
+    "size":"38 - 39",
+    "pattern_id":79647,
+    "created_at":"2013/02/06 06:24:12 -0500",
+    "user":{
+      "photo_url":"http://avatars.ravelry.com/Jillda/147694414/IMG-20130127-WA0001_Sun_Vignette_Soft_Kevin_Fabric_Ground_large.jpg",
+      "tiny_photo_url":"http://avatars.ravelry.com/Jillda/147694414/IMG-20130127-WA0001_Sun_Vignette_Soft_Kevin_Fabric_Ground_tiny.jpg",
+      "id":900340,
+      "small_photo_url":"http://avatars.ravelry.com/Jillda/147694414/IMG-20130127-WA0001_Sun_Vignette_Soft_Kevin_Fabric_Ground_small.jpg",
+      "username":"Jillda"
+    },
+    "project_status_changed":"2013/04/08 14:55:25 -0400",
+    "completed":"2013/04/08",
+    "updated_at":"2013/04/08 14:57:09 -0400",
+    "photos_count":3,
+    "project_status_id":2,
+    "progress":100,
+    "made_for_user_id":null,
+    "made_for":"",
+    "craft_id":2,
+    "needle_sizes":[
+      {
+        "metric":2.5,
+        "us":"1½",
+        "hook":null,
+        "us_steel":null,
+        "knitting":true,
+        "name":"US 1½ - 2.5 mm",
+        "id":21,
+        "crochet":false
+      }
+    ],
+    "pattern_name":"Grundmodell 2 - Die Bumerang-Socke",
+    "started":"2012/01/07",
+    "id":9962821,
+    "packs":[
+
+    ],
+    "notes":"Für Größe 38/39: (meine Lieblingskombination)\r\n-60 Maschen italienisch angeschlagen\r\n-dann 6 Übergangsrunden.\r\n-danach 1 Übergangsrunde auf 2/2 Muster für\r\n-70 Runden, \r\n-dann Bumerang-Ferse mit zweifachen Doppelmaschen\r\n-dann Fuß (72 Runden :unten glatt re. und oben weiter 2/2 Muster )\r\n-dann Bumerang-Ferse als Spitze \r\n-unter den Zähen mit Maschenstich zusammen nähen.\r\n\r\nbisher meine liebste Zusammenstellung für meine Socken.\r\n\r\nFür mich mal zum Ausprobieren:\r\n extra Spickel zunehmen für mehr Platz am Spann? \r\n",
+    "user_id":900340,
+    "notes_html":"<p>Für Größe 38/39: (meine Lieblingskombination) <br />-60 Maschen italienisch angeschlagen <br />-dann 6 Übergangsrunden. <br />-danach 1 Übergangsrunde auf 2/2 Muster für <br />-70 Runden, <br />-dann Bumerang-Ferse mit zweifachen Doppelmaschen <br />-dann Fuß (72 Runden :unten glatt re. und oben weiter 2/2 Muster ) <br />-dann Bumerang-Ferse als Spitze <br />-unter den Zähen mit Maschenstich zusammen nähen.</p>\n\n<p>bisher meine liebste Zusammenstellung für meine Socken.</p>\n\n<p>Für mich mal zum Ausprobieren: <br /> extra Spickel zunehmen für mehr Platz am Spann?</p>",
+    "favorites_count":0,
+    "craft_name":"Knitting",
+    "comments_count":0,
+    "photos":[
+      {
+        "medium_url":"http://images4.ravelrycache.com/uploads/Jillda/146135606/IMAG0238_medium.jpg",
+        "thumbnail_url":"http://images4.ravelrycache.com/uploads/Jillda/146135606/IMAG0238_thumbnail.jpg",
+        "sort_order":1,
+        "small_url":"http://images4.ravelrycache.com/uploads/Jillda/146135606/IMAG0238_small_best_fit.jpg",
+        "id":29450122,
+        "x_offset":0,
+        "shelved_url":"http://images4-b.ravelrycache.com/uploads/Jillda/146135606/IMAG0238_shelved.jpg",
+        "y_offset":-43,
+        "flickr_url":null,
+        "square_url":"http://images4.ravelrycache.com/uploads/Jillda/146135606/IMAG0238_square.jpg"
+      },
+      {
+        "medium_url":"http://images4-b.ravelrycache.com/uploads/Jillda/156920616/IMAG0770_medium.jpg",
+        "thumbnail_url":"http://images4-b.ravelrycache.com/uploads/Jillda/156920616/IMAG0770_thumbnail.jpg",
+        "sort_order":2,
+        "small_url":"http://images4-b.ravelrycache.com/uploads/Jillda/156920616/IMAG0770_small_best_fit.jpg",
+        "id":30830589,
+        "x_offset":-43,
+        "shelved_url":"http://images4.ravelrycache.com/uploads/Jillda/156920616/IMAG0770_shelved.jpg",
+        "y_offset":0,
+        "flickr_url":null,
+        "square_url":"http://images4-b.ravelrycache.com/uploads/Jillda/156920616/IMAG0770_square.jpg"
+      },
+      {
+        "medium_url":"http://images4-b.ravelrycache.com/uploads/Jillda/157652889/IMAG0779Socken_medium.jpg",
+        "thumbnail_url":"http://images4.ravelrycache.com/uploads/Jillda/157652889/IMAG0779Socken_thumbnail.jpg",
+        "sort_order":3,
+        "small_url":"http://images4.ravelrycache.com/uploads/Jillda/157652889/IMAG0779Socken_small_best_fit.jpg",
+        "id":30923201,
+        "x_offset":0,
+        "shelved_url":"http://images4-b.ravelrycache.com/uploads/Jillda/157652889/IMAG0779Socken_shelved.jpg",
+        "y_offset":-43,
+        "flickr_url":null,
+        "square_url":"http://images4.ravelrycache.com/uploads/Jillda/157652889/IMAG0779Socken_square.jpg"
+      }
+    ]
+  },
+  "comments":[
+
+  ]
+}

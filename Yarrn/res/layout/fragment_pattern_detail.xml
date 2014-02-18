@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/de.vanmar.android.yarrn"
+    android:id="@+id/fragment_pattern_detail"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    android:background="@drawable/border">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.meetme.android.horizontallistview.HorizontalListView
+            android:id="@+id/gallery"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            app:dividerWidth="3dp"
+            android:layout_alignParentTop="true" />
+
+        <TextView
+            android:id="@+id/name"
+            style="@style/Headline"
+            android:textIsSelectable="true"
+            android:layout_below="@id/gallery" />
+
+        <TextView
+            android:id="@+id/author"
+            style="@style/Text"
+            android:textIsSelectable="true"
+            android:layout_below="@id/name" />
+
+        <TextView
+            android:id="@+id/gauge_description"
+            style="@style/Text"
+            android:textIsSelectable="true"
+            android:layout_below="@id/author" />
+
+        <TextView
+            android:id="@+id/yarn_weight_description"
+            style="@style/Text"
+            android:textIsSelectable="true"
+            android:layout_below="@id/gauge_description" />
+
+        <TextView
+            android:id="@+id/yardage_description"
+            style="@style/Text"
+            android:textIsSelectable="true"
+            android:layout_below="@id/yarn_weight_description" />
+
+        <TextView
+            android:id="@+id/needles"
+            style="@style/Text"
+            android:textIsSelectable="true"
+            android:layout_below="@id/yardage_description" />
+
+        <WebView
+            android:id="@+id/notes"
+            style="@style/Text"
+            android:textIsSelectable="true"
+            android:layout_below="@id/needles" />
+
+    </RelativeLayout>
+
+</ScrollView>

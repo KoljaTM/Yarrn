@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@drawable/border">
+
+    <LinearLayout
+        android:id="@+id/progressOuter"
+        android:orientation="vertical"
+        android:weightSum="100"
+        android:layout_alignParentLeft="true"
+        android:layout_width="3dp"
+        android:layout_height="45dp"
+        android:gravity="bottom"
+        android:background="@color/progressbar_bgcolor">
+
+        <LinearLayout
+            android:layout_weight="60"
+            android:id="@+id/progress"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/progressbar_fgcolor" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/thumb"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_toRightOf="@+id/progressOuter"
+        android:contentDescription="@string/projectimage" />
+
+    <TextView
+        android:id="@+id/name"
+        style="@style/Headline"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/thumb"
+        android:textIsSelectable="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false" />
+
+    <TextView
+        android:id="@+id/pattern_name"
+        style="@style/Text"
+        android:layout_below="@id/name"
+        android:layout_toRightOf="@+id/thumb"
+        android:textIsSelectable="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false" />
+
+</RelativeLayout>

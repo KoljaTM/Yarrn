@@ -1,0 +1,57 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <color name="custom_header_color_dark">#FFAB7E78</color>
+    <color name="custom_header_color">#FFCEB5B0</color>
+    <color name="custom_header_color_light">#FFE4D8D6</color>
+    <color name="custom_bg_color">#FFEDEAD9</color>
+    <color name="status_bar_color">#FFFCFCCF</color>
+    <color name="listitem_bg_color">#FFFFFFFF</color>
+    <color name="listitem_active_color">#FFFCFCCF</color>
+    <color name="progressbar_fgcolor">#FFDD5555</color>
+    <color name="progressbar_bgcolor">#FFBBBBBB</color>
+
+
+    <style name="AppBaseTheme" parent="Theme.Sherlock.Light"></style>
+
+    <style name="YarrnTheme" parent="AppBaseTheme">
+        <item name="actionBarStyle">@style/Widget.Styled.ActionBar</item>
+        <item name="android:actionBarStyle" tools:ignore="NewApi">@style/Widget.Styled.ActionBar
+        </item>
+    </style>
+
+    <style name="Widget.Styled.ActionBar" parent="Widget.Sherlock.Light.ActionBar.Solid">
+        <item name="background">@color/custom_header_color</item>
+        <item name="android:background">@color/custom_header_color</item>
+    </style>
+
+    <style name="Headline" parent="@android:style/TextAppearance.Medium">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="Text" parent="@android:style/TextAppearance.Small">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">4dp</item>
+    </style>
+
+    <style name="Button" parent="@android:style/TextAppearance.Widget.Button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="menu_entry" parent="android:TextAppearance.Medium">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">4dp</item>
+        <item name="android:gravity">center|left</item>
+        <item name="android:drawablePadding">5dp</item>
+
+    </style>
+
+    <style name="divider_line">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">1dip</item>
+        <item name="android:background">#000000</item>
+    </style>
+
+</resources>
