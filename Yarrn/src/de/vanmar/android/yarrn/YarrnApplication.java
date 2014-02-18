@@ -18,6 +18,7 @@ import org.androidannotations.annotations.UiThread;
 import java.io.File;
 import java.lang.Thread.UncaughtExceptionHandler;
 
+import de.vanmar.android.yarrn.util.SslCertificateHelper;
 import de.vanmar.android.yarrn.util.UiHelper;
 
 @EApplication
@@ -41,7 +42,7 @@ public class YarrnApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        //SslCertificateHelper.trustGeotrustCertificate(this);
+        SslCertificateHelper.trustGeotrustCertificate(this);
         ACRA.init(this);
 
         AQUtility.setExceptionHandler(new UncaughtExceptionHandler() {

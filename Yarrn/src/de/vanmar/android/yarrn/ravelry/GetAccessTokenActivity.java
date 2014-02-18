@@ -9,6 +9,9 @@ import android.webkit.SslErrorHandler;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.androidquery.util.AQUtility;
+
+import org.acra.ACRA;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.UiThread;
@@ -96,7 +99,15 @@ public class GetAccessTokenActivity extends Activity {
                 .provider(new RavelryApi(getString(R.string.ravelry_url)))
                 .apiKey(apiKey).apiSecret(apiSecret).callback(callback).build();
 
-        final Token requestToken = service.getRequestToken();
+        final Token requestToken;
+        try {
+            requestToken = service.getRequestToken();
+        } catch (Exception e) {
+            AQUtility.report(e);
+            ACRA.getErrorReporter().handleSilentException(e);
+            moveTaskToBack(true);
+            return;
+        }
         final String authURL = service.getAuthorizationUrl(requestToken);
 
         callAuthPage(callback, service, requestToken, authURL);
