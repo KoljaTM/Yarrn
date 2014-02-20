@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <string name="api_key">api-key</string>
-    <string name="api_secret">api-secret</string>
-
-    <!--  adjust for actual url where NanoHTTPD is running! -->
-    <string name="ravelry_url">http://localhost:8888</string>
-</resources>
