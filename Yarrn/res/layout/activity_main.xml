@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <!-- The main content view -->
-    <LinearLayout
+    <RelativeLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -14,20 +14,21 @@
         <FrameLayout
             android:id="@+id/content_frame"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:layout_height="match_parent" />
 
         <com.google.ads.AdView
             android:id="@+id/adView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
             android:gravity="center"
             ads:adUnitId="ca-app-pub-9064469114375841/6778052812"
             ads:adSize="BANNER"
             ads:testDevices="TEST_EMULATOR, TEST_DEVICE_ID"
             ads:loadAdOnCreate="true" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
     <!-- The navigation drawer -->
     <include layout="@layout/menu_drawer" />
