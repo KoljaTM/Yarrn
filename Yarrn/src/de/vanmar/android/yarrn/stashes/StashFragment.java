@@ -28,6 +28,7 @@ import de.vanmar.android.yarrn.ravelry.IRavelryActivity;
 import de.vanmar.android.yarrn.ravelry.RavelryResultListener;
 import de.vanmar.android.yarrn.ravelry.dts.Stash;
 import de.vanmar.android.yarrn.ravelry.dts.StashResult;
+import de.vanmar.android.yarrn.ravelry.dts.YarnFiber;
 import de.vanmar.android.yarrn.requests.AbstractRavelryGetRequest;
 import de.vanmar.android.yarrn.requests.GetStashRequest;
 
@@ -51,6 +52,15 @@ public class StashFragment extends SherlockFragment {
 
     @ViewById(R.id.location)
     TextView location;
+
+    @ViewById(R.id.details)
+    TextView details;
+
+    @ViewById(R.id.color_title)
+    TextView colorTitle;
+
+    @ViewById(R.id.color)
+    TextView color;
 
     @ViewById(R.id.notes)
     WebView notes;
@@ -140,18 +150,46 @@ public class StashFragment extends SherlockFragment {
         getActivity().setTitle(stash.name);
         name.setText(stash.name);
         location.setText(stash.location);
+        hideIfEmpty(location, stash.location);
+        String detailString = getDetailString(stash);
+        details.setText(detailString);
+        hideIfEmpty(details, detailString);
+        color.setText(stash.color);
+        hideIfEmpty(color, stash.color);
+        hideIfEmpty(colorTitle, stash.color);
         notes.loadDataWithBaseURL("", stash.notes_html, "text/html", "UTF-8", "");
 
         adapter.clear();
         adapter.addAll(stash.photos);
+        if (stash.yarn != null) {
+            adapter.addAll(stash.yarn.photos);
+        }
+
         getView().setVisibility(View.VISIBLE);
     }
 
-    /*
+    private String getDetailString(Stash stash) {
+        StringBuilder details = new StringBuilder();
+        if (stash.yarn != null && stash.yarn.yarnWeight != null) {
+            if (stash.yarn.yarnWeight.name != null)
+                details.append(stash.yarn.yarnWeight.name);
+            if (stash.yarn.yarnWeight.ply != null)
+                details.append(' ').append(stash.yarn.yarnWeight.ply).append(getString(R.string.ply));
+        }
+        if (stash.yarn != null && stash.yarn.yarnFibers != null) {
+            for (YarnFiber fiber : stash.yarn.yarnFibers) {
+                if (fiber.fiberType != null)
+                    details.append(' ').append(fiber.percentage).append("% ").append(fiber.fiberType.name);
+            }
+        }
+        return details.toString();
+    }
+
     private void hideIfEmpty(View view, String value) {
         view.setVisibility(value != null && !"".equals(value) ? View.VISIBLE : View.GONE);
     }
 
+    /*
     private void hideIfEmpty(View view, Collection values) {
         view.setVisibility(values != null && !values.isEmpty() ? View.VISIBLE : View.GONE);
     }*/

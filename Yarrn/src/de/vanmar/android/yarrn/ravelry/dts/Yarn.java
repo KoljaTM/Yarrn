@@ -6,20 +6,20 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * http://www.ravelry.com/api#Stash_full_result
+ * http://www.ravelry.com/api#Yarn__result
  */
-public class Stash {
+public class Yarn {
     public int id;
     @SerializedName("name")
     public String name;
-    @SerializedName("location")
-    public String location;
-    @SerializedName("colorway_name")
-    public String color;
+    @SerializedName("yarn_company_name")
+    public String yarnCompany;
+    @SerializedName("yarn_weight")
+    public YarnWeight yarnWeight;
+    @SerializedName("yarn_fibers")
+    public List<YarnFiber> yarnFibers = new LinkedList<YarnFiber>();
     @SerializedName("photos")
     public List<Photo> photos = new LinkedList<Photo>();
     @SerializedName("notes_html")
     public String notes_html;
-    @SerializedName("yarn")
-    public Yarn yarn;
 }

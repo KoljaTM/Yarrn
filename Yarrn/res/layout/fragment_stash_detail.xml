@@ -30,11 +30,31 @@
             android:textIsSelectable="true"
             android:layout_below="@id/name" />
 
+        <TextView
+            android:id="@+id/details"
+            style="@style/Text"
+            android:textIsSelectable="true"
+            android:layout_below="@id/location" />
+
+        <TextView
+            android:id="@+id/color_title"
+            style="@style/Text"
+            android:textIsSelectable="true"
+            android:text="@string/stash_color_title"
+            android:layout_below="@id/details" />
+
+        <TextView
+            android:id="@+id/color"
+            style="@style/Text"
+            android:textIsSelectable="true"
+            android:layout_toRightOf="@id/color_title"
+            android:layout_below="@id/details" />
+
         <WebView
             android:id="@+id/notes"
             style="@style/Text"
             android:textIsSelectable="true"
-            android:layout_below="@id/location" />
+            android:layout_below="@id/color_title" />
 
     </RelativeLayout>
 

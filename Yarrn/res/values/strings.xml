@@ -52,4 +52,6 @@
     <string name="feedback_mail_subject">Feedback for Yarrn!</string>
     <string name="my_stashes_title">My Stashes</string>
     <string name="menu_my_stashes">My Stashes</string>
+    <string name="stash_color_title">Color:</string>
+    <string name="ply">ply</string>
 </resources>

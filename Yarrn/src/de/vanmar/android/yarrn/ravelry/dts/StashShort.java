@@ -12,4 +12,6 @@ public class StashShort {
     public Photo firstPhoto;
     @SerializedName("location")
     public String location;
+    @SerializedName("yarn")
+    public Yarn yarn;
 }
