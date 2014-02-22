@@ -161,9 +161,6 @@ public class StashFragment extends SherlockFragment {
 
         adapter.clear();
         adapter.addAll(stash.photos);
-        if (stash.yarn != null) {
-            adapter.addAll(stash.yarn.photos);
-        }
 
         getView().setVisibility(View.VISIBLE);
     }
@@ -178,8 +175,12 @@ public class StashFragment extends SherlockFragment {
         }
         if (stash.yarn != null && stash.yarn.yarnFibers != null) {
             for (YarnFiber fiber : stash.yarn.yarnFibers) {
-                if (fiber.fiberType != null)
-                    details.append(' ').append(fiber.percentage).append("% ").append(fiber.fiberType.name);
+                if (fiber.fiberType != null) {
+                    details.append(' ');
+                    if (fiber.percentage > 0)
+                        details.append(fiber.percentage).append("% ");
+                    details.append(fiber.fiberType.name);
+                }
             }
         }
         return details.toString();

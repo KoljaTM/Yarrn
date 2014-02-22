@@ -28,7 +28,7 @@ public class ListProjectsRequest extends AbstractRavelryGetRequest<ProjectsResul
     }
 
     private String getSort() {
-        String sortParam = application.getResources().getStringArray(R.array.sort_option_values)[prefs.projectSort().get()];
+        String sortParam = application.getResources().getStringArray(R.array.project_sort_option_values)[prefs.projectSort().get()];
         if (prefs.projectSortReverse().get()) {
             return sortParam + "_";
         } else {

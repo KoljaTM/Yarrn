@@ -24,7 +24,7 @@
             android:id="@+id/sort"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:entries="@array/sort_option_names"
+            android:entries="@array/project_sort_option_names"
             android:layout_toRightOf="@id/sort_title"
             android:layout_alignParentTop="true" />
 

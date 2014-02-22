@@ -25,15 +25,15 @@
         <item>100%</item>
     </string-array>
 
-    <string-array name="sort_option_names">
-        <item>Name</item>
+    <string-array name="project_sort_option_names">
+    <item>Name</item>
         <item>Status</item>
         <item>Happiness</item>
         <item>Created</item>
     </string-array>
 
-    <string-array name="sort_option_values">
-        <item>name</item>
+    <string-array name="project_sort_option_values">
+    <item>name</item>
         <item>status</item>
         <item>happiness</item>
         <item>created</item>
@@ -43,4 +43,21 @@
         <item>Tags</item>
         <item>All</item>
     </string-array>
+
+    <string-array name="stash_sort_option_names">
+        <item>Name</item>
+        <item>Last added</item>
+        <item>Weight</item>
+        <item>Color family</item>
+        <item>Yards</item>
+    </string-array>
+
+    <string-array name="stash_sort_option_values">
+        <item>name</item>
+        <item>recent</item>
+        <item>weight</item>
+        <item>colorfamily</item>
+        <item>yards</item>
+    </string-array>
+
 </resources>

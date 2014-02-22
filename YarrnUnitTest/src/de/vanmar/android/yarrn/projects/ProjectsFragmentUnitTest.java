@@ -71,7 +71,7 @@ public class ProjectsFragmentUnitTest {
     public void shouldAcceptSortOrders() {
         // given
         reset(spiceManager);
-        assertTrue(activity.getResources().getStringArray(R.array.sort_option_values)[2].equals("happiness"));
+        assertTrue(activity.getResources().getStringArray(R.array.project_sort_option_values)[2].equals("happiness"));
 
         // when
         projectsFragment.sort.setSelection(2);

@@ -28,7 +28,7 @@ public class ListStashesRequest extends AbstractRavelryGetRequest<StashesResult>
     }
 
     private String getSort() {
-        String sortParam = application.getResources().getStringArray(R.array.sort_option_values)[prefs.stashSort().get()];
+        String sortParam = application.getResources().getStringArray(R.array.stash_sort_option_values)[prefs.stashSort().get()];
         if (prefs.stashSortReverse().get()) {
             return sortParam + "_";
         } else {
