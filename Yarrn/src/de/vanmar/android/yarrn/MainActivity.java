@@ -36,11 +36,17 @@ import de.vanmar.android.yarrn.patterns.PatternFragment;
 import de.vanmar.android.yarrn.projects.ProjectFragment;
 import de.vanmar.android.yarrn.projects.ProjectsFragment;
 import de.vanmar.android.yarrn.projects.ProjectsFragment.ProjectsFragmentListener;
+import de.vanmar.android.yarrn.stashes.StashFragment;
+import de.vanmar.android.yarrn.stashes.StashesFragment;
 import de.vanmar.android.yarrn.util.RequestCode;
 
 @EActivity(resName = "activity_main")
 public class MainActivity extends AbstractRavelryActivity implements
-        ProjectsFragmentListener, ProjectFragment.ProjectFragmentListener, FavoritesFragment.FavoritesFragmentListener, PatternFragment.PatternFragmentListener {
+        ProjectsFragmentListener, ProjectFragment.ProjectFragmentListener,
+        FavoritesFragment.FavoritesFragmentListener,
+        PatternFragment.PatternFragmentListener,
+        StashesFragment.StashesFragmentListener,
+        StashFragment.StashFragmentListener {
 
     private static final String JPEG_FILE_PREFIX = "IMG_";
 
@@ -49,12 +55,15 @@ public class MainActivity extends AbstractRavelryActivity implements
     public static final String PATTERN_DETAIL_TAG = "patternDetail";
     public static final String PROJECTS_TAG = "projects";
     public static final String FAVORITES_TAG = "favorites";
+    public static final String STASHES_TAG = "stashes";
+    public static final String STASH_DETAIL_TAG = "stashDetail";
 
     @NonConfigurationInstance
     Uri photoUri;
 
     public ProjectsFragment projectsFragment;
     public FavoritesFragment favoritesFragment;
+    public StashesFragment stashesFragment;
 
     @Bean
     public
@@ -108,6 +117,13 @@ public class MainActivity extends AbstractRavelryActivity implements
             favoritesFragment = fragmentFactory.getFavoritesFragment();
         }
         ensureFragment(FAVORITES_TAG, favoritesFragment);
+    }
+
+    private void displayStashesFragment() {
+        if (stashesFragment == null) {
+            stashesFragment = fragmentFactory.getStashesFragment();
+        }
+        ensureFragment(STASHES_TAG, stashesFragment);
     }
 
     private void ensureFragment(String tag, Fragment fragment) {
@@ -164,6 +180,25 @@ public class MainActivity extends AbstractRavelryActivity implements
     @Override
     public void onPatternSelected(final int patternId) {
         displayPatternDetailFragment(patternId);
+    }
+
+    private void displayStashDetailFragment(final int stashId, String username) {
+        StashFragment stashFragment = fragmentFactory.getStashFragment();
+        Bundle args = new Bundle();
+        args.putInt(StashFragment.ARG_STASH_ID, stashId);
+        args.putString(StashFragment.ARG_USERNAME, username);
+        stashFragment.setArguments(args);
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.content_frame, stashFragment, STASH_DETAIL_TAG)
+                .addToBackStack(STASH_DETAIL_TAG)
+                .commit();
+    }
+
+
+    @Override
+    public void onStashSelected(final int stashId, String username) {
+        displayStashDetailFragment(stashId, username);
     }
 
     @Override
@@ -241,6 +276,12 @@ public class MainActivity extends AbstractRavelryActivity implements
     public void menuMyFavoritesClicked() {
         drawerLayout.closeDrawers();
         displayFavoritesFragment();
+    }
+
+    @Click(R.id.menu_my_stashes)
+    public void menuMyStashesClicked() {
+        drawerLayout.closeDrawers();
+        displayStashesFragment();
     }
 
     @Click(R.id.menu_open_ravelry)

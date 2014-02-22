@@ -10,6 +10,10 @@ import de.vanmar.android.yarrn.projects.ProjectFragment;
 import de.vanmar.android.yarrn.projects.ProjectFragment_;
 import de.vanmar.android.yarrn.projects.ProjectsFragment;
 import de.vanmar.android.yarrn.projects.ProjectsFragment_;
+import de.vanmar.android.yarrn.stashes.StashFragment;
+import de.vanmar.android.yarrn.stashes.StashFragment_;
+import de.vanmar.android.yarrn.stashes.StashesFragment;
+import de.vanmar.android.yarrn.stashes.StashesFragment_;
 
 /**
  * Created by Kolja on 28.01.14.
@@ -31,5 +35,13 @@ public class FragmentFactory {
 
     public PatternFragment getPatternFragment() {
         return new PatternFragment_();
+    }
+
+    public StashesFragment getStashesFragment() {
+        return new StashesFragment_();
+    }
+
+    public StashFragment getStashFragment() {
+        return new StashFragment_();
     }
 }

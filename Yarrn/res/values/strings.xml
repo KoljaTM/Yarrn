@@ -50,4 +50,6 @@
     <string name="feedback_mail">vanmar.development@gmail.com</string>
     <string name="cannot_send_mail">Unable to start mail application</string>
     <string name="feedback_mail_subject">Feedback for Yarrn!</string>
+    <string name="my_stashes_title">My Stashes</string>
+    <string name="menu_my_stashes">My Stashes</string>
 </resources>

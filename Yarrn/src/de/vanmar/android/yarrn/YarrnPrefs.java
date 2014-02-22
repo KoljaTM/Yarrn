@@ -19,4 +19,8 @@ public interface YarrnPrefs {
     boolean projectSortReverse();
 
     int favoriteSearchOption();
+
+    int stashSort();
+
+    boolean stashSortReverse();
 }

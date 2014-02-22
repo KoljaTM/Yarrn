@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/de.vanmar.android.yarrn"
+    android:id="@+id/fragment_stash_detail"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    android:background="@drawable/border">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.meetme.android.horizontallistview.HorizontalListView
+            android:id="@+id/gallery"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            app:dividerWidth="3dp"
+            android:layout_alignParentTop="true" />
+
+        <TextView
+            android:id="@+id/name"
+            style="@style/Headline"
+            android:textIsSelectable="true"
+            android:layout_below="@id/gallery" />
+
+        <TextView
+            android:id="@+id/location"
+            style="@style/Text"
+            android:textIsSelectable="true"
+            android:layout_below="@id/name" />
+
+        <WebView
+            android:id="@+id/notes"
+            style="@style/Text"
+            android:textIsSelectable="true"
+            android:layout_below="@id/location" />
+
+    </RelativeLayout>
+
+</ScrollView>
