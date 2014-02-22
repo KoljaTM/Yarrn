@@ -3,14 +3,17 @@ package de.vanmar.android.yarrn.projects;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.octo.android.robospice.SpiceManager;
+import com.octo.android.robospice.persistence.exception.SpiceException;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -25,6 +28,7 @@ import de.vanmar.android.yarrn.YarrnPrefs_;
 import de.vanmar.android.yarrn.YarrnSpiceService;
 import de.vanmar.android.yarrn.ravelry.IRavelryActivity;
 import de.vanmar.android.yarrn.ravelry.RavelryResultListener;
+import de.vanmar.android.yarrn.ravelry.dts.Paginator;
 import de.vanmar.android.yarrn.ravelry.dts.ProjectShort;
 import de.vanmar.android.yarrn.ravelry.dts.ProjectsResult;
 import de.vanmar.android.yarrn.requests.AbstractRavelryGetRequest;
@@ -34,7 +38,11 @@ import de.vanmar.android.yarrn.requests.ListProjectsRequest;
 @OptionsMenu(R.menu.fragment_menu)
 public class ProjectsFragment extends SherlockFragment {
 
+    private static final int PAGE_SIZE = 25;
     protected SpiceManager spiceManager;
+    private Paginator paginator;
+    private boolean isLoading = false;
+    private View listFooter;
 
     public interface ProjectsFragmentListener extends IRavelryActivity {
         /**
@@ -78,7 +86,12 @@ public class ProjectsFragment extends SherlockFragment {
             }
 
         };
+        if (listFooter == null) {
+            listFooter = getActivity().getLayoutInflater().inflate(R.layout.loading_indicator, projectlist, false);
+            projectlist.addFooterView(listFooter);
+        }
         projectlist.setAdapter(adapter);
+        projectlist.setOnScrollListener(new ProjectsScrollListener());
 
         sort.setOnItemSelectedListener(null);
         sort.setSelection(prefs.projectSort().get(), false);
@@ -106,12 +119,14 @@ public class ProjectsFragment extends SherlockFragment {
     private void applySort() {
         prefs.projectSort().put(sort.getSelectedItemPosition());
         prefs.projectSortReverse().put(sortReverse.isChecked());
-        loadProjects();
+        loadProjects(1);
     }
 
     @UiThread
     protected void displayProjects(final ProjectsResult result) {
-        adapter.clear();
+        if (result.paginator.page == 1) {
+            adapter.clear();
+        }
         adapter.addAll(result.projects);
         getActivity().setTitle(R.string.my_projects_title);
     }
@@ -143,17 +158,40 @@ public class ProjectsFragment extends SherlockFragment {
     @Override
     public void onResume() {
         super.onResume();
-        loadProjects();
+        loadProjects(1);
     }
 
-    void loadProjects() {
-        ListProjectsRequest request = new ListProjectsRequest(this.getActivity().getApplication(), prefs);
+    void loadProjects(int page) {
+        loadingStarted();
+        ListProjectsRequest request = new ListProjectsRequest(this.getActivity().getApplication(), prefs, page, PAGE_SIZE);
         spiceManager.execute(request, request.getCacheKey(), AbstractRavelryGetRequest.CACHE_DURATION, new RavelryResultListener<ProjectsResult>(ProjectsFragment.this.listener) {
             @Override
             public void onRequestSuccess(ProjectsResult projectsResult) {
                 displayProjects(projectsResult);
+                ProjectsFragment.this.paginator = projectsResult.paginator;
+                loadingFinished();
+            }
+
+            @Override
+            public void onRequestFailure(SpiceException spiceException) {
+                loadingFinished();
+                super.onRequestFailure(spiceException);
             }
         });
+    }
+
+    private void loadingStarted() {
+        ((TextView) listFooter.findViewById(R.id.loading_text)).setText(R.string.loading);
+        listFooter.findViewById(R.id.loading_progress).setVisibility(View.VISIBLE);
+        listFooter.setVisibility(View.VISIBLE);
+        isLoading = true;
+    }
+
+    private void loadingFinished() {
+        ((TextView) listFooter.findViewById(R.id.loading_text)).setText(R.string.load_more);
+        listFooter.findViewById(R.id.loading_progress).setVisibility(View.GONE);
+        listFooter.setVisibility((paginator != null && paginator.page == paginator.lastPage) ? View.GONE : View.VISIBLE);
+        isLoading = false;
     }
 
     @Override
@@ -166,6 +204,22 @@ public class ProjectsFragment extends SherlockFragment {
 
     @OptionsItem(R.id.menu_refresh)
     public void menuRefresh() {
-        loadProjects();
+        loadProjects(1);
+    }
+
+    private class ProjectsScrollListener implements AbsListView.OnScrollListener {
+
+        @Override
+        public void onScrollStateChanged(AbsListView view, int scrollState) {
+        }
+
+        @Override
+        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            if (!isLoading && firstVisibleItem + visibleItemCount >= totalItemCount) {
+                if (paginator != null && paginator.page < paginator.pageCount) {
+                    loadProjects(paginator.page + 1);
+                }
+            }
+        }
     }
 }

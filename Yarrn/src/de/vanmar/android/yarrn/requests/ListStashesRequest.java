@@ -13,8 +13,13 @@ import de.vanmar.android.yarrn.ravelry.dts.StashesResult;
 
 public class ListStashesRequest extends AbstractRavelryGetRequest<StashesResult> {
 
-    public ListStashesRequest(Application application, YarrnPrefs_ prefs) {
+    private int page;
+    private int pageSize;
+
+    public ListStashesRequest(Application application, YarrnPrefs_ prefs, int page, int pageSize) {
         super(StashesResult.class, application, prefs);
+        this.page = page;
+        this.pageSize = pageSize;
     }
 
     protected StashesResult parseResult(String responseBody) {
@@ -23,8 +28,8 @@ public class ListStashesRequest extends AbstractRavelryGetRequest<StashesResult>
 
     protected OAuthRequest getRequest() {
         return new OAuthRequest(Verb.GET, String.format(
-                application.getString(R.string.ravelry_url) + "/people/%s/stash/list.json?sort=%s",
-                prefs.username().get(), getSort()));
+                application.getString(R.string.ravelry_url) + "/people/%s/stash/list.json?sort=%s&page=%s&page_size=%s",
+                prefs.username().get(), getSort(), page, pageSize));
     }
 
     private String getSort() {

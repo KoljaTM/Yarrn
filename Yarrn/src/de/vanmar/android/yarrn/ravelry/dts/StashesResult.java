@@ -9,6 +9,7 @@ import java.util.List;
  */
 public class StashesResult implements ETaggable {
 
+    public Paginator paginator;
     @SerializedName("stash")
     public List<StashShort> stashes;
     private String etag;

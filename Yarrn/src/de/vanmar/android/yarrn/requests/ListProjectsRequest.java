@@ -13,8 +13,13 @@ import de.vanmar.android.yarrn.ravelry.dts.ProjectsResult;
 
 public class ListProjectsRequest extends AbstractRavelryGetRequest<ProjectsResult> {
 
-    public ListProjectsRequest(Application application, YarrnPrefs_ prefs) {
+    private int page;
+    private int pageSize;
+
+    public ListProjectsRequest(Application application, YarrnPrefs_ prefs, int page, int pageSize) {
         super(ProjectsResult.class, application, prefs);
+        this.page = page;
+        this.pageSize = pageSize;
     }
 
     protected ProjectsResult parseResult(String responseBody) {
@@ -23,8 +28,8 @@ public class ListProjectsRequest extends AbstractRavelryGetRequest<ProjectsResul
 
     protected OAuthRequest getRequest() {
         return new OAuthRequest(Verb.GET, String.format(
-                application.getString(R.string.ravelry_url) + "/projects/%s/list.json?sort=%s",
-                prefs.username().get(), getSort()));
+                application.getString(R.string.ravelry_url) + "/projects/%s/list.json?sort=%s&page=%s&page_size=%s",
+                prefs.username().get(), getSort(), page, pageSize));
     }
 
     private String getSort() {

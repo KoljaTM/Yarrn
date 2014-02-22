@@ -7,6 +7,7 @@ import java.util.List;
  */
 public class ProjectsResult implements ETaggable {
 
+    public Paginator paginator;
     public List<ProjectShort> projects;
     private String etag;
 
