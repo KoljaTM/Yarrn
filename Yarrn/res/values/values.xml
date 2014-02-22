@@ -53,11 +53,11 @@
     </string-array>
 
     <string-array name="stash_sort_option_values">
-        <item>name</item>
+        <item>alpha</item>
         <item>recent</item>
         <item>weight</item>
         <item>colorfamily</item>
-        <item>yards</item>
+        <item>totalyards</item>
     </string-array>
 
 </resources>
