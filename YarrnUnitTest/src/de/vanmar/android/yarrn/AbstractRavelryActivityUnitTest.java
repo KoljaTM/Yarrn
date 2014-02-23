@@ -11,7 +11,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.Robolectric;
-import org.robolectric.RobolectricTestRunner;
 import org.robolectric.shadows.ShadowActivity;
 import org.robolectric.util.ActivityController;
 import org.scribe.model.Response;
@@ -23,6 +22,7 @@ import de.vanmar.android.yarrn.mocking.OAuthRequestForMocking;
 import de.vanmar.android.yarrn.ravelry.GetAccessTokenActivity;
 import de.vanmar.android.yarrn.ravelry.GetAccessTokenActivity_;
 import de.vanmar.android.yarrn.ravelry.ResultCallback;
+import de.vanmar.android.yarrn.util.MyRobolectricTestRunner;
 import de.vanmar.android.yarrn.util.NetworkHelper;
 import de.vanmar.android.yarrn.util.RequestCode;
 import de.vanmar.android.yarrn.util.TestUtil;
@@ -33,7 +33,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
-@RunWith(RobolectricTestRunner.class)
+@RunWith(MyRobolectricTestRunner.class)
 public class AbstractRavelryActivityUnitTest {
 
     private AbstractRavelryActivity activity;

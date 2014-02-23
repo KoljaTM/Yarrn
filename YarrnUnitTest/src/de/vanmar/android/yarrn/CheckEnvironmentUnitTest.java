@@ -4,17 +4,18 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
-import org.robolectric.RobolectricTestRunner;
 import org.robolectric.util.ActivityController;
 
 import java.net.URL;
+
+import de.vanmar.android.yarrn.util.MyRobolectricTestRunner;
 
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 import static org.junit.matchers.JUnitMatchers.containsString;
 
-@RunWith(RobolectricTestRunner.class)
+@RunWith(MyRobolectricTestRunner.class)
 public class CheckEnvironmentUnitTest {
 
     private MainActivity activity;

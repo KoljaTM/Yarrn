@@ -12,7 +12,6 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.Robolectric;
-import org.robolectric.RobolectricTestRunner;
 import org.robolectric.util.ActivityController;
 
 import de.vanmar.android.yarrn.FragmentFactory;
@@ -20,6 +19,7 @@ import de.vanmar.android.yarrn.MainActivity;
 import de.vanmar.android.yarrn.MainActivity_;
 import de.vanmar.android.yarrn.R;
 import de.vanmar.android.yarrn.requests.ListProjectsRequest;
+import de.vanmar.android.yarrn.util.MyRobolectricTestRunner;
 import de.vanmar.android.yarrn.util.TestUtil;
 
 import static org.junit.Assert.assertTrue;
@@ -30,7 +30,7 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
 
-@RunWith(RobolectricTestRunner.class)
+@RunWith(MyRobolectricTestRunner.class)
 public class ProjectsFragmentUnitTest {
 
     @Mock
@@ -79,7 +79,7 @@ public class ProjectsFragmentUnitTest {
 
         // then
         verify(spiceManager).execute(request.capture(), anyString(), anyInt(), any(RequestListener.class));
-        assertTrue(request.getValue().getCacheKey().toString().endsWith("sort=happiness"));
+        assertTrue(request.getValue().getCacheKey().toString().contains("sort=happiness"));
 
         // when
         reset(spiceManager);
@@ -87,6 +87,6 @@ public class ProjectsFragmentUnitTest {
 
         // then
         verify(spiceManager).execute(request.capture(), anyString(), anyInt(), any(RequestListener.class));
-        assertTrue(request.getValue().getCacheKey().toString().endsWith("sort=happiness_"));
+        assertTrue(request.getValue().getCacheKey().toString().contains("sort=happiness_"));
     }
 }

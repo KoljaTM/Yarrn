@@ -15,7 +15,6 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.robolectric.Robolectric;
-import org.robolectric.RobolectricTestRunner;
 import org.robolectric.util.ActivityController;
 
 import java.util.Calendar;
@@ -30,6 +29,7 @@ import de.vanmar.android.yarrn.ravelry.dts.Project;
 import de.vanmar.android.yarrn.ravelry.dts.ProjectResult;
 import de.vanmar.android.yarrn.ravelry.dts.User;
 import de.vanmar.android.yarrn.requests.UpdateProjectRequest;
+import de.vanmar.android.yarrn.util.MyRobolectricTestRunner;
 import de.vanmar.android.yarrn.util.TestUtil;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -41,7 +41,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.doAnswer;
 
-@RunWith(RobolectricTestRunner.class)
+@RunWith(MyRobolectricTestRunner.class)
 public class ProjectFragmentUnitTest {
 
     public static final int PROJECT_ID = 10014463;

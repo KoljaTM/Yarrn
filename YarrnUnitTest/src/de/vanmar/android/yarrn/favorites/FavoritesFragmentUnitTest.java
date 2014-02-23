@@ -13,7 +13,6 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.Robolectric;
-import org.robolectric.RobolectricTestRunner;
 import org.robolectric.util.ActivityController;
 
 import de.vanmar.android.yarrn.FragmentFactory;
@@ -22,6 +21,7 @@ import de.vanmar.android.yarrn.MainActivity_;
 import de.vanmar.android.yarrn.R;
 import de.vanmar.android.yarrn.projects.ProjectsFragment;
 import de.vanmar.android.yarrn.requests.ListFavoritesRequest;
+import de.vanmar.android.yarrn.util.MyRobolectricTestRunner;
 import de.vanmar.android.yarrn.util.TestUtil;
 
 import static org.junit.Assert.assertEquals;
@@ -32,7 +32,7 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
 
-@RunWith(RobolectricTestRunner.class)
+@RunWith(MyRobolectricTestRunner.class)
 public class FavoritesFragmentUnitTest {
 
     @Mock

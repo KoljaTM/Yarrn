@@ -10,11 +10,11 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.Robolectric;
-import org.robolectric.RobolectricTestRunner;
 import org.robolectric.util.ActivityController;
 
 import de.vanmar.android.yarrn.projects.ProjectFragment;
 import de.vanmar.android.yarrn.projects.ProjectsFragment;
+import de.vanmar.android.yarrn.util.MyRobolectricTestRunner;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.robolectric.Robolectric.shadowOf;
 
-@RunWith(RobolectricTestRunner.class)
+@RunWith(MyRobolectricTestRunner.class)
 public class MainActivityUnitTest {
 
     public static final String USERNAME = "Jillda";
