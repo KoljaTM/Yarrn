@@ -68,6 +68,24 @@ public class MainActivityTest extends
         assertText("Tenth Doctor");
     }
 
+    public void testStashes() {
+        // when
+        openNavigationDrawer();
+        selectMyStashesMenuEntry();
+
+        // then
+        assertText("Wollmeise \"Pure\" 100% Merino");
+        assertText("Wollmeise Lace-Garn");
+
+        // when
+        solo.clickOnText("Wollmeise \"Pure\" 100% Merino");
+
+        // then
+        assertText("Fingering 4ply 100% Merino");
+        assertText("Flaschenpost");
+        assertText("dunkler als ich dachte");
+    }
+
     public void testBackAndForthNavigation() {
         // start page
         assertText("Welthasen Viajante");
@@ -129,6 +147,11 @@ public class MainActivityTest extends
 
     private void selectMyFavoritesMenuEntry() {
         View menuItem = solo.getCurrentActivity().findViewById(R.id.menu_my_favorites);
+        solo.clickOnView(menuItem);
+    }
+
+    private void selectMyStashesMenuEntry() {
+        View menuItem = solo.getCurrentActivity().findViewById(R.id.menu_my_stashes);
         solo.clickOnView(menuItem);
     }
 

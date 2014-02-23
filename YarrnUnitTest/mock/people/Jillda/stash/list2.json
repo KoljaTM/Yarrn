@@ -1,0 +1,76 @@
+{
+   "stash" : [
+      {
+         "color_family_name" : "Green",
+         "stash_status" : {
+            "name" : "In stash",
+            "id" : 1
+         },
+         "first_photo" : {
+            "x_offset" : 0,
+            "square_url" : "http://images4.ravelrycache.com/uploads/Jillda/178605447/IMAG2385_1_square.jpg",
+            "sort_order" : 1,
+            "thumbnail_url" : "h",
+            "y_offset" : 0,
+            "small_url" : "http://images4-b.ravelrycache.com/uploads/Jillda/178605447/IMAG2385_1_small_best_fit.jpg",
+            "id" : 33575599,
+            "medium_url" : "http://images4-b.ravelrycache.com/uploads/Jillda/178605447/IMAG2385_1_medium.jpg"
+         },
+         "handspun" : false,
+         "permalink" : "lace-garn",
+         "yarn" : {
+            "discontinued" : false,
+            "photos" : [],
+            "yarn_company" : {
+               "name" : "Wollmeise",
+               "id" : 315,
+               "permalink" : "wollmeise"
+            },
+            "min_gauge" : 8,
+            "yardage" : 1740,
+            "wpi" : null,
+            "permalink" : "wollmeise-lace-garn",
+            "texture" : "plied",
+            "organic" : false,
+            "id" : 4800,
+            "gauge_divisor" : 1,
+            "notes_html" : null,
+            "yarn_weight" : {
+               "ply" : "2",
+               "min_gauge" : null,
+               "crochet_gauge" : "",
+               "name" : "Lace",
+               "wpi" : null,
+               "id" : 7,
+               "knit_gauge" : "32-34",
+               "max_gauge" : null
+            },
+            "rating_average" : 4.78,
+            "rating_total" : 7148,
+            "rating_count" : 1494,
+            "grams" : 300,
+            "name" : "Lace-Garn",
+            "machine_washable" : true,
+            "yarn_company_name" : "Wollmeise",
+            "max_gauge" : null
+         },
+         "created_at" : "2013/08/09 14:46:46 -0400",
+         "dye_lot" : "",
+         "id" : 8865043,
+         "comments_count" : 0,
+         "colorway_name" : "Flaschengrün",
+         "location" : "",
+         "favorites_count" : 0,
+         "name" : "Wollmeise Lace-Garn",
+         "updated_at" : "2013/08/15 09:26:10 -0400",
+         "has_photo" : true
+      }
+   ],
+   "paginator" : {
+      "page_size" : 25,
+      "page_count" : 2,
+      "page" : 2,
+      "last_page" : 2,
+      "results" : 26
+   }
+}
