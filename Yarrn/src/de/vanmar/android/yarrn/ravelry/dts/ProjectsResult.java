@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * http://www.ravelry.com/api#projects_list
  */
-public class ProjectsResult implements ETaggable {
+public class ProjectsResult implements Paging<ProjectShort> {
 
     public Paginator paginator;
     public List<ProjectShort> projects;
@@ -19,5 +19,15 @@ public class ProjectsResult implements ETaggable {
     @Override
     public String getETag() {
         return this.etag;
+    }
+
+    @Override
+    public Paginator getPaginator() {
+        return paginator;
+    }
+
+    @Override
+    public List<ProjectShort> getItems() {
+        return projects;
     }
 }

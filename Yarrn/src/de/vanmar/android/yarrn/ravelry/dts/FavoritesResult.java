@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * http://www.ravelry.com/api#favorites_list
  */
-public class FavoritesResult implements ETaggable {
+public class FavoritesResult implements Paging<BookmarkShort> {
 
     public Paginator paginator;
     public List<BookmarkShort> favorites;
@@ -19,5 +19,15 @@ public class FavoritesResult implements ETaggable {
     @Override
     public String getETag() {
         return this.etag;
+    }
+
+    @Override
+    public Paginator getPaginator() {
+        return paginator;
+    }
+
+    @Override
+    public List<BookmarkShort> getItems() {
+        return favorites;
     }
 }

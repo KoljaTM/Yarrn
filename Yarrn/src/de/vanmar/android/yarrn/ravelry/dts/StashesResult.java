@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * http://www.ravelry.com/api#stash_list
  */
-public class StashesResult implements ETaggable {
+public class StashesResult implements Paging<StashShort> {
 
     public Paginator paginator;
     @SerializedName("stash")
@@ -22,5 +22,15 @@ public class StashesResult implements ETaggable {
     @Override
     public String getETag() {
         return this.etag;
+    }
+
+    @Override
+    public Paginator getPaginator() {
+        return paginator;
+    }
+
+    @Override
+    public List<StashShort> getItems() {
+        return stashes;
     }
 }
