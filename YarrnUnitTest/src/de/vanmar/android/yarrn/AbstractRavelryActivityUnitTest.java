@@ -26,7 +26,6 @@ import de.vanmar.android.yarrn.util.MyRobolectricTestRunner;
 import de.vanmar.android.yarrn.util.NetworkHelper;
 import de.vanmar.android.yarrn.util.RequestCode;
 import de.vanmar.android.yarrn.util.TestUtil;
-import de.vanmar.android.yarrn.util.UiHelper;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertNotNull;
@@ -43,9 +42,6 @@ public class AbstractRavelryActivityUnitTest {
 
     @Mock
     private NetworkHelper networkHelper;
-
-    @Mock
-    private UiHelper uiHelper;
 
     @Mock
     private OAuthRequestForMocking request;
@@ -69,7 +65,6 @@ public class AbstractRavelryActivityUnitTest {
 
         activity.service = oauthService;
         activity.networkHelper = networkHelper;
-        activity.uiHelper = uiHelper;
 
         TestUtil.mockBackgroundExecutor();
         TestUtil.mockValidUser(activity.prefs);

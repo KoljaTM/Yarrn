@@ -13,7 +13,6 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
-import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 
@@ -114,7 +113,6 @@ public class StashesFragment extends PagingListFragment<StashesResult, StashShor
         super.menuRefresh();
     }
 
-    @UiThread
     protected void displayResult(final StashesResult result) {
         super.displayResult(result);
         getActivity().setTitle(R.string.my_stashes_title);

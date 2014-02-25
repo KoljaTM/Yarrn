@@ -11,7 +11,6 @@ import com.androidquery.util.AQUtility;
 import org.acra.ACRA;
 import org.acra.ReportingInteractionMode;
 import org.acra.annotation.ReportsCrashes;
-import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EApplication;
 import org.androidannotations.annotations.UiThread;
 
@@ -19,7 +18,6 @@ import java.io.File;
 import java.lang.Thread.UncaughtExceptionHandler;
 
 import de.vanmar.android.yarrn.util.SslCertificateHelper;
-import de.vanmar.android.yarrn.util.UiHelper;
 
 @EApplication
 @ReportsCrashes(formUri = "https://vanmar-acra.appspot.com/acrareport", formKey = "", mode = ReportingInteractionMode.DIALOG,
@@ -34,9 +32,6 @@ import de.vanmar.android.yarrn.util.UiHelper;
         excludeMatchingSharedPreferencesKeys = {"^accessToken", "^accessSecret", "^requestToken"}
 )
 public class YarrnApplication extends Application {
-
-    @Bean
-    UiHelper uiHelper;
 
     @Override
     public void onCreate() {
@@ -70,7 +65,6 @@ public class YarrnApplication extends Application {
     @UiThread
     protected void reportException(final Exception ex) {
         Log.e("Yarrn", ex.getMessage(), ex);
-        uiHelper.displayError(ex);
         Toast.makeText(getApplicationContext(), ex.getMessage(),
                 Toast.LENGTH_LONG).show();
     }

@@ -44,4 +44,8 @@ public class FragmentFactory {
     public StashFragment getStashFragment() {
         return new StashFragment_();
     }
+
+    public SettingsFragment getSettingsFragment() {
+        return new SettingsFragment_();
+    }
 }

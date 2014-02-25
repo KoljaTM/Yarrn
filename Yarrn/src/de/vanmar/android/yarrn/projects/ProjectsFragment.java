@@ -13,7 +13,6 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
-import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 
@@ -119,7 +118,6 @@ public class ProjectsFragment extends PagingListFragment<ProjectsResult, Project
         super.menuRefresh();
     }
 
-    @UiThread
     protected void displayResult(final ProjectsResult result) {
         super.displayResult(result);
         getActivity().setTitle(R.string.my_projects_title);

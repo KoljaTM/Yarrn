@@ -24,7 +24,7 @@ import de.vanmar.android.yarrn.requests.AbstractRavelryGetRequest;
  */
 public abstract class PagingListFragment<RESULT extends Paging<ITEM>, ITEM> extends SherlockFragment {
     protected static final int PAGE_SIZE = 25;
-    protected SpiceManager spiceManager;
+    public SpiceManager spiceManager; // public for testing
     private Paginator paginator;
     private boolean isLoading = false;
     private View listFooter;

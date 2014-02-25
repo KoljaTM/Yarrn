@@ -2,7 +2,6 @@ package de.vanmar.android.yarrn;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,7 +12,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
-import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.androidquery.util.AQUtility;
@@ -46,7 +44,8 @@ public class MainActivity extends AbstractRavelryActivity implements
         FavoritesFragment.FavoritesFragmentListener,
         PatternFragment.PatternFragmentListener,
         StashesFragment.StashesFragmentListener,
-        StashFragment.StashFragmentListener {
+        StashFragment.StashFragmentListener,
+        SettingsFragment.SettingsFragmentListener {
 
     private static final String JPEG_FILE_PREFIX = "IMG_";
 
@@ -57,6 +56,7 @@ public class MainActivity extends AbstractRavelryActivity implements
     public static final String FAVORITES_TAG = "favorites";
     public static final String STASHES_TAG = "stashes";
     public static final String STASH_DETAIL_TAG = "stashDetail";
+    public static final String SETTINGS_TAG = "settings";
 
     @NonConfigurationInstance
     Uri photoUri;
@@ -124,6 +124,11 @@ public class MainActivity extends AbstractRavelryActivity implements
             stashesFragment = fragmentFactory.getStashesFragment();
         }
         ensureFragment(STASHES_TAG, stashesFragment);
+    }
+
+    private void displaySettingsFragment() {
+        SettingsFragment settingsFragment = fragmentFactory.getSettingsFragment();
+        ensureFragment(SETTINGS_TAG, settingsFragment);
     }
 
     private void ensureFragment(String tag, Fragment fragment) {
@@ -291,27 +296,9 @@ public class MainActivity extends AbstractRavelryActivity implements
                 Uri.parse(getString(R.string.open_ravelry_url))));
     }
 
-    @Click(R.id.menu_send_mail)
-    public void menuSendMailClicked() {
+    @Click(R.id.menu_settings)
+    public void menuSettingsClicked() {
         drawerLayout.closeDrawers();
-        final Intent emailIntent = new Intent(
-                android.content.Intent.ACTION_SEND);
-        final String emailList[] = {getString(R.string.feedback_mail)};
-        emailIntent.putExtra(Intent.EXTRA_EMAIL, emailList);
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.feedback_mail_subject));
-        emailIntent.setType("plain/text");
-        try {
-            startActivity(emailIntent);
-        } catch (final ActivityNotFoundException e) {
-            Toast.makeText(this,
-                    R.string.cannot_send_mail,
-                    Toast.LENGTH_LONG).show();
-        }
-    }
-
-    @Click(R.id.menu_change_user)
-    public void menuChangeUserClicked() {
-        drawerLayout.closeDrawers();
-        requestToken();
+        displaySettingsFragment();
     }
 }

@@ -231,7 +231,6 @@ public class ProjectFragment extends SherlockFragment {
         getView().setVisibility(View.GONE);
     }
 
-    @UiThread
     protected void displayProject(final ProjectResult projectResult) {
         Project project = projectResult.project;
         getActivity().setTitle(project.name);

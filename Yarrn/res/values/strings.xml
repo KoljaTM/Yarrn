@@ -17,7 +17,7 @@
     <string name="network_not_available">No Internet connection</string>
     <string name="connection_timeout">Connection to Ravelry timed out</string>
     <string name="menu_my_projects">My Projects</string>
-    <string name="menu_change_user">Change User</string>
+    <string name="settings_change_user">Change User</string>
     <string name="menu_refresh">Refresh</string>
     <string name="menu_drawer">Go to…</string>
     <string name="upload_successful">Upload successful. Refresh when image is processed on server.</string>
@@ -46,7 +46,7 @@
     <string name="crash_dialog_text">An unexpected error occurred forcing the application to stop. Please help us fix this by sending us error data, all you have to do is click OK.</string>
     <string name="crash_dialog_comment_prompt">You might add your comments about the problem below:</string>
     <string name="crash_dialog_ok_toast">Thank you!</string>
-    <string name="menu_send_mail">Send Feedback</string>
+    <string name="settings_send_feedback">Send Feedback</string>
     <string name="feedback_mail">vanmar.development@gmail.com</string>
     <string name="cannot_send_mail">Unable to start mail application</string>
     <string name="feedback_mail_subject">Feedback for Yarrn!</string>
@@ -54,4 +54,8 @@
     <string name="menu_my_stashes">My Stashes</string>
     <string name="stash_color_title">Color:</string>
     <string name="ply">ply</string>
+    <string name="settings_error_reports">Send error reports to developer</string>
+    <string name="menu_open_settings">Settings</string>
+    <string name="settings_about">About Yarrn!</string>
+    <string name="settings_title">Settings</string>
 </resources>

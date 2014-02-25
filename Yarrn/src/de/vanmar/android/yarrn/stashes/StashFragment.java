@@ -144,7 +144,6 @@ public class StashFragment extends SherlockFragment {
         getView().setVisibility(View.GONE);
     }
 
-    @UiThread
     protected void displayStash(final StashResult stashResult) {
         Stash stash = stashResult.stash;
         getActivity().setTitle(stash.name);

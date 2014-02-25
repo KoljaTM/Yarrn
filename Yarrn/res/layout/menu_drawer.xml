@@ -40,16 +40,9 @@
             android:text="@string/menu_open_ravelry" />
 
         <TextView
-            android:id="@+id/menu_send_mail"
+            android:id="@+id/menu_settings"
             style="@style/menu_entry"
-            android:drawableLeft="@drawable/mail"
-            android:text="@string/menu_send_mail" />
-
-        <TextView
-            android:id="@+id/menu_change_user"
-            style="@style/menu_entry"
-            android:drawableLeft="@drawable/login"
-            android:text="@string/menu_change_user" />
+            android:text="@string/menu_open_settings" />
 
     </LinearLayout>
 

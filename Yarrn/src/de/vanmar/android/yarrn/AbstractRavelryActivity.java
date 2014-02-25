@@ -16,15 +16,12 @@ import de.vanmar.android.yarrn.ravelry.RavelryApi;
 import de.vanmar.android.yarrn.util.NetworkHelper;
 import de.vanmar.android.yarrn.util.NetworkHelper_;
 import de.vanmar.android.yarrn.util.RequestCode;
-import de.vanmar.android.yarrn.util.UiHelper;
-import de.vanmar.android.yarrn.util.UiHelper_;
 
 public abstract class AbstractRavelryActivity extends SherlockFragmentActivity
         implements IRavelryActivity {
 
     public de.vanmar.android.yarrn.YarrnPrefs_ prefs;
     public NetworkHelper networkHelper;
-    public UiHelper uiHelper;
     protected OAuthService service;
 
     @Override
@@ -61,7 +58,6 @@ public abstract class AbstractRavelryActivity extends SherlockFragmentActivity
 
         prefs = new YarrnPrefs_(this);
         networkHelper = NetworkHelper_.getInstance_(this);
-        uiHelper = UiHelper_.getInstance_(this);
     }
 
     @Override

@@ -18,7 +18,6 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.SystemService;
-import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 
@@ -156,7 +155,6 @@ public class FavoritesFragment extends PagingListFragment<FavoritesResult, Bookm
         query.setText(null);
     }
 
-    @UiThread
     protected void displayResult(final FavoritesResult result) {
         super.displayResult(result);
         getActivity().setTitle(R.string.my_favorites_title);
