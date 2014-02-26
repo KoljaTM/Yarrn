@@ -3,13 +3,19 @@ package de.vanmar.android.yarrn;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
+import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.ViewById;
+import org.androidannotations.annotations.sharedpreferences.Pref;
 
+import de.vanmar.android.yarrn.components.WebViewDialog;
 import de.vanmar.android.yarrn.ravelry.IRavelryActivity;
 
 @EFragment(R.layout.fragment_settings)
@@ -18,6 +24,11 @@ public class SettingsFragment extends SherlockFragment {
     }
 
     private SettingsFragmentListener listener;
+    @ViewById(R.id.send_error_reports)
+    CheckBox sendErrorReports;
+    @Pref
+    YarrnPrefs_ prefs;
+
 
     @Override
     public void onAttach(final Activity activity) {
@@ -40,10 +51,22 @@ public class SettingsFragment extends SherlockFragment {
     public void onResume() {
         super.onResume();
         getActivity().setTitle(R.string.settings_title);
+
+        sendErrorReports.setChecked(prefs.sendErrorReports().get());
+    }
+
+    @AfterViews
+    public void afterViews() {
+        sendErrorReports.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                prefs.sendErrorReports().put(isChecked);
+            }
+        });
     }
 
     @Click(R.id.send_feedback)
-    public void menuSendFeedbackClicked() {
+    public void onSendFeedbackClicked() {
         final Intent emailIntent = new Intent(
                 android.content.Intent.ACTION_SEND);
         final String emailList[] = {getString(R.string.feedback_mail)};
@@ -60,7 +83,12 @@ public class SettingsFragment extends SherlockFragment {
     }
 
     @Click(R.id.change_user)
-    public void menuChangeUserClicked() {
+    public void onChangeUserClicked() {
         listener.requestToken();
+    }
+
+    @Click(R.id.about)
+    public void onAboutClicked() {
+        new WebViewDialog(getActivity(), "file:///android_asset/about.html").show();
     }
 }
