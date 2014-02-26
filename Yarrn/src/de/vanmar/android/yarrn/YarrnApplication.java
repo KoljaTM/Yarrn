@@ -13,6 +13,7 @@ import org.acra.ReportingInteractionMode;
 import org.acra.annotation.ReportsCrashes;
 import org.androidannotations.annotations.EApplication;
 import org.androidannotations.annotations.UiThread;
+import org.androidannotations.annotations.sharedpreferences.Pref;
 
 import java.io.File;
 import java.lang.Thread.UncaughtExceptionHandler;
@@ -32,6 +33,9 @@ import de.vanmar.android.yarrn.util.SslCertificateHelper;
         excludeMatchingSharedPreferencesKeys = {"^accessToken", "^accessSecret", "^requestToken"}
 )
 public class YarrnApplication extends Application {
+
+    @Pref
+    YarrnPrefs_ prefs;
 
     @Override
     public void onCreate() {
@@ -65,7 +69,10 @@ public class YarrnApplication extends Application {
     @UiThread
     protected void reportException(final Exception ex) {
         Log.e("Yarrn", ex.getMessage(), ex);
-        Toast.makeText(getApplicationContext(), ex.getMessage(),
+        Toast.makeText(getApplicationContext(), R.string.unexpected_exception,
                 Toast.LENGTH_LONG).show();
+        if (prefs.sendErrorReports().get()) {
+            ACRA.getErrorReporter().handleSilentException(ex);
+        }
     }
 }

@@ -6,6 +6,7 @@ import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.persistence.springandroid.json.gson.GsonObjectPersisterFactory;
 
+import org.acra.ACRA;
 import org.scribe.model.OAuthRequest;
 import org.scribe.model.Response;
 
@@ -31,6 +32,7 @@ public abstract class AbstractRavelryGetRequest<T extends ETaggable> extends Abs
     @Override
     public T loadDataFromNetwork() throws Exception {
         final OAuthRequest request = getRequest();
+        ACRA.getErrorReporter().putCustomData("lastUrl", getCacheKey().toString());
         /*T dataFromCache = persisterFactory.createObjectPersister(getResultType()).loadDataFromCache(getCacheKey(), DurationInMillis.ALWAYS_RETURNED);
         if (dataFromCache != null) {
             request.addHeader("If-None-Match", dataFromCache.getETag());

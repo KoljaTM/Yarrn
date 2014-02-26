@@ -15,8 +15,11 @@ public abstract class RavelryResultListener<T> implements RequestListener<T> {
     @Override
     public void onRequestFailure(SpiceException spiceException) {
         if (spiceException.getCause() instanceof RavelryException) {
-            activity.requestToken();
-            return;
+            RavelryException ravelryException = (RavelryException) spiceException.getCause();
+            if (ravelryException.getStatusCode() == 401 || ravelryException.getStatusCode() == 403) {
+                activity.requestToken();
+                return;
+            }
         }
         AQUtility.report(spiceException);
     }

@@ -30,7 +30,7 @@
         <View style="@style/divider_line" />
 
         <CheckBox
-            android:id="@+id/sendErrorReports"
+            android:id="@+id/send_error_reports"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/SettingsItem"
