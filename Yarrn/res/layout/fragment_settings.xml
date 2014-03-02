@@ -3,8 +3,7 @@
     android:id="@+id/fragment_details"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp"
-    android:background="@drawable/border">
+    android:padding="10dp">
 
     <LinearLayout
         android:orientation="vertical"
@@ -18,8 +17,6 @@
             style="@style/SettingsItem"
             android:text="@string/settings_change_user" />
 
-        <View style="@style/divider_line" />
-
         <TextView
             android:id="@+id/send_feedback"
             android:layout_width="match_parent"
@@ -27,16 +24,12 @@
             style="@style/SettingsItem"
             android:text="@string/settings_send_feedback" />
 
-        <View style="@style/divider_line" />
-
         <CheckBox
             android:id="@+id/send_error_reports"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/SettingsItem"
             android:text="@string/settings_error_reports" />
-
-        <View style="@style/divider_line" />
 
         <TextView
             android:id="@+id/about"

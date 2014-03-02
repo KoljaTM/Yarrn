@@ -42,6 +42,7 @@
         <TextView
             android:id="@+id/menu_settings"
             style="@style/menu_entry"
+            android:drawableLeft="@drawable/settings"
             android:text="@string/menu_open_settings" />
 
     </LinearLayout>
