@@ -14,9 +14,10 @@ import com.androidquery.AQuery;
 import java.util.Collection;
 
 import de.vanmar.android.yarrn.R;
+import de.vanmar.android.yarrn.YarrnAdapter;
 import de.vanmar.android.yarrn.ravelry.dts.ProjectShort;
 
-public abstract class ProjectsAdapter extends ArrayAdapter<ProjectShort> {
+public abstract class ProjectsAdapter extends ArrayAdapter<ProjectShort> implements YarrnAdapter<ProjectShort> {
     private final Activity context;
 
     private class ViewHolder {
@@ -32,7 +33,7 @@ public abstract class ProjectsAdapter extends ArrayAdapter<ProjectShort> {
     }
 
     @Override
-    public void addAll(Collection<? extends ProjectShort> collection) {
+    public void addAllItems(Collection<? extends ProjectShort> collection) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             super.addAll(collection);
         } else {

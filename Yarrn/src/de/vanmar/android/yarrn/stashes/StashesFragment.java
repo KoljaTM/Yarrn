@@ -3,7 +3,6 @@ package de.vanmar.android.yarrn.stashes;
 import android.app.Activity;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ListView;
@@ -17,6 +16,7 @@ import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 
 import de.vanmar.android.yarrn.R;
+import de.vanmar.android.yarrn.YarrnAdapter;
 import de.vanmar.android.yarrn.YarrnPrefs_;
 import de.vanmar.android.yarrn.components.PagingListFragment;
 import de.vanmar.android.yarrn.ravelry.IRavelryActivity;
@@ -124,7 +124,7 @@ public class StashesFragment extends PagingListFragment<StashesResult, StashShor
     }
 
     @Override
-    protected ArrayAdapter<StashShort> getAdapter() {
+    protected YarrnAdapter<StashShort> getAdapter() {
         return adapter;
     }
 

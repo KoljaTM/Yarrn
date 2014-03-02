@@ -13,10 +13,11 @@ import com.androidquery.AQuery;
 import java.util.Collection;
 
 import de.vanmar.android.yarrn.R;
+import de.vanmar.android.yarrn.YarrnAdapter;
 import de.vanmar.android.yarrn.ravelry.dts.BookmarkShort;
 import de.vanmar.android.yarrn.ravelry.dts.Favorite;
 
-public abstract class FavoritesAdapter extends ArrayAdapter<BookmarkShort> {
+public abstract class FavoritesAdapter extends ArrayAdapter<BookmarkShort> implements YarrnAdapter<BookmarkShort> {
     private final Activity context;
 
     private class ViewHolder {
@@ -32,7 +33,7 @@ public abstract class FavoritesAdapter extends ArrayAdapter<BookmarkShort> {
     }
 
     @Override
-    public void addAll(Collection<? extends BookmarkShort> collection) {
+    public void addAllItems(Collection<? extends BookmarkShort> collection) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             super.addAll(collection);
         } else {

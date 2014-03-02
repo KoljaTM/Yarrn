@@ -13,9 +13,10 @@ import com.androidquery.AQuery;
 import java.util.Collection;
 
 import de.vanmar.android.yarrn.R;
+import de.vanmar.android.yarrn.YarrnAdapter;
 import de.vanmar.android.yarrn.ravelry.dts.StashShort;
 
-public abstract class StashesAdapter extends ArrayAdapter<StashShort> {
+public abstract class StashesAdapter extends ArrayAdapter<StashShort> implements YarrnAdapter<StashShort> {
     private final Activity context;
 
     private class ViewHolder {
@@ -30,7 +31,7 @@ public abstract class StashesAdapter extends ArrayAdapter<StashShort> {
     }
 
     @Override
-    public void addAll(Collection<? extends StashShort> collection) {
+    public void addAllItems(Collection<? extends StashShort> collection) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             super.addAll(collection);
         } else {

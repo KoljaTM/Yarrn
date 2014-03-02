@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -22,6 +21,7 @@ import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 
 import de.vanmar.android.yarrn.R;
+import de.vanmar.android.yarrn.YarrnAdapter;
 import de.vanmar.android.yarrn.YarrnPrefs_;
 import de.vanmar.android.yarrn.components.PagingListFragment;
 import de.vanmar.android.yarrn.ravelry.IRavelryActivity;
@@ -166,7 +166,7 @@ public class FavoritesFragment extends PagingListFragment<FavoritesResult, Bookm
     }
 
     @Override
-    protected ArrayAdapter<BookmarkShort> getAdapter() {
+    protected YarrnAdapter<BookmarkShort> getAdapter() {
         return adapter;
     }
 

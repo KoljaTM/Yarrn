@@ -1,9 +1,7 @@
 package de.vanmar.android.yarrn.components;
 
-import android.annotation.SuppressLint;
 import android.view.View;
 import android.widget.AbsListView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -12,6 +10,7 @@ import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 
 import de.vanmar.android.yarrn.R;
+import de.vanmar.android.yarrn.YarrnAdapter;
 import de.vanmar.android.yarrn.YarrnSpiceService;
 import de.vanmar.android.yarrn.ravelry.IRavelryActivity;
 import de.vanmar.android.yarrn.ravelry.RavelryResultListener;
@@ -43,16 +42,15 @@ public abstract class PagingListFragment<RESULT extends Paging<ITEM>, ITEM> exte
 
     protected abstract ListView getListView();
 
-    @SuppressLint("NewApi")
     protected void displayResult(final RESULT result) {
-        ArrayAdapter<ITEM> adapter = getAdapter();
+        YarrnAdapter<ITEM> adapter = getAdapter();
         if (result.getPaginator().page == 1) {
             adapter.clear();
         }
-        adapter.addAll(result.getItems());
+        adapter.addAllItems(result.getItems());
     }
 
-    protected abstract ArrayAdapter<ITEM> getAdapter();
+    protected abstract YarrnAdapter<ITEM> getAdapter();
 
     @Override
     public void onStart() {
