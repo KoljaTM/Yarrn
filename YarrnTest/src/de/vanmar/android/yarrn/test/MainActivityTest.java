@@ -1,5 +1,6 @@
 package de.vanmar.android.yarrn.test;
 
+import android.app.Activity;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
 
@@ -137,7 +138,12 @@ public class MainActivityTest extends
     }
 
     private void openNavigationDrawer() {
-        solo.clickOnView(solo.getCurrentActivity().findViewById(android.R.id.home));
+        Activity activity = solo.getCurrentActivity();
+        View homeButton = activity.findViewById(android.R.id.home);
+        if (homeButton == null) {
+            homeButton = activity.findViewById(R.id.abs__home);
+        }
+        solo.clickOnView(homeButton);
     }
 
     private void selectMyProjectsMenuEntry() {
@@ -156,6 +162,6 @@ public class MainActivityTest extends
     }
 
     private void assertText(String text) {
-        Assert.assertTrue(solo.searchText(text));
+        Assert.assertTrue(solo.waitForText(text, 1, 20000));
     }
 }
