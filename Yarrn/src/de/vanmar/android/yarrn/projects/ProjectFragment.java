@@ -428,6 +428,7 @@ public class ProjectFragment extends SherlockFragment {
         super.onCreateOptionsMenu(menu, inflater);
         menu.findItem(R.id.menu_add_photo).setVisible(isEditable);
         menu.findItem(R.id.menu_take_photo).setVisible(isEditable);
+        menu.findItem(R.id.menu_reorder_photos).setVisible(isEditable);
     }
 
     @OptionsItem(R.id.menu_add_photo)
@@ -443,6 +444,11 @@ public class ProjectFragment extends SherlockFragment {
     @OptionsItem(R.id.menu_refresh)
     public void menuRefresh() {
         onProjectSelected(projectId, username);
+    }
+
+    @OptionsItem(R.id.menu_reorder_photos)
+    public void menuReorderPhotos() {
+        setGalleryEditable(true);
     }
 
     class ProjectListener extends RavelryResultListener<ProjectResult> {

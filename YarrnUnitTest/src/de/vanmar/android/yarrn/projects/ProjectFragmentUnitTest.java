@@ -3,6 +3,7 @@ package de.vanmar.android.yarrn.projects;
 import android.widget.RatingBar;
 import android.widget.Spinner;
 
+import com.meetme.android.horizontallistview.HorizontalListView;
 import com.octo.android.robospice.SpiceManager;
 import com.octo.android.robospice.request.SpiceRequest;
 import com.octo.android.robospice.request.listener.RequestListener;
@@ -17,17 +18,22 @@ import org.mockito.stubbing.Answer;
 import org.robolectric.Robolectric;
 import org.robolectric.util.ActivityController;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import de.vanmar.android.yarrn.FragmentFactory;
 import de.vanmar.android.yarrn.MainActivity;
 import de.vanmar.android.yarrn.MainActivity_;
 import de.vanmar.android.yarrn.R;
 import de.vanmar.android.yarrn.components.ViewEditText;
+import de.vanmar.android.yarrn.ravelry.dts.Photo;
+import de.vanmar.android.yarrn.ravelry.dts.PhotoResult;
 import de.vanmar.android.yarrn.ravelry.dts.Project;
 import de.vanmar.android.yarrn.ravelry.dts.ProjectResult;
 import de.vanmar.android.yarrn.ravelry.dts.User;
+import de.vanmar.android.yarrn.requests.ReorderProjectPhotosRequest;
 import de.vanmar.android.yarrn.requests.UpdateProjectRequest;
 import de.vanmar.android.yarrn.util.MyRobolectricTestRunner;
 import de.vanmar.android.yarrn.util.TestUtil;
@@ -56,6 +62,7 @@ public class ProjectFragmentUnitTest {
 
     private ProjectFragment_ projectFragment;
     private SpiceRequest request;
+    private ReorderProjectPhotosRequest reorderRequest;
 
     @Before
     public void prepare() {
@@ -169,6 +176,42 @@ public class ProjectFragmentUnitTest {
         assertThat(updateProjectRequest.getUpdateData().get("rating").getAsInt(), is(4));
     }
 
+    @Test
+    public void shouldRearrangePhotos() {
+        // given
+        mockSpiceCall(createProjectResult());
+        projectFragment.onProjectSelected(PROJECT_ID, USERNAME);
+        doAnswer(new Answer<Void>() {
+            @Override
+            public Void answer(InvocationOnMock invocationOnMock) throws Throwable {
+                reorderRequest = (ReorderProjectPhotosRequest) invocationOnMock.getArguments()[0];
+                RequestListener<PhotoResult> listener = (RequestListener<PhotoResult>) invocationOnMock.getArguments()[1];
+                PhotoResult photoResult = new PhotoResult();
+                photoResult.photos = new ArrayList<Photo>();
+                listener.onRequestSuccess(photoResult);
+                return null;
+            }
+        }).when(spiceManager).execute(any(SpiceRequest.class), any(RequestListener.class));
+
+        // when
+        HorizontalListView gallery = projectFragment.gallery;
+        gallery.getOnItemLongClickListener().onItemLongClick(gallery, null, 0, 0);
+        PhotoAdapter adapter = (PhotoAdapter) gallery.getAdapter();
+        PhotoAdapter.PhotoAdapterListener adapterListener = adapter.getPhotoAdapterListener();
+        adapterListener.onMoveLeft(1); // 2 1 3
+        adapterListener.onMoveRight(1); // 2 3 1
+        adapterListener.onMoveAllRight(0); // 3 1 2
+        adapterListener.onMoveAllLeft(1); // 1 3 2
+        projectFragment.galleryEditDone.performClick();
+
+        // then
+        List<Photo> photos = reorderRequest.getPhotos();
+        assertThat(photos.size(), is(3));
+        assertThat(photos.get(0).id, is("1"));
+        assertThat(photos.get(1).id, is("3"));
+        assertThat(photos.get(2).id, is("2"));
+    }
+
     private void mockSpiceCall(final ProjectResult projectResult) {
         doAnswer(new Answer<Void>() {
             @Override
@@ -209,7 +252,17 @@ public class ProjectFragmentUnitTest {
         User user = new User();
         user.username = TestUtil.USERNAME;
         project.user = user;
+        project.photos = new ArrayList<Photo>();
+        project.photos.add(createPhoto("1"));
+        project.photos.add(createPhoto("2"));
+        project.photos.add(createPhoto("3"));
         projectResult.project = project;
         return projectResult;
+    }
+
+    private Photo createPhoto(String id) {
+        Photo photo = new Photo();
+        photo.id = id;
+        return photo;
     }
 }

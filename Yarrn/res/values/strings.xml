@@ -59,4 +59,5 @@
     <string name="settings_about">About Yarrn!</string>
     <string name="settings_title">Settings</string>
     <string name="unexpected_exception">An unexpected error occurred</string>
+    <string name="reorder_photos">Change photo order</string>
 </resources>

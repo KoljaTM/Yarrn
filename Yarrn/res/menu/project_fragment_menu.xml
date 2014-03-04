@@ -15,9 +15,16 @@
         android:icon="@drawable/pick_image" />
 
     <item
+        android:id="@+id/menu_reorder_photos"
+        android:orderInCategory="160"
+        android:showAsAction="ifRoom"
+        android:title="@string/reorder_photos"
+        android:icon="@drawable/reorder_photos" />
+
+    <item
         android:id="@+id/menu_refresh"
         android:orderInCategory="200"
-        android:showAsAction="ifRoom"
+        android:showAsAction="always"
         android:title="@string/menu_refresh"
         android:icon="@drawable/refresh" />
 

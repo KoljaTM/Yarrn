@@ -70,6 +70,10 @@ public class PhotoAdapter extends ArrayAdapter<Photo> {
         this.listener = listener;
     }
 
+    public PhotoAdapterListener getPhotoAdapterListener() {
+        return listener;
+    }
+
     @Override
     public View getView(final int position, final View convertView,
                         final ViewGroup parent) {

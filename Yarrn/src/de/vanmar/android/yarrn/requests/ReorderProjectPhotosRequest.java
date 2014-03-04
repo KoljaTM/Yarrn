@@ -30,6 +30,10 @@ public class ReorderProjectPhotosRequest extends AbstractRavelryRequest<PhotoRes
         return projectId;
     }
 
+    public List<Photo> getPhotos() {
+        return photos;
+    }
+
     @Override
     public PhotoResult loadDataFromNetwork() throws Exception {
         final OAuthRequest request = new OAuthRequest(Verb.POST,
