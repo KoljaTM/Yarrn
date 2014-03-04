@@ -1,6 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/photo"
-    android:layout_width="75dp"
-    android:layout_height="75dp"
-    android:contentDescription="@string/photo" />
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content">
+
+    <ImageView
+        android:id="@+id/photo"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_centerInParent="true"
+        android:contentDescription="@string/photo" />
+
+    <RelativeLayout
+        android:id="@+id/edit_overlay"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_centerInParent="true"
+        android:clickable="true">
+
+        <ImageButton
+            android:id="@+id/move_left"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/button_left"
+            android:duplicateParentState="false" />
+
+        <ImageButton
+            android:id="@+id/move_all_left"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/button_all_left"
+            android:duplicateParentState="false" />
+
+        <ImageButton
+            android:id="@+id/move_right"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/button_right"
+            android:duplicateParentState="false" />
+
+        <ImageButton
+            android:id="@+id/move_all_right"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/button_all_right"
+            android:duplicateParentState="false" />
+
+    </RelativeLayout>
+
+</RelativeLayout>
+

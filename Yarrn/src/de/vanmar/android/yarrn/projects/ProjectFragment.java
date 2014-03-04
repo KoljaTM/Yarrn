@@ -7,6 +7,7 @@ import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.Spinner;
@@ -36,6 +37,7 @@ import org.androidannotations.annotations.sharedpreferences.Pref;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import de.vanmar.android.yarrn.R;
 import de.vanmar.android.yarrn.YarrnPrefs_;
@@ -44,10 +46,13 @@ import de.vanmar.android.yarrn.components.ImageDialog;
 import de.vanmar.android.yarrn.components.ViewEditText;
 import de.vanmar.android.yarrn.ravelry.IRavelryActivity;
 import de.vanmar.android.yarrn.ravelry.RavelryResultListener;
+import de.vanmar.android.yarrn.ravelry.dts.Photo;
+import de.vanmar.android.yarrn.ravelry.dts.PhotoResult;
 import de.vanmar.android.yarrn.ravelry.dts.Project;
 import de.vanmar.android.yarrn.ravelry.dts.ProjectResult;
 import de.vanmar.android.yarrn.requests.AbstractRavelryGetRequest;
 import de.vanmar.android.yarrn.requests.GetProjectRequest;
+import de.vanmar.android.yarrn.requests.ReorderProjectPhotosRequest;
 import de.vanmar.android.yarrn.requests.UpdateProjectRequest;
 
 @EFragment(R.layout.fragment_project_detail)
@@ -61,6 +66,7 @@ public class ProjectFragment extends SherlockFragment {
     private ViewEditText.OnSaveListener notesListener;
     private RatingBar.OnRatingBarChangeListener ratingListener;
     private View.OnClickListener progressBarListener;
+    private List<Photo> photos;
 
     public interface ProjectFragmentListener extends IRavelryActivity {
 
@@ -79,6 +85,9 @@ public class ProjectFragment extends SherlockFragment {
 
     @ViewById(R.id.status)
     TextView status;
+
+    @ViewById(R.id.gallery_edit_done)
+    ImageButton galleryEditDone;
 
     @ViewById(R.id.gallery)
     HorizontalListView gallery;
@@ -157,6 +166,41 @@ public class ProjectFragment extends SherlockFragment {
                 new ImageDialog(getActivity(), adapter.getItem(position).mediumUrl).show();
             }
         });
+        gallery.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                setGalleryEditable(true);
+                return true;
+            }
+        });
+        adapter.setPhotoAdapterListener(new PhotoAdapter.PhotoAdapterListener() {
+            private void movePhotoFromTo(int fromPosition, int toPosition) {
+                Photo photo = photos.remove(fromPosition);
+                photos.add(toPosition, photo);
+                adapter.clear();
+                adapter.addAll(photos);
+            }
+
+            @Override
+            public void onMoveLeft(int position) {
+                movePhotoFromTo(position, position - 1);
+            }
+
+            @Override
+            public void onMoveAllLeft(int position) {
+                movePhotoFromTo(position, 0);
+            }
+
+            @Override
+            public void onMoveRight(int position) {
+                movePhotoFromTo(position, position + 1);
+            }
+
+            @Override
+            public void onMoveAllRight(int position) {
+                movePhotoFromTo(position, photos.size() - 1);
+            }
+        });
 
         progressListener = new AdapterView.OnItemSelectedListener() {
             @Override
@@ -175,10 +219,29 @@ public class ProjectFragment extends SherlockFragment {
         };
     }
 
+    private void setGalleryEditable(boolean shouldBeEditable) {
+        boolean editable = isEditable && shouldBeEditable;
+        adapter.setEditable(editable);
+        galleryEditDone.setVisibility(editable ? View.VISIBLE : View.GONE);
+    }
+
     private void executeUpdate(JsonObject updateData) {
         spiceManager.execute(new UpdateProjectRequest(prefs, getActivity().getApplication(), projectId, updateData), new ProjectListener(listener));
         spiceManager.removeDataFromCache(ProjectResult.class, new GetProjectRequest(getActivity().getApplication(), prefs, projectId, prefs.username().get()).getCacheKey());
     }
+
+    private void savePhotoOrder() {
+        spiceManager.execute(new ReorderProjectPhotosRequest(prefs, getActivity().getApplication(), projectId, photos), new RavelryResultListener<PhotoResult>(listener) {
+            @Override
+            public void onRequestSuccess(PhotoResult photoResult) {
+                photos = photoResult.photos;
+                adapter.clear();
+                adapter.addAll(photos);
+            }
+        });
+        spiceManager.removeDataFromCache(ProjectResult.class, new GetProjectRequest(getActivity().getApplication(), prefs, projectId, prefs.username().get()).getCacheKey());
+    }
+
 
     @Override
     public void onAttach(final Activity activity) {
@@ -232,7 +295,7 @@ public class ProjectFragment extends SherlockFragment {
     }
 
     protected void displayProject(final ProjectResult projectResult) {
-        Project project = projectResult.project;
+        final Project project = projectResult.project;
         getActivity().setTitle(project.name);
         name.setText(project.name);
         rating.setRating(project.rating + 1);
@@ -242,7 +305,9 @@ public class ProjectFragment extends SherlockFragment {
         completed.setText(getCompletedDateText(project.completed, project.completedDaySet));
         notes.setBodyText(project.notes);
         adapter.clear();
-        adapter.addAll(project.photos);
+        photos = project.photos;
+        adapter.addAll(photos);
+        setGalleryEditable(false);
         displayProgress(project.progress);
         progressSpinner.setOnItemSelectedListener(null);
         getView().setVisibility(View.VISIBLE);
@@ -340,9 +405,10 @@ public class ProjectFragment extends SherlockFragment {
         spiceManager.removeDataFromCache(ProjectResult.class, new GetProjectRequest(getActivity().getApplication(), prefs, projectId, prefs.username().get()).getCacheKey());
     }
 
-    @Click(R.id.progressBar)
-    public void onProgressBarClicked() {
-
+    @Click(R.id.gallery_edit_done)
+    public void onGalleryEditDoneClicked() {
+        savePhotoOrder();
+        setGalleryEditable(false);
     }
 
     @Override

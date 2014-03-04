@@ -11,12 +11,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <ImageButton
+            android:id="@+id/gallery_edit_done"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/accept"
+            android:visibility="gone" />
+
         <com.meetme.android.horizontallistview.HorizontalListView
             android:id="@+id/gallery"
             android:layout_width="match_parent"
             android:layout_height="80dp"
             app:dividerWidth="3dp"
-            android:layout_alignParentTop="true" />
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@id/gallery_edit_done" />
 
         <TextView
             android:id="@+id/name"
