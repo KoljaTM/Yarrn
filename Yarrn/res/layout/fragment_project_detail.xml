@@ -16,6 +16,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/accept"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:visibility="gone" />
+
+        <ImageButton
+            android:id="@+id/gallery_edit_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/delete"
+            android:layout_below="@id/gallery_edit_done"
+            android:layout_alignParentLeft="true"
             android:visibility="gone" />
 
         <com.meetme.android.horizontallistview.HorizontalListView

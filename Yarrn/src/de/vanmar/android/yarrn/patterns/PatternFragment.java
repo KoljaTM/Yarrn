@@ -161,9 +161,7 @@ public class PatternFragment extends SherlockFragment {
         hideIfEmpty(yarn_weight_description, pattern.yarn_weight_description);
         hideIfEmpty(yardage_description, pattern.yardage_description);
         hideIfEmpty(needles, pattern.pattern_needle_sizes);
-
-        adapter.clear();
-        adapter.addAll(pattern.photos);
+        adapter.setItems(pattern.photos);
         getView().setVisibility(View.VISIBLE);
     }
 

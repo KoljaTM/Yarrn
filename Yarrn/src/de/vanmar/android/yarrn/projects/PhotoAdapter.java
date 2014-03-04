@@ -46,8 +46,8 @@ public class PhotoAdapter extends ArrayAdapter<Photo> {
         this.context = context;
     }
 
-    @Override
-    public void addAll(Collection<? extends Photo> collection) {
+    public void setItems(Collection<? extends Photo> collection) {
+        clear();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             super.addAll(collection);
         } else {

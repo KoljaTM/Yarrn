@@ -36,6 +36,7 @@ import org.androidannotations.annotations.sharedpreferences.Pref;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -67,6 +68,7 @@ public class ProjectFragment extends SherlockFragment {
     private RatingBar.OnRatingBarChangeListener ratingListener;
     private View.OnClickListener progressBarListener;
     private List<Photo> photos;
+    private List<Photo> photosOriginal;
 
     public interface ProjectFragmentListener extends IRavelryActivity {
 
@@ -88,6 +90,9 @@ public class ProjectFragment extends SherlockFragment {
 
     @ViewById(R.id.gallery_edit_done)
     ImageButton galleryEditDone;
+
+    @ViewById(R.id.gallery_edit_cancel)
+    ImageButton galleryEditCancel;
 
     @ViewById(R.id.gallery)
     HorizontalListView gallery;
@@ -177,8 +182,7 @@ public class ProjectFragment extends SherlockFragment {
             private void movePhotoFromTo(int fromPosition, int toPosition) {
                 Photo photo = photos.remove(fromPosition);
                 photos.add(toPosition, photo);
-                adapter.clear();
-                adapter.addAll(photos);
+                adapter.setItems(photos);
             }
 
             @Override
@@ -223,6 +227,7 @@ public class ProjectFragment extends SherlockFragment {
         boolean editable = isEditable && shouldBeEditable;
         adapter.setEditable(editable);
         galleryEditDone.setVisibility(editable ? View.VISIBLE : View.GONE);
+        galleryEditCancel.setVisibility(editable ? View.VISIBLE : View.GONE);
     }
 
     private void executeUpdate(JsonObject updateData) {
@@ -235,8 +240,7 @@ public class ProjectFragment extends SherlockFragment {
             @Override
             public void onRequestSuccess(PhotoResult photoResult) {
                 photos = photoResult.photos;
-                adapter.clear();
-                adapter.addAll(photos);
+                adapter.setItems(photos);
             }
         });
         spiceManager.removeDataFromCache(ProjectResult.class, new GetProjectRequest(getActivity().getApplication(), prefs, projectId, prefs.username().get()).getCacheKey());
@@ -306,7 +310,8 @@ public class ProjectFragment extends SherlockFragment {
         notes.setBodyText(project.notes);
         adapter.clear();
         photos = project.photos;
-        adapter.addAll(photos);
+        photosOriginal = new ArrayList<Photo>(project.photos);
+        adapter.setItems(photos);
         setGalleryEditable(false);
         displayProgress(project.progress);
         progressSpinner.setOnItemSelectedListener(null);
@@ -408,6 +413,13 @@ public class ProjectFragment extends SherlockFragment {
     @Click(R.id.gallery_edit_done)
     public void onGalleryEditDoneClicked() {
         savePhotoOrder();
+        setGalleryEditable(false);
+    }
+
+    @Click(R.id.gallery_edit_cancel)
+    public void onGalleryEditCancelClicked() {
+        photos = new ArrayList<Photo>(photosOriginal);
+        adapter.setItems(photos);
         setGalleryEditable(false);
     }
 

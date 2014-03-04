@@ -157,10 +157,7 @@ public class StashFragment extends SherlockFragment {
         hideIfEmpty(color, stash.color);
         hideIfEmpty(colorTitle, stash.color);
         notes.loadDataWithBaseURL("", stash.notes_html, "text/html", "UTF-8", "");
-
-        adapter.clear();
-        adapter.addAll(stash.photos);
-
+        adapter.setItems(stash.photos);
         getView().setVisibility(View.VISIBLE);
     }
 
