@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
-import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,12 +37,14 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import de.vanmar.android.yarrn.R;
 import de.vanmar.android.yarrn.YarrnPrefs_;
 import de.vanmar.android.yarrn.YarrnSpiceService;
 import de.vanmar.android.yarrn.components.ImageDialog;
+import de.vanmar.android.yarrn.components.SimpleImageArrayAdapter;
 import de.vanmar.android.yarrn.components.ViewEditText;
 import de.vanmar.android.yarrn.ravelry.IRavelryActivity;
 import de.vanmar.android.yarrn.ravelry.RavelryResultListener;
@@ -65,7 +66,7 @@ public class ProjectFragment extends SherlockFragment {
     protected SpiceManager spiceManager;
     private AdapterView.OnItemSelectedListener progressListener;
     private ViewEditText.OnSaveListener notesListener;
-    private RatingBar.OnRatingBarChangeListener ratingListener;
+    private AdapterView.OnItemSelectedListener ratingListener;
     private View.OnClickListener progressBarListener;
     private List<Photo> photos;
     private List<Photo> photosOriginal;
@@ -113,7 +114,7 @@ public class ProjectFragment extends SherlockFragment {
     public ViewEditText notes;
 
     @ViewById(R.id.rating)
-    public RatingBar rating;
+    public Spinner rating;
 
     @FragmentArg(ARG_PROJECT_ID)
     int projectId;
@@ -144,17 +145,7 @@ public class ProjectFragment extends SherlockFragment {
             }
         };
 
-        ratingListener = new RatingBar.OnRatingBarChangeListener() {
-            @Override
-            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                if (fromUser) {
-                    int newRating = (int) Math.floor(rating - 1);
-                    JsonObject updateData = new JsonObject();
-                    updateData.addProperty("rating", newRating);
-                    executeUpdate(updateData);
-                }
-            }
-        };
+        setupRatingSpinner();
 
         progressBarListener = new View.OnClickListener() {
             @Override
@@ -221,6 +212,32 @@ public class ProjectFragment extends SherlockFragment {
                 // do nothing
             }
         };
+    }
+
+    private void setupRatingSpinner() {
+        ratingListener = new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                int newRating = position;
+                JsonObject updateData = new JsonObject();
+                updateData.addProperty("rating", newRating);
+                executeUpdate(updateData);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // do nothing
+            }
+        };
+        SimpleImageArrayAdapter ratingAdapter = new SimpleImageArrayAdapter(getActivity(), new String[]{":-C", ":-(", ":-|", ":-)", ":-D"});
+        HashMap<Object, Integer> images = new HashMap<Object, Integer>();
+        images.put(":-C", R.drawable.smiley1);
+        images.put(":-(", R.drawable.smiley2);
+        images.put(":-|", R.drawable.smiley3);
+        images.put(":-)", R.drawable.smiley4);
+        images.put(":-D", R.drawable.smiley5);
+        ratingAdapter.setImages(images);
+        rating.setAdapter(ratingAdapter);
     }
 
     private void setGalleryEditable(boolean shouldBeEditable) {
@@ -302,7 +319,8 @@ public class ProjectFragment extends SherlockFragment {
         final Project project = projectResult.project;
         getActivity().setTitle(project.name);
         name.setText(project.name);
-        rating.setRating(project.rating + 1);
+        rating.setOnItemSelectedListener(null);
+        rating.setSelection(project.rating, false);
         setPatternName(project);
         status.setText(project.status);
         started.setText(getCompletedDateText(project.started, project.startedDaySet));
@@ -344,16 +362,17 @@ public class ProjectFragment extends SherlockFragment {
         progressSpinner.setOnItemSelectedListener(progressListener);
         progressBar.setOnClickListener(progressBarListener);
         notes.setOnSaveListener(notesListener);
-        rating.setOnRatingBarChangeListener(ratingListener);
+        rating.setOnItemSelectedListener(ratingListener);
         isEditable = true;
         setFieldsEditable();
     }
 
     private void setNonEditable() {
         progressSpinner.setOnItemSelectedListener(null);
+        progressSpinner.setOnItemSelectedListener(null);
         progressBar.setOnClickListener(null);
         notes.setOnSaveListener(null);
-        rating.setOnRatingBarChangeListener(null);
+        rating.setOnItemSelectedListener(null);
         isEditable = false;
         setFieldsEditable();
     }

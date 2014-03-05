@@ -1,6 +1,5 @@
 package de.vanmar.android.yarrn.projects;
 
-import android.widget.RatingBar;
 import android.widget.Spinner;
 
 import com.meetme.android.horizontallistview.HorizontalListView;
@@ -161,13 +160,13 @@ public class ProjectFragmentUnitTest {
     @Test
     public void shouldUpdateRating() {
         // given
-        RatingBar rating = projectFragment.rating;
+        Spinner rating = projectFragment.rating;
         mockSpiceCall(createProjectResult());
         projectFragment.onProjectSelected(PROJECT_ID, USERNAME);
-        assertThat(rating.getRating(), is(3.0f));
+        assertThat(rating.getSelectedItemPosition(), is(2));
 
         // when
-        rating.getOnRatingBarChangeListener().onRatingChanged(rating, 5, true);
+        rating.getOnItemSelectedListener().onItemSelected(rating, null, 4, 0);
 
         // then
         assertThat(request, is(UpdateProjectRequest.class));

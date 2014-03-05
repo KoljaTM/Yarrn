@@ -41,22 +41,20 @@
             android:id="@+id/name"
             style="@style/Headline"
             android:textIsSelectable="true"
-            android:layout_below="@id/gallery" />
+            android:layout_alignBottom="@+id/rating" />
 
-        <RatingBar
+        <Spinner
             android:id="@+id/rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="?android:attr/ratingBarStyle"
-            android:numStars="5"
-            android:stepSize="1.0"
-            android:layout_below="@+id/name" />
+            android:layout_below="@id/gallery"
+            android:layout_toRightOf="@id/name" />
 
         <TextView
             android:id="@+id/pattern_name"
             style="@style/Text"
             android:textIsSelectable="true"
-            android:layout_below="@id/rating" />
+            android:layout_below="@id/name" />
 
         <TextView
             android:id="@+id/status"
