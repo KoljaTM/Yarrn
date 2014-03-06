@@ -37,7 +37,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 import de.vanmar.android.yarrn.R;
@@ -229,14 +228,7 @@ public class ProjectFragment extends SherlockFragment {
                 // do nothing
             }
         };
-        SimpleImageArrayAdapter ratingAdapter = new SimpleImageArrayAdapter(getActivity(), new String[]{":-C", ":-(", ":-|", ":-)", ":-D"});
-        HashMap<Object, Integer> images = new HashMap<Object, Integer>();
-        images.put(":-C", R.drawable.smiley1);
-        images.put(":-(", R.drawable.smiley2);
-        images.put(":-|", R.drawable.smiley3);
-        images.put(":-)", R.drawable.smiley4);
-        images.put(":-D", R.drawable.smiley5);
-        ratingAdapter.setImages(images);
+        SimpleImageArrayAdapter ratingAdapter = new SimpleImageArrayAdapter(getActivity(), new Integer[]{R.drawable.smiley1, R.drawable.smiley2, R.drawable.smiley3, R.drawable.smiley4, R.drawable.smiley5});
         rating.setAdapter(ratingAdapter);
     }
 
