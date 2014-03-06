@@ -25,6 +25,13 @@
         <item>100%</item>
     </string-array>
 
+    <string-array name="project_statuses">
+        <item>In Progress</item>
+        <item>Finished</item>
+        <item>Hibernating</item>
+        <item>Frogged</item>
+    </string-array>
+
     <string-array name="project_sort_option_names">
     <item>Name</item>
         <item>Status</item>

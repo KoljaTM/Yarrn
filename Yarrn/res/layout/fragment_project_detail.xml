@@ -56,10 +56,12 @@
             android:textIsSelectable="true"
             android:layout_below="@id/name" />
 
-        <TextView
+        <Spinner
             android:id="@+id/status"
-            style="@style/Text"
-            android:textIsSelectable="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:entries="@array/project_statuses"
             android:layout_below="@id/pattern_name" />
 
         <TextView

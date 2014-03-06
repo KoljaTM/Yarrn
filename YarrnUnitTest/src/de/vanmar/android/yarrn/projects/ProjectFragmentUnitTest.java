@@ -91,7 +91,7 @@ public class ProjectFragmentUnitTest {
 
         // then
         assertThat(projectFragment.name.getText().toString(), is("aqua diva"));
-        assertThat(projectFragment.status.getText().toString(), is("Started"));
+        assertThat(projectFragment.status.getSelectedItem().toString(), is("In Progress"));
         assertThat(projectFragment.progressBar.getProgress(), is(5));
         assertThat((String) projectFragment.progressSpinner.getSelectedItem(), is("5%"));
         assertThat(projectFragment.started.getText().toString(), is("17.05.2013")); // testing with German Locale
@@ -109,7 +109,7 @@ public class ProjectFragmentUnitTest {
 
         // then
         assertThat(projectFragment.name.getText().toString(), is("aqua diva"));
-        assertThat(projectFragment.status.getText().toString(), is("Started"));
+        assertThat(projectFragment.status.getSelectedItem().toString(), is("In Progress"));
         assertThat(projectFragment.progressBar.getProgress(), is(5));
         assertThat((String) projectFragment.progressSpinner.getSelectedItem(), is("5%"));
         assertThat(projectFragment.started.getText().toString(), is("17.05.2013")); // testing with German Locale
@@ -176,6 +176,24 @@ public class ProjectFragmentUnitTest {
     }
 
     @Test
+    public void shouldUpdateStatus() {
+        // given
+        Spinner status = projectFragment.status;
+        mockSpiceCall(createProjectResult());
+        projectFragment.onProjectSelected(PROJECT_ID, USERNAME);
+        assertThat(status.getSelectedItemPosition(), is(0));
+
+        // when
+        status.getOnItemSelectedListener().onItemSelected(status, null, 3, 0);
+
+        // then
+        assertThat(request, is(UpdateProjectRequest.class));
+        UpdateProjectRequest updateProjectRequest = (UpdateProjectRequest) request;
+        assertThat(updateProjectRequest.getProjectId(), is(PROJECT_ID));
+        assertThat(updateProjectRequest.getUpdateData().get("project_status_id").getAsInt(), is(4));
+    }
+
+    @Test
     public void shouldRearrangePhotos() {
         // given
         mockSpiceCall(createProjectResult());
@@ -238,7 +256,8 @@ public class ProjectFragmentUnitTest {
         project.name = "aqua diva";
         project.progress = 5;
         project.rating = 2;
-        project.status = "Started";
+        project.status = "In Progress";
+        project.statusId = 1;
         project.notes = "Notizfeld";
         GregorianCalendar started = new GregorianCalendar();
         started.set(2013, Calendar.MAY, 17);

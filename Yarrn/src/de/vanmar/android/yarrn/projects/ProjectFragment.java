@@ -65,6 +65,7 @@ public class ProjectFragment extends SherlockFragment {
     protected SpiceManager spiceManager;
     private AdapterView.OnItemSelectedListener progressListener;
     private ViewEditText.OnSaveListener notesListener;
+    private AdapterView.OnItemSelectedListener statusListener;
     private AdapterView.OnItemSelectedListener ratingListener;
     private View.OnClickListener progressBarListener;
     private List<Photo> photos;
@@ -86,7 +87,7 @@ public class ProjectFragment extends SherlockFragment {
     TextView patternName;
 
     @ViewById(R.id.status)
-    TextView status;
+    Spinner status;
 
     @ViewById(R.id.gallery_edit_done)
     ImageButton galleryEditDone;
@@ -144,6 +145,7 @@ public class ProjectFragment extends SherlockFragment {
             }
         };
 
+        setupStatusSpinner();
         setupRatingSpinner();
 
         progressBarListener = new View.OnClickListener() {
@@ -203,6 +205,23 @@ public class ProjectFragment extends SherlockFragment {
                 displayProgress(newProgress);
                 JsonObject updateData = new JsonObject();
                 updateData.addProperty("progress", newProgress);
+                executeUpdate(updateData);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // do nothing
+            }
+        };
+    }
+
+    private void setupStatusSpinner() {
+        statusListener = new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                int newStatus = position + 1;
+                JsonObject updateData = new JsonObject();
+                updateData.addProperty("project_status_id", newStatus);
                 executeUpdate(updateData);
             }
 
@@ -314,7 +333,8 @@ public class ProjectFragment extends SherlockFragment {
         rating.setOnItemSelectedListener(null);
         rating.setSelection(project.rating, false);
         setPatternName(project);
-        status.setText(project.status);
+        status.setOnItemSelectedListener(null);
+        status.setSelection(project.statusId - 1, false);
         started.setText(getCompletedDateText(project.started, project.startedDaySet));
         completed.setText(getCompletedDateText(project.completed, project.completedDaySet));
         notes.setBodyText(project.notes);
@@ -354,6 +374,7 @@ public class ProjectFragment extends SherlockFragment {
         progressSpinner.setOnItemSelectedListener(progressListener);
         progressBar.setOnClickListener(progressBarListener);
         notes.setOnSaveListener(notesListener);
+        status.setOnItemSelectedListener(statusListener);
         rating.setOnItemSelectedListener(ratingListener);
         isEditable = true;
         setFieldsEditable();
@@ -364,6 +385,7 @@ public class ProjectFragment extends SherlockFragment {
         progressSpinner.setOnItemSelectedListener(null);
         progressBar.setOnClickListener(null);
         notes.setOnSaveListener(null);
+        status.setOnItemSelectedListener(null);
         rating.setOnItemSelectedListener(null);
         isEditable = false;
         setFieldsEditable();
@@ -371,12 +393,16 @@ public class ProjectFragment extends SherlockFragment {
 
     private void setFieldsEditable() {
         getSherlockActivity().invalidateOptionsMenu();
-        progressSpinner.setEnabled(isEditable);
-        progressSpinner.setClickable(isEditable);
-        progressSpinner.setFocusable(isEditable);
-        rating.setClickable(isEditable);
-        rating.setEnabled(isEditable);
+        setSpinnerEditable(status, isEditable);
+        setSpinnerEditable(rating, isEditable);
+        setSpinnerEditable(progressSpinner, isEditable);
         notes.setEditable(isEditable);
+    }
+
+    private void setSpinnerEditable(Spinner spinner, boolean editable) {
+        spinner.setEnabled(editable);
+        spinner.setClickable(editable);
+        spinner.setFocusable(editable);
     }
 
     private String getCompletedDateText(Date date, boolean withDay) {

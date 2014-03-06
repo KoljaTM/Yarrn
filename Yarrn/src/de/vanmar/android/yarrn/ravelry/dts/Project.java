@@ -19,6 +19,8 @@ public class Project {
     public int progress;
     @SerializedName("photos")
     public List<Photo> photos = new LinkedList<Photo>();
+    @SerializedName("project_status_id")
+    public int statusId;
     @SerializedName("status_name")
     public String status;
     @SerializedName("notes")
