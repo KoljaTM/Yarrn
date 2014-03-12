@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import com.androidquery.callback.BitmapAjaxCallback;
 import com.androidquery.util.AQUtility;
+import com.octo.android.robospice.exception.NetworkException;
 
 import org.acra.ACRA;
 import org.acra.ReportingInteractionMode;
@@ -17,6 +18,10 @@ import org.androidannotations.annotations.sharedpreferences.Pref;
 
 import java.io.File;
 import java.lang.Thread.UncaughtExceptionHandler;
+import java.net.ConnectException;
+import java.net.SocketException;
+
+import javax.net.ssl.SSLException;
 
 import de.vanmar.android.yarrn.util.SslCertificateHelper;
 
@@ -69,10 +74,15 @@ public class YarrnApplication extends Application {
     @UiThread
     protected void reportException(final Exception ex) {
         Log.e("Yarrn", ex.getMessage(), ex);
-        Toast.makeText(getApplicationContext(), R.string.unexpected_exception,
-                Toast.LENGTH_LONG).show();
-        if (prefs.sendErrorReports().get()) {
-            ACRA.getErrorReporter().handleSilentException(ex);
+        if (ex instanceof NetworkException || ex.getCause() instanceof SocketException || ex.getCause() instanceof SSLException || ex.getCause() instanceof ConnectException) {
+            Toast.makeText(getApplicationContext(), R.string.io_exception,
+                    Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(getApplicationContext(), R.string.unexpected_exception,
+                    Toast.LENGTH_LONG).show();
+            if (prefs.sendErrorReports().get()) {
+                ACRA.getErrorReporter().handleSilentException(ex);
+            }
         }
     }
 }

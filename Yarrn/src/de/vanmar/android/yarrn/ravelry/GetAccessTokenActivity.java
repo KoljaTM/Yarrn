@@ -11,7 +11,6 @@ import android.webkit.WebViewClient;
 
 import com.androidquery.util.AQUtility;
 
-import org.acra.ACRA;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.UiThread;
@@ -104,7 +103,6 @@ public class GetAccessTokenActivity extends Activity {
             requestToken = service.getRequestToken();
         } catch (Exception e) {
             AQUtility.report(e);
-            ACRA.getErrorReporter().handleSilentException(e);
             moveTaskToBack(true);
             return;
         }

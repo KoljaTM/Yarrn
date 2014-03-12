@@ -40,6 +40,7 @@
     <string name="sort_title">Sort by:</string>
     <string name="search_title">Search</string>
     <string name="favorite_search_hint">Search for</string>
+    <string name="reorder_photos">Change photo order</string>
 
     <string name="crash_toast_text">An unexpected error has occurred! Collecting crash data.</string>
     <string name="crash_dialog_title">Yarrn! has crashed</string>
@@ -59,5 +60,5 @@
     <string name="settings_about">About Yarrn!</string>
     <string name="settings_title">Settings</string>
     <string name="unexpected_exception">An unexpected error occurred</string>
-    <string name="reorder_photos">Change photo order</string>
+    <string name="io_exception">Problem connecting to Ravelry</string>
 </resources>
