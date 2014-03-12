@@ -2,10 +2,10 @@ package de.vanmar.android.yarrn.components;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Window;
-
-import com.androidquery.AQuery;
+import android.webkit.WebView;
 
 import de.vanmar.android.yarrn.R;
 
@@ -16,7 +16,7 @@ public class ImageDialog extends Dialog {
     private String imageUrl;
 
     public ImageDialog(Context context, String imageUrl) {
-        super(context);
+        super(context, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.imageUrl = imageUrl;
     }
@@ -26,8 +26,16 @@ public class ImageDialog extends Dialog {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.image_dialog);
-        //.progress(R.id.progressbar)
-        new AQuery(findViewById(R.id.image_dialog)).id(R.id.imageView).progress(R.id.progressbar).image(imageUrl);
+        WebView webView = (WebView) findViewById(R.id.webview);
+
+        webView.getSettings().setBuiltInZoomControls(true);
+        webView.getSettings().setUseWideViewPort(true);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
+            webView.getSettings().setDisplayZoomControls(false);
+        }
+
+        webView.loadUrl(imageUrl);
+        webView.setBackgroundColor(Color.BLACK);
     }
 
 }

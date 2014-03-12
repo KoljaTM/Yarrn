@@ -42,6 +42,7 @@ public class PatternFragment extends SherlockFragment {
     public static final String ARG_PATTERN_ID = "patternId";
 
     protected SpiceManager spiceManager;
+    private ImageDialog dialog;
 
     public interface PatternFragmentListener extends IRavelryActivity {
     }
@@ -91,9 +92,19 @@ public class PatternFragment extends SherlockFragment {
         gallery.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                new ImageDialog(getActivity(), adapter.getItem(position).mediumUrl).show();
+                dialog = new ImageDialog(getActivity(), adapter.getItem(position).mediumUrl);
+                dialog.show();
             }
         });
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
+            dialog = null;
+        }
     }
 
     @Override

@@ -40,6 +40,7 @@ public class StashFragment extends SherlockFragment {
     public static final String ARG_USERNAME = "username";
 
     protected SpiceManager spiceManager;
+    private ImageDialog dialog;
 
     public interface StashFragmentListener extends IRavelryActivity {
     }
@@ -88,7 +89,8 @@ public class StashFragment extends SherlockFragment {
         gallery.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                new ImageDialog(getActivity(), adapter.getItem(position).mediumUrl).show();
+                dialog = new ImageDialog(getActivity(), adapter.getItem(position).mediumUrl);
+                dialog.show();
             }
         });
     }
@@ -137,6 +139,15 @@ public class StashFragment extends SherlockFragment {
             spiceManager.shouldStop();
         }
         super.onStop();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
+            dialog = null;
+        }
     }
 
     @UiThread

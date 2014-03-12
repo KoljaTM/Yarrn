@@ -70,6 +70,7 @@ public class ProjectFragment extends SherlockFragment {
     private View.OnClickListener progressBarListener;
     private List<Photo> photos;
     private List<Photo> photosOriginal;
+    private ImageDialog dialog;
 
     public interface ProjectFragmentListener extends IRavelryActivity {
 
@@ -131,6 +132,15 @@ public class ProjectFragment extends SherlockFragment {
     @Pref
     YarrnPrefs_ prefs;
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
+            dialog = null;
+        }
+    }
+
     @AfterViews
     public void afterViews() {
         if (spiceManager == null) {
@@ -160,7 +170,8 @@ public class ProjectFragment extends SherlockFragment {
         gallery.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                new ImageDialog(getActivity(), adapter.getItem(position).mediumUrl).show();
+                dialog = new ImageDialog(getActivity(), adapter.getItem(position).mediumUrl);
+                dialog.show();
             }
         });
         gallery.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
