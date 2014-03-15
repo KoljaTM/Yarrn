@@ -32,6 +32,7 @@ import java.util.Date;
 import de.vanmar.android.yarrn.favorites.FavoritesFragment;
 import de.vanmar.android.yarrn.patterns.PatternFragment;
 import de.vanmar.android.yarrn.projects.ProjectFragment;
+import de.vanmar.android.yarrn.projects.ProjectSearchFragment;
 import de.vanmar.android.yarrn.projects.ProjectsFragment;
 import de.vanmar.android.yarrn.projects.ProjectsFragment.ProjectsFragmentListener;
 import de.vanmar.android.yarrn.stashes.StashFragment;
@@ -40,7 +41,9 @@ import de.vanmar.android.yarrn.util.RequestCode;
 
 @EActivity(resName = "activity_main")
 public class MainActivity extends AbstractRavelryActivity implements
-        ProjectsFragmentListener, ProjectFragment.ProjectFragmentListener,
+        ProjectsFragmentListener,
+        ProjectSearchFragment.ProjectSearchFragmentListener,
+        ProjectFragment.ProjectFragmentListener,
         FavoritesFragment.FavoritesFragmentListener,
         PatternFragment.PatternFragmentListener,
         StashesFragment.StashesFragmentListener,
@@ -53,6 +56,7 @@ public class MainActivity extends AbstractRavelryActivity implements
     public static final String PROJECT_DETAIL_TAG = "projectDetail";
     public static final String PATTERN_DETAIL_TAG = "patternDetail";
     public static final String PROJECTS_TAG = "projects";
+    public static final String PROJECT_SEARCH_TAG = "project_search";
     public static final String FAVORITES_TAG = "favorites";
     public static final String STASHES_TAG = "stashes";
     public static final String STASH_DETAIL_TAG = "stashDetail";
@@ -62,6 +66,7 @@ public class MainActivity extends AbstractRavelryActivity implements
     Uri photoUri;
 
     public ProjectsFragment projectsFragment;
+    public ProjectSearchFragment projectSearchFragment;
     public FavoritesFragment favoritesFragment;
     public StashesFragment stashesFragment;
 
@@ -110,6 +115,13 @@ public class MainActivity extends AbstractRavelryActivity implements
             projectsFragment = fragmentFactory.getProjectsFragment();
         }
         ensureFragment(PROJECTS_TAG, projectsFragment);
+    }
+
+    private void displayProjectSearchFragment() {
+        if (projectSearchFragment == null) {
+            projectSearchFragment = fragmentFactory.getProjectSearchFragment();
+        }
+        ensureFragment(PROJECT_SEARCH_TAG, projectSearchFragment);
     }
 
     private void displayFavoritesFragment() {
@@ -221,7 +233,8 @@ public class MainActivity extends AbstractRavelryActivity implements
         final File storageDir = new File(
                 Environment
                         .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
-                "Yarrn");
+                "Yarrn"
+        );
         storageDir.mkdirs();
 
         final String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss")
@@ -287,6 +300,12 @@ public class MainActivity extends AbstractRavelryActivity implements
     public void menuMyStashesClicked() {
         drawerLayout.closeDrawers();
         displayStashesFragment();
+    }
+
+    @Click(R.id.menu_project_search)
+    public void menuProjectSearchClicked() {
+        drawerLayout.closeDrawers();
+        displayProjectSearchFragment();
     }
 
     @Click(R.id.menu_open_ravelry)

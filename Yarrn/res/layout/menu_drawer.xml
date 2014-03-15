@@ -31,6 +31,12 @@
             android:drawableLeft="@drawable/stashes"
             android:text="@string/menu_my_stashes" />
 
+        <TextView
+            android:id="@+id/menu_project_search"
+            style="@style/menu_entry"
+            android:drawableLeft="@drawable/projectsearch"
+            android:text="@string/menu_project_search" />
+
         <View style="@style/divider_line" />
 
         <TextView

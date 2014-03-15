@@ -1,6 +1,7 @@
 package de.vanmar.android.yarrn.requests;
 
 import android.app.Application;
+import android.util.Log;
 
 import com.octo.android.robospice.request.springandroid.SpringAndroidSpiceRequest;
 import com.octo.android.robospice.retry.DefaultRetryPolicy;
@@ -45,6 +46,7 @@ public abstract class AbstractRavelryRequest<T> extends SpringAndroidSpiceReques
                 case 404:
                     throw new RavelryException(response.getCode());
                 default:
+                    Log.w("TAG", request.getCompleteUrl());
                     throw new IllegalArgumentException(
                             "Unknown Response code: "
                                     + response.getCode());

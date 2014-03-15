@@ -61,4 +61,7 @@
     <string name="settings_title">Settings</string>
     <string name="unexpected_exception">An unexpected error occurred</string>
     <string name="io_exception">Problem connecting to Ravelry</string>
+    <string name="searchHint">query</string>
+    <string name="search_projects_title">Search Projects</string>
+    <string name="menu_project_search">Search Projects</string>
 </resources>

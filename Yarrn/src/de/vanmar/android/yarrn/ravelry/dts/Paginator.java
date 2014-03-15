@@ -17,4 +17,14 @@ public class Paginator {
     public int pageCount;
     @SerializedName("page_size")
     public int pageSize;
+
+    public static Paginator emptyPaginator() {
+        Paginator paginator = new Paginator();
+        paginator.lastPage = 1;
+        paginator.page = 1;
+        paginator.results = 0;
+        paginator.pageCount = 1;
+        paginator.pageSize = 1;
+        return paginator;
+    }
 }

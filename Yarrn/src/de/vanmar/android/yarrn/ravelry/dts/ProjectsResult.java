@@ -1,5 +1,6 @@
 package de.vanmar.android.yarrn.ravelry.dts;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -29,5 +30,12 @@ public class ProjectsResult implements Paging<ProjectShort> {
     @Override
     public List<ProjectShort> getItems() {
         return projects;
+    }
+
+    public static ProjectsResult emptyResult() {
+        ProjectsResult projectsResult = new ProjectsResult();
+        projectsResult.paginator = Paginator.emptyPaginator();
+        projectsResult.projects = Collections.emptyList();
+        return projectsResult;
     }
 }

@@ -8,6 +8,8 @@ import de.vanmar.android.yarrn.patterns.PatternFragment;
 import de.vanmar.android.yarrn.patterns.PatternFragment_;
 import de.vanmar.android.yarrn.projects.ProjectFragment;
 import de.vanmar.android.yarrn.projects.ProjectFragment_;
+import de.vanmar.android.yarrn.projects.ProjectSearchFragment;
+import de.vanmar.android.yarrn.projects.ProjectSearchFragment_;
 import de.vanmar.android.yarrn.projects.ProjectsFragment;
 import de.vanmar.android.yarrn.projects.ProjectsFragment_;
 import de.vanmar.android.yarrn.stashes.StashFragment;
@@ -47,5 +49,9 @@ public class FragmentFactory {
 
     public SettingsFragment getSettingsFragment() {
         return new SettingsFragment_();
+    }
+
+    public ProjectSearchFragment getProjectSearchFragment() {
+        return new ProjectSearchFragment_();
     }
 }
