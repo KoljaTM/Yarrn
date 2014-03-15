@@ -20,6 +20,7 @@ import java.io.File;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.net.ConnectException;
 import java.net.SocketException;
+import java.net.UnknownHostException;
 
 import javax.net.ssl.SSLException;
 
@@ -74,7 +75,7 @@ public class YarrnApplication extends Application {
     @UiThread
     protected void reportException(final Exception ex) {
         Log.e("Yarrn", ex.getMessage(), ex);
-        if (ex instanceof NetworkException || ex.getCause() instanceof SocketException || ex.getCause() instanceof SSLException || ex.getCause() instanceof ConnectException) {
+        if (ex instanceof NetworkException || ex.getCause() instanceof SocketException || ex.getCause() instanceof SSLException || ex.getCause() instanceof UnknownHostException || ex.getCause() instanceof ConnectException) {
             Toast.makeText(getApplicationContext(), R.string.io_exception,
                     Toast.LENGTH_LONG).show();
         } else {
