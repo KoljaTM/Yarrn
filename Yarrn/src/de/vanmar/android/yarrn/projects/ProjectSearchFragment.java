@@ -1,6 +1,7 @@
 package de.vanmar.android.yarrn.projects;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -17,10 +18,15 @@ import org.androidannotations.annotations.SystemService;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import de.vanmar.android.yarrn.R;
 import de.vanmar.android.yarrn.YarrnAdapter;
 import de.vanmar.android.yarrn.YarrnPrefs_;
 import de.vanmar.android.yarrn.components.PagingListFragment;
+import de.vanmar.android.yarrn.components.SearchCriteria;
+import de.vanmar.android.yarrn.components.SearchCriteriaDialog;
 import de.vanmar.android.yarrn.ravelry.IRavelryActivity;
 import de.vanmar.android.yarrn.ravelry.dts.ProjectShort;
 import de.vanmar.android.yarrn.ravelry.dts.ProjectsResult;
@@ -30,6 +36,8 @@ import de.vanmar.android.yarrn.requests.SearchProjectsRequest;
 @EFragment(R.layout.fragment_search_projects)
 @OptionsMenu(R.menu.fragment_menu)
 public class ProjectSearchFragment extends PagingListFragment<ProjectsResult, ProjectShort> {
+
+    private SearchCriteria searchCriteria;
 
     public interface ProjectSearchFragmentListener extends IRavelryActivity {
         /**
@@ -123,6 +131,19 @@ public class ProjectSearchFragment extends PagingListFragment<ProjectsResult, Pr
         startSearch();
     }
 
+    @Click(R.id.add_search_criteria)
+    public void onAddSearchCriteriaClicked() {
+        final SearchCriteriaDialog searchCriteriaDialog = new SearchCriteriaDialog(getActivity(), prefs);
+        searchCriteriaDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                ProjectSearchFragment.this.searchCriteria = searchCriteriaDialog.getSearchCriteria();
+                startSearch();
+            }
+        });
+        searchCriteriaDialog.show();
+    }
+
     protected void displayResult(final ProjectsResult result) {
         super.displayResult(result);
     }
@@ -139,7 +160,14 @@ public class ProjectSearchFragment extends PagingListFragment<ProjectsResult, Pr
 
     @Override
     protected AbstractRavelryGetRequest<ProjectsResult> getRequest(int page) {
-        return new SearchProjectsRequest(this.getActivity().getApplication(), prefs, query.getText().toString(), page, PAGE_SIZE);
+        List<SearchCriteria> searchCriteriaList = new LinkedList<SearchCriteria>();
+        if (query.getText().length() > 0) {
+            searchCriteriaList.add(new SearchCriteria("query", query.getText().toString()));
+        }
+        if (searchCriteria != null) {
+            searchCriteriaList.add(searchCriteria);
+        }
+        return new SearchProjectsRequest(this.getActivity().getApplication(), prefs, searchCriteriaList, page, PAGE_SIZE);
     }
 
     @Override

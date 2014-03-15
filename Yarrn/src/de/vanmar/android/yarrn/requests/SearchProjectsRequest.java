@@ -1,18 +1,20 @@
 package de.vanmar.android.yarrn.requests;
 
 import android.app.Application;
+import android.util.Log;
 
 import com.google.gson.Gson;
 
-import org.apache.commons.lang3.StringUtils;
 import org.scribe.model.OAuthRequest;
 import org.scribe.model.Verb;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.List;
 
 import de.vanmar.android.yarrn.R;
 import de.vanmar.android.yarrn.YarrnPrefs_;
+import de.vanmar.android.yarrn.components.SearchCriteria;
 import de.vanmar.android.yarrn.ravelry.dts.ProjectsResult;
 
 /**
@@ -20,13 +22,13 @@ import de.vanmar.android.yarrn.ravelry.dts.ProjectsResult;
  */
 public class SearchProjectsRequest extends AbstractRavelryGetRequest<ProjectsResult> {
 
-    private String query;
+    private List<SearchCriteria> searchCriteriaList;
     private int page;
     private int pageSize;
 
-    public SearchProjectsRequest(Application application, YarrnPrefs_ prefs, String query, int page, int pageSize) {
+    public SearchProjectsRequest(Application application, YarrnPrefs_ prefs, List<SearchCriteria> searchCriteriaList, int page, int pageSize) {
         super(ProjectsResult.class, application, prefs);
-        this.query = query;
+        this.searchCriteriaList = searchCriteriaList;
         this.page = page;
         this.pageSize = pageSize;
     }
@@ -37,20 +39,28 @@ public class SearchProjectsRequest extends AbstractRavelryGetRequest<ProjectsRes
 
     @Override
     public ProjectsResult loadDataFromNetwork() throws Exception {
-        if (StringUtils.isEmpty(query)) {
+        if (searchCriteriaList.isEmpty()) {
             return ProjectsResult.emptyResult();
         }
         return super.loadDataFromNetwork();
     }
 
     protected OAuthRequest getRequest() {
-        try {
-            return new OAuthRequest(Verb.GET,
-                    application.getString(R.string.ravelry_url) + String.format("/projects/search.json?query=%s&page=%s&page_size=%s",
-                            URLEncoder.encode(query, "utf-8"), page, pageSize)
-            );
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
+        return new OAuthRequest(Verb.GET,
+                application.getString(R.string.ravelry_url) + String.format("/projects/search.json?%spage=%s&page_size=%s",
+                        getSearchCriteriaString(), page, pageSize)
+        );
+    }
+
+    private String getSearchCriteriaString() {
+        StringBuilder sb = new StringBuilder();
+        for (SearchCriteria searchCriteria : searchCriteriaList) {
+            try {
+                sb.append(searchCriteria.getName()).append("=").append(URLEncoder.encode(searchCriteria.getValue(), "utf-8")).append("&");
+            } catch (UnsupportedEncodingException e) {
+                Log.e("SeachProjectsRequest", e.getMessage(), e);
+            }
         }
+        return sb.toString();
     }
 }

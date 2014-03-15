@@ -63,4 +63,9 @@
     <string name="project_search_hint">Search for</string>
     <string name="search_projects_title">Search Projects</string>
     <string name="menu_project_search">Search Projects</string>
+    <string name="add_search_by">Add</string>
+    <string name="search_by_hint">created by</string>
+    <string name="add_search_by_self">By Myself</string>
+    <string name="add_search_by_friends">By Friends</string>
+    <string name="add_search_by_anyone">By Anyone</string>
 </resources>
