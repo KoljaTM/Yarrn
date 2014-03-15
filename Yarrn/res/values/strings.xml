@@ -36,7 +36,6 @@
     <string name="needles_title">needles: </string>
     <string name="load_more">More…</string>
     <string name="loading">Loading…</string>
-    <string name="sort_reverse">reverse</string>
     <string name="sort_title">Sort by:</string>
     <string name="search_title">Search</string>
     <string name="favorite_search_hint">Search for</string>
@@ -61,7 +60,7 @@
     <string name="settings_title">Settings</string>
     <string name="unexpected_exception">An unexpected error occurred</string>
     <string name="io_exception">Problem connecting to Ravelry</string>
-    <string name="searchHint">query</string>
+    <string name="project_search_hint">Search for</string>
     <string name="search_projects_title">Search Projects</string>
     <string name="menu_project_search">Search Projects</string>
 </resources>

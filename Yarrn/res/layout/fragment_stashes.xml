@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:text="@string/sort_reverse"
+            android:button="@drawable/checkbox_sort_reverse"
             android:padding="10dp" />
 
     </RelativeLayout>
