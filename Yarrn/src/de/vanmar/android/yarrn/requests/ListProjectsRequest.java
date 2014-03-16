@@ -27,8 +27,8 @@ public class ListProjectsRequest extends AbstractRavelryGetRequest<ProjectsResul
     }
 
     protected OAuthRequest getRequest() {
-        return new OAuthRequest(Verb.GET, String.format(
-                application.getString(R.string.ravelry_url) + "/projects/%s/list.json?sort=%s&page=%s&page_size=%s",
+        return new OAuthRequest(Verb.GET,
+                application.getString(R.string.ravelry_url) + String.format("/projects/%s/list.json?sort=%s&page=%s&page_size=%s",
                 prefs.username().get(), getSort(), page, pageSize));
     }
 

@@ -53,8 +53,8 @@ public class ListFavoritesRequest extends AbstractRavelryGetRequest<FavoritesRes
                     break;
             }
         }
-        return new OAuthRequest(Verb.GET, String.format(
-                application.getString(R.string.ravelry_url) + "/people/%s/favorites/list.json?types=project%%20pattern&page=%s&page_size=%s&%s",
+        return new OAuthRequest(Verb.GET,
+                application.getString(R.string.ravelry_url) + String.format("/people/%s/favorites/list.json?types=project%%20pattern&page=%s&page_size=%s&%s",
                 prefs.username().get(), page, pageSize, searchParam));
     }
 }
