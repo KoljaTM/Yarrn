@@ -27,7 +27,7 @@ public class GetStashRequest extends AbstractRavelryGetRequest<StashResult> {
     }
 
     protected OAuthRequest getRequest() {
-        return new OAuthRequest(Verb.GET, String.format(
-                application.getString(R.string.ravelry_url) + "/people/%s/stash/%s.json", username, stashId));
+        return new OAuthRequest(Verb.GET,
+                application.getString(R.string.ravelry_url) + String.format("/people/%s/stash/%s.json", username, stashId));
     }
 }

@@ -16,6 +16,8 @@ import de.vanmar.android.yarrn.projects.ProjectsFragment;
 import de.vanmar.android.yarrn.projects.ProjectsFragment_;
 import de.vanmar.android.yarrn.stashes.StashFragment;
 import de.vanmar.android.yarrn.stashes.StashFragment_;
+import de.vanmar.android.yarrn.stashes.StashSearchFragment;
+import de.vanmar.android.yarrn.stashes.StashSearchFragment_;
 import de.vanmar.android.yarrn.stashes.StashesFragment;
 import de.vanmar.android.yarrn.stashes.StashesFragment_;
 
@@ -43,6 +45,10 @@ public class FragmentFactory {
 
     public StashesFragment getStashesFragment() {
         return new StashesFragment_();
+    }
+
+    public StashSearchFragment getStashSearchFragment() {
+        return new StashSearchFragment_();
     }
 
     public StashFragment getStashFragment() {

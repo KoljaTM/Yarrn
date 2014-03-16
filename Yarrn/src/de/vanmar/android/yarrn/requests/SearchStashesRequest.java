@@ -15,39 +15,39 @@ import java.util.List;
 import de.vanmar.android.yarrn.R;
 import de.vanmar.android.yarrn.YarrnPrefs_;
 import de.vanmar.android.yarrn.components.SearchCriteria;
-import de.vanmar.android.yarrn.ravelry.dts.PatternsResult;
+import de.vanmar.android.yarrn.ravelry.dts.StashSearchResult;
 
 /**
  * Created by Kolja on 15.03.14.
  */
-public class SearchPatternsRequest extends AbstractRavelryGetRequest<PatternsResult> {
+public class SearchStashesRequest extends AbstractRavelryGetRequest<StashSearchResult> {
 
     private List<SearchCriteria> searchCriteriaList;
     private int page;
     private int pageSize;
 
-    public SearchPatternsRequest(Application application, YarrnPrefs_ prefs, List<SearchCriteria> searchCriteriaList, int page, int pageSize) {
-        super(PatternsResult.class, application, prefs);
+    public SearchStashesRequest(Application application, YarrnPrefs_ prefs, List<SearchCriteria> searchCriteriaList, int page, int pageSize) {
+        super(StashSearchResult.class, application, prefs);
         this.searchCriteriaList = searchCriteriaList;
         this.page = page;
         this.pageSize = pageSize;
     }
 
-    protected PatternsResult parseResult(String responseBody) {
-        return new Gson().fromJson(responseBody, PatternsResult.class);
+    protected StashSearchResult parseResult(String responseBody) {
+        return new Gson().fromJson(responseBody, StashSearchResult.class);
     }
 
     @Override
-    public PatternsResult loadDataFromNetwork() throws Exception {
+    public StashSearchResult loadDataFromNetwork() throws Exception {
         if (searchCriteriaList.isEmpty()) {
-            return PatternsResult.emptyResult();
+            return StashSearchResult.emptyResult();
         }
         return super.loadDataFromNetwork();
     }
 
     protected OAuthRequest getRequest() {
         return new OAuthRequest(Verb.GET,
-                application.getString(R.string.ravelry_url) + String.format("/patterns/search.json?%spage=%s&page_size=%s",
+                application.getString(R.string.ravelry_url) + String.format("/stash/search.json?%spage=%s&page_size=%s",
                         getSearchCriteriaString(), page, pageSize)
         );
     }
@@ -58,7 +58,7 @@ public class SearchPatternsRequest extends AbstractRavelryGetRequest<PatternsRes
             try {
                 sb.append(searchCriteria.getName()).append("=").append(URLEncoder.encode(searchCriteria.getValue(), "utf-8")).append("&");
             } catch (UnsupportedEncodingException e) {
-                Log.e("SeachPatternsRequest", e.getMessage(), e);
+                Log.e("SeachStashesRequest", e.getMessage(), e);
             }
         }
         return sb.toString();

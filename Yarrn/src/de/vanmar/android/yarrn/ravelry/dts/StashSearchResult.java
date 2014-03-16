@@ -8,10 +8,10 @@ import java.util.List;
 /**
  * http://www.ravelry.com/api#stash_list
  */
-public class StashesResult implements Paging<StashShort> {
+public class StashSearchResult implements Paging<StashShort> {
 
     public Paginator paginator;
-    @SerializedName("stash")
+    @SerializedName("stashes")
     public List<StashShort> stashes;
     private String etag;
 
@@ -35,8 +35,8 @@ public class StashesResult implements Paging<StashShort> {
         return stashes;
     }
 
-    public static StashesResult emptyResult() {
-        StashesResult stashesResult = new StashesResult();
+    public static StashSearchResult emptyResult() {
+        StashSearchResult stashesResult = new StashSearchResult();
         stashesResult.paginator = Paginator.emptyPaginator();
         stashesResult.stashes = Collections.emptyList();
         return stashesResult;

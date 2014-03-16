@@ -37,6 +37,7 @@ import de.vanmar.android.yarrn.projects.ProjectSearchFragment;
 import de.vanmar.android.yarrn.projects.ProjectsFragment;
 import de.vanmar.android.yarrn.projects.ProjectsFragment.ProjectsFragmentListener;
 import de.vanmar.android.yarrn.stashes.StashFragment;
+import de.vanmar.android.yarrn.stashes.StashSearchFragment;
 import de.vanmar.android.yarrn.stashes.StashesFragment;
 import de.vanmar.android.yarrn.util.RequestCode;
 
@@ -49,6 +50,7 @@ public class MainActivity extends AbstractRavelryActivity implements
         PatternSearchFragment.PatternSearchFragmentListener,
         PatternFragment.PatternFragmentListener,
         StashesFragment.StashesFragmentListener,
+        StashSearchFragment.StashSearchFragmentListener,
         StashFragment.StashFragmentListener,
         SettingsFragment.SettingsFragmentListener {
 
@@ -62,6 +64,7 @@ public class MainActivity extends AbstractRavelryActivity implements
     public static final String FAVORITES_TAG = "favorites";
     public static final String PATTERN_SEARCH_TAG = "pattern_search";
     public static final String STASHES_TAG = "stashes";
+    public static final String STASH_SEARCH_TAG = "stash_search";
     public static final String STASH_DETAIL_TAG = "stashDetail";
     public static final String SETTINGS_TAG = "settings";
 
@@ -73,6 +76,7 @@ public class MainActivity extends AbstractRavelryActivity implements
     public FavoritesFragment favoritesFragment;
     public PatternSearchFragment patternSearchFragment;
     public StashesFragment stashesFragment;
+    public StashSearchFragment stashSearchFragment;
 
     @Bean
     public
@@ -147,6 +151,13 @@ public class MainActivity extends AbstractRavelryActivity implements
             stashesFragment = fragmentFactory.getStashesFragment();
         }
         ensureFragment(STASHES_TAG, stashesFragment);
+    }
+
+    private void displayStashSearchFragment() {
+        if (stashSearchFragment == null) {
+            stashSearchFragment = fragmentFactory.getStashSearchFragment();
+        }
+        ensureFragment(STASH_SEARCH_TAG, stashSearchFragment);
     }
 
     private void displaySettingsFragment() {
@@ -323,6 +334,12 @@ public class MainActivity extends AbstractRavelryActivity implements
     public void menuPatternSearchClicked() {
         drawerLayout.closeDrawers();
         displayPatternSearchFragment();
+    }
+
+    @Click(R.id.menu_stash_search)
+    public void menuStashSearchClicked() {
+        drawerLayout.closeDrawers();
+        displayStashSearchFragment();
     }
 
     @Click(R.id.menu_open_ravelry)
