@@ -4,51 +4,54 @@
     android:id="@+id/search_criteria_dialog"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="5dp">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/search_by_user"
+            android:text="@string/search_by_user_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
         <EditText
             android:id="@+id/search_by"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:hint="@string/search_by_hint"
+            android:layout_width="match_parent"
+            android:hint="@string/search_by_user_hint"
             android:layout_height="wrap_content" />
 
-        <Button
-            android:id="@+id/add_search_by"
-            android:text="@string/add_search_by"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <RadioButton
+        android:id="@+id/search_by_self"
+        android:text="@string/search_by_self_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <RadioButton
+        android:id="@+id/search_by_friends"
+        android:text="@string/search_by_friends_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <RadioButton
+        android:id="@+id/search_by_anyone"
+        android:text="@string/search_by_anyone_title"
+        android:checked="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/add_search_by"
+        style="@style/Button"
+        android:text="@string/add_search_by"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/add_search_by_self"
-            android:text="@string/add_search_by_self"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <Button
-            android:id="@+id/add_search_by_friends"
-            android:text="@string/add_search_by_friends"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <Button
-            android:id="@+id/add_search_by_anyone"
-            android:text="@string/add_search_by_anyone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-    </LinearLayout>
+        android:background="@drawable/border" />
 
 </LinearLayout>

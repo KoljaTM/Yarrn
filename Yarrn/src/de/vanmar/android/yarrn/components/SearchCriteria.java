@@ -6,10 +6,12 @@ package de.vanmar.android.yarrn.components;
 public class SearchCriteria {
     private String name;
     private String value;
+    private String description;
 
-    public SearchCriteria(String name, String value) {
+    public SearchCriteria(String name, String value, String description) {
         this.name = name;
         this.value = value;
+        this.description = description;
     }
 
     public String getName() {
@@ -18,5 +20,9 @@ public class SearchCriteria {
 
     public String getValue() {
         return value;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }

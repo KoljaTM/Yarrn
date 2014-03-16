@@ -3,6 +3,7 @@ package de.vanmar.android.yarrn.projects;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -38,6 +39,7 @@ import de.vanmar.android.yarrn.requests.SearchProjectsRequest;
 public class ProjectSearchFragment extends PagingListFragment<ProjectsResult, ProjectShort> {
 
     private SearchCriteria searchCriteria;
+    private TextView searchCriteriaText;
 
     public interface ProjectSearchFragmentListener extends IRavelryActivity {
         /**
@@ -74,6 +76,10 @@ public class ProjectSearchFragment extends PagingListFragment<ProjectsResult, Pr
             }
 
         };
+        if (searchCriteriaText == null) {
+            searchCriteriaText = new TextView(getActivity());
+            projectlist.addHeaderView(searchCriteriaText);
+        }
         projectlist.setAdapter(adapter);
 
         query.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -102,6 +108,7 @@ public class ProjectSearchFragment extends PagingListFragment<ProjectsResult, Pr
     public void onResume() {
         super.onResume();
         getActivity().setTitle(R.string.search_projects_title);
+        updateSearchCriteriaDescription();
     }
 
     @Override
@@ -138,10 +145,21 @@ public class ProjectSearchFragment extends PagingListFragment<ProjectsResult, Pr
             @Override
             public void onDismiss(DialogInterface dialog) {
                 ProjectSearchFragment.this.searchCriteria = searchCriteriaDialog.getSearchCriteria();
+                updateSearchCriteriaDescription();
                 startSearch();
             }
         });
         searchCriteriaDialog.show();
+    }
+
+    private void updateSearchCriteriaDescription() {
+        if (searchCriteria == null) {
+            searchCriteriaText.setText("");
+            searchCriteriaText.setVisibility(View.GONE);
+        } else {
+            searchCriteriaText.setText(searchCriteria.getDescription());
+            searchCriteriaText.setVisibility(View.VISIBLE);
+        }
     }
 
     protected void displayResult(final ProjectsResult result) {
@@ -162,7 +180,8 @@ public class ProjectSearchFragment extends PagingListFragment<ProjectsResult, Pr
     protected AbstractRavelryGetRequest<ProjectsResult> getRequest(int page) {
         List<SearchCriteria> searchCriteriaList = new LinkedList<SearchCriteria>();
         if (query.getText().length() > 0) {
-            searchCriteriaList.add(new SearchCriteria("query", query.getText().toString()));
+            String queryText = query.getText().toString();
+            searchCriteriaList.add(new SearchCriteria("query", queryText, "\"" + queryText + "\""));
         }
         if (searchCriteria != null) {
             searchCriteriaList.add(searchCriteria);
