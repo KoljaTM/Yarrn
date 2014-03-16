@@ -69,4 +69,6 @@
     <string name="search_by_friends_title">By Friends</string>
     <string name="search_by_anyone_title">By Anyone</string>
     <string name="search_by_user_title">By</string>
+    <string name="menu_pattern_search">Search Patterns</string>
+    <string name="search_patterns_title">Search Patterns</string>
 </resources>

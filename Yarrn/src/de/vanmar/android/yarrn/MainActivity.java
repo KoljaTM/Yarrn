@@ -31,6 +31,7 @@ import java.util.Date;
 
 import de.vanmar.android.yarrn.favorites.FavoritesFragment;
 import de.vanmar.android.yarrn.patterns.PatternFragment;
+import de.vanmar.android.yarrn.patterns.PatternSearchFragment;
 import de.vanmar.android.yarrn.projects.ProjectFragment;
 import de.vanmar.android.yarrn.projects.ProjectSearchFragment;
 import de.vanmar.android.yarrn.projects.ProjectsFragment;
@@ -45,6 +46,7 @@ public class MainActivity extends AbstractRavelryActivity implements
         ProjectSearchFragment.ProjectSearchFragmentListener,
         ProjectFragment.ProjectFragmentListener,
         FavoritesFragment.FavoritesFragmentListener,
+        PatternSearchFragment.PatternSearchFragmentListener,
         PatternFragment.PatternFragmentListener,
         StashesFragment.StashesFragmentListener,
         StashFragment.StashFragmentListener,
@@ -58,6 +60,7 @@ public class MainActivity extends AbstractRavelryActivity implements
     public static final String PROJECTS_TAG = "projects";
     public static final String PROJECT_SEARCH_TAG = "project_search";
     public static final String FAVORITES_TAG = "favorites";
+    public static final String PATTERN_SEARCH_TAG = "pattern_search";
     public static final String STASHES_TAG = "stashes";
     public static final String STASH_DETAIL_TAG = "stashDetail";
     public static final String SETTINGS_TAG = "settings";
@@ -68,6 +71,7 @@ public class MainActivity extends AbstractRavelryActivity implements
     public ProjectsFragment projectsFragment;
     public ProjectSearchFragment projectSearchFragment;
     public FavoritesFragment favoritesFragment;
+    public PatternSearchFragment patternSearchFragment;
     public StashesFragment stashesFragment;
 
     @Bean
@@ -129,6 +133,13 @@ public class MainActivity extends AbstractRavelryActivity implements
             favoritesFragment = fragmentFactory.getFavoritesFragment();
         }
         ensureFragment(FAVORITES_TAG, favoritesFragment);
+    }
+
+    private void displayPatternSearchFragment() {
+        if (patternSearchFragment == null) {
+            patternSearchFragment = fragmentFactory.getPatternSearchFragment();
+        }
+        ensureFragment(PATTERN_SEARCH_TAG, patternSearchFragment);
     }
 
     private void displayStashesFragment() {
@@ -306,6 +317,12 @@ public class MainActivity extends AbstractRavelryActivity implements
     public void menuProjectSearchClicked() {
         drawerLayout.closeDrawers();
         displayProjectSearchFragment();
+    }
+
+    @Click(R.id.menu_pattern_search)
+    public void menuPatternSearchClicked() {
+        drawerLayout.closeDrawers();
+        displayPatternSearchFragment();
     }
 
     @Click(R.id.menu_open_ravelry)

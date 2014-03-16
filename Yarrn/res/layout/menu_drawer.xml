@@ -37,6 +37,12 @@
             android:drawableLeft="@drawable/projectsearch"
             android:text="@string/menu_project_search" />
 
+        <TextView
+            android:id="@+id/menu_pattern_search"
+            style="@style/menu_entry"
+            android:drawableLeft="@drawable/patternsearch"
+            android:text="@string/menu_pattern_search" />
+
         <View style="@style/divider_line" />
 
         <TextView

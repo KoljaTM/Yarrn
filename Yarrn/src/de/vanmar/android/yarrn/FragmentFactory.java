@@ -6,6 +6,8 @@ import de.vanmar.android.yarrn.favorites.FavoritesFragment;
 import de.vanmar.android.yarrn.favorites.FavoritesFragment_;
 import de.vanmar.android.yarrn.patterns.PatternFragment;
 import de.vanmar.android.yarrn.patterns.PatternFragment_;
+import de.vanmar.android.yarrn.patterns.PatternSearchFragment;
+import de.vanmar.android.yarrn.patterns.PatternSearchFragment_;
 import de.vanmar.android.yarrn.projects.ProjectFragment;
 import de.vanmar.android.yarrn.projects.ProjectFragment_;
 import de.vanmar.android.yarrn.projects.ProjectSearchFragment;
@@ -53,5 +55,9 @@ public class FragmentFactory {
 
     public ProjectSearchFragment getProjectSearchFragment() {
         return new ProjectSearchFragment_();
+    }
+
+    public PatternSearchFragment getPatternSearchFragment() {
+        return new PatternSearchFragment_();
     }
 }
