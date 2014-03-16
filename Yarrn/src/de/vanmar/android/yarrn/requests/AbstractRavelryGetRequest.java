@@ -1,7 +1,6 @@
 package de.vanmar.android.yarrn.requests;
 
 import android.app.Application;
-import android.util.Log;
 
 import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.SpiceException;
@@ -34,7 +33,6 @@ public abstract class AbstractRavelryGetRequest<T extends ETaggable> extends Abs
     public T loadDataFromNetwork() throws Exception {
         final OAuthRequest request = getRequest();
         ACRA.getErrorReporter().putCustomData("lastUrl", getCacheKey().toString());
-        Log.i(getClass().getName(), getCacheKey().toString());
         /*T dataFromCache = persisterFactory.createObjectPersister(getResultType()).loadDataFromCache(getCacheKey(), DurationInMillis.ALWAYS_RETURNED);
         if (dataFromCache != null) {
             request.addHeader("If-None-Match", dataFromCache.getETag());
