@@ -10,6 +10,11 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.androidquery.util.AQUtility;
+import com.octo.android.robospice.persistence.exception.CacheCreationException;
+import com.octo.android.robospice.persistence.exception.CacheSavingException;
+import com.octo.android.robospice.persistence.exception.SpiceException;
+
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
@@ -29,9 +34,12 @@ import de.vanmar.android.yarrn.components.PagingListFragment;
 import de.vanmar.android.yarrn.components.SearchCriteria;
 import de.vanmar.android.yarrn.components.SearchCriteriaDialog;
 import de.vanmar.android.yarrn.ravelry.IRavelryActivity;
+import de.vanmar.android.yarrn.ravelry.dts.Stash;
+import de.vanmar.android.yarrn.ravelry.dts.StashResult;
 import de.vanmar.android.yarrn.ravelry.dts.StashSearchResult;
 import de.vanmar.android.yarrn.ravelry.dts.StashShort;
 import de.vanmar.android.yarrn.requests.AbstractRavelryGetRequest;
+import de.vanmar.android.yarrn.requests.GetStashRequest;
 import de.vanmar.android.yarrn.requests.SearchStashesRequest;
 
 @EFragment(R.layout.fragment_search_stashes)
@@ -69,9 +77,14 @@ public class StashSearchFragment extends PagingListFragment<StashSearchResult, S
 
             @Override
             protected void onStashClicked(final StashShort stash) {
-                listener.onStashSelected(stash.id, stash. ? ?);
+                String username = "stashInCache";
+                try {
+                    putStashInCache(stash, username);
+                    listener.onStashSelected(stash.id, username);
+                } catch (SpiceException e) {
+                    AQUtility.report(e);
+                }
             }
-
         };
         if (searchCriteriaText == null) {
             searchCriteriaText = new TextView(getActivity());
@@ -93,6 +106,20 @@ public class StashSearchFragment extends PagingListFragment<StashSearchResult, S
             }
         });
     }
+
+    private void putStashInCache(StashShort stashShort, String username) throws CacheCreationException, CacheSavingException {
+        Stash stash = new Stash();
+        stash.name = stashShort.name;
+        stash.location = stashShort.location;
+        stash.id = stashShort.id;
+        stash.yarn = stashShort.yarn;
+        stash.photos.add(stashShort.firstPhoto);
+        StashResult stashResult = new StashResult();
+        stashResult.stash = stash;
+        Object cacheKey = new GetStashRequest(getActivity().getApplication(), prefs, stash.id, username).getCacheKey();
+        spiceManager.putDataInCache(cacheKey, stashResult);
+    }
+
 
     private void startSearch() {
         adapter.clear();
