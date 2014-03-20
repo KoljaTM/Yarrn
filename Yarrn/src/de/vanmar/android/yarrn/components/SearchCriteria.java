@@ -8,6 +8,10 @@ public class SearchCriteria {
     private String value;
     private String description;
 
+    public enum SearchContext {
+        PROJECT, STASH, PATTERN
+    }
+
     public SearchCriteria(String name, String value, String description) {
         this.name = name;
         this.value = value;
@@ -24,5 +28,16 @@ public class SearchCriteria {
 
     public String getDescription() {
         return description;
+    }
+
+    public static SearchCriteria byUser(String user, SearchContext context, String description) {
+        if (context == SearchContext.PROJECT) {
+            return new SearchCriteria("by", user, description);
+        } else if (context == SearchContext.PATTERN) {
+            return new SearchCriteria("designer", user, description);
+        } else if (context == SearchContext.STASH) {
+            return new SearchCriteria("user", user, description);
+        }
+        return null;
     }
 }

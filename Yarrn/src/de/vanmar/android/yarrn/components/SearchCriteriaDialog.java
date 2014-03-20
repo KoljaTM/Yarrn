@@ -25,9 +25,11 @@ public class SearchCriteriaDialog extends Dialog implements CompoundButton.OnChe
     private RadioButton searchBySelf;
     private RadioButton searchByFriends;
     private RadioButton searchByAnyone;
+    private SearchCriteria.SearchContext searchContext;
 
-    public SearchCriteriaDialog(Context context, YarrnPrefs_ prefs) {
+    public SearchCriteriaDialog(Context context, SearchCriteria.SearchContext searchContext, YarrnPrefs_ prefs) {
         super(context);
+        this.searchContext = searchContext;
         this.prefs = prefs;
         requestWindowFeature(Window.FEATURE_NO_TITLE);
     }
@@ -71,7 +73,7 @@ public class SearchCriteriaDialog extends Dialog implements CompoundButton.OnChe
                     if (searchBy.getText().length() > 0) {
                         // by=<user>
                         String user = searchBy.getText().toString();
-                        SearchCriteriaDialog.this.searchCriteria = new SearchCriteria("by", user, getContext().getString(R.string.search_by_user_title) + " " + user);
+                        SearchCriteriaDialog.this.searchCriteria = SearchCriteria.byUser(user, searchContext, getContext().getString(R.string.search_by_user_title) + " " + user);
                         dismiss();
                     }
                 } else if (searchByFriends.isChecked()) {
@@ -80,7 +82,7 @@ public class SearchCriteriaDialog extends Dialog implements CompoundButton.OnChe
                     dismiss();
                 } else if (searchBySelf.isChecked()) {
                     // by:<self>
-                    SearchCriteriaDialog.this.searchCriteria = new SearchCriteria("by", prefs.username().get(), getContext().getString(R.string.search_by_self_title));
+                    SearchCriteriaDialog.this.searchCriteria = SearchCriteria.byUser(prefs.username().get(), searchContext, getContext().getString(R.string.search_by_self_title));
                     dismiss();
                 } else {
                     // <nothing>

@@ -139,7 +139,7 @@ public class PatternSearchFragment extends PagingListFragment<PatternsResult, Pa
 
     @Click(R.id.add_search_criteria)
     public void onAddSearchCriteriaClicked() {
-        final SearchCriteriaDialog searchCriteriaDialog = new SearchCriteriaDialog(getActivity(), prefs);
+        final SearchCriteriaDialog searchCriteriaDialog = new SearchCriteriaDialog(getActivity(), SearchCriteria.SearchContext.PATTERN, prefs);
         searchCriteriaDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {

@@ -14,4 +14,6 @@ public class StashShort {
     public String location;
     @SerializedName("yarn")
     public Yarn yarn;
+    @SerializedName("user")
+    public User user;
 }
