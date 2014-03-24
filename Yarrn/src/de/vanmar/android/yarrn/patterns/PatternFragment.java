@@ -155,7 +155,10 @@ public class PatternFragment extends SherlockFragment {
 
     @UiThread
     protected void clearPattern() {
-        getView().setVisibility(View.GONE);
+        View view = getView();
+        if (view != null) {
+            view.setVisibility(View.GONE);
+        }
     }
 
     protected void displayPattern(final PatternResult patternResult) {

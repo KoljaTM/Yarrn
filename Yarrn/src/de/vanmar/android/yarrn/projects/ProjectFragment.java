@@ -334,7 +334,10 @@ public class ProjectFragment extends SherlockFragment {
 
     @UiThread
     protected void clearProject() {
-        getView().setVisibility(View.GONE);
+        View view = getView();
+        if (view != null) {
+            view.setVisibility(View.GONE);
+        }
     }
 
     protected void displayProject(final ProjectResult projectResult) {
