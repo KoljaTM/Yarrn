@@ -73,4 +73,10 @@
     <string name="search_patterns_title">Search Patterns</string>
     <string name="search_stashes_title">Search Stashes</string>
     <string name="menu_stash_search">Search Stashes</string>
+    <string name="search_criteria_name">Name</string>
+    <string name="search_criteria_craft">Craft</string>
+    <string name="search_by_title">Search by</string>
+    <string name="search_craft_knitting">Knitting</string>
+    <string name="search_craft_weaving">Weaving</string>
+    <string name="search_craft_crochet">Crochet</string>
 </resources>

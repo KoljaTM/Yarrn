@@ -7,9 +7,17 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Spinner;
+import android.widget.ViewAnimator;
+
+import java.util.LinkedList;
+import java.util.List;
 
 import de.vanmar.android.yarrn.R;
 import de.vanmar.android.yarrn.YarrnPrefs_;
@@ -26,6 +34,9 @@ public class SearchCriteriaDialog extends Dialog implements CompoundButton.OnChe
     private RadioButton searchByFriends;
     private RadioButton searchByAnyone;
     private SearchCriteria.SearchContext searchContext;
+    private Spinner searchCriteriaType;
+    private ViewAnimator viewAnimator;
+    private RadioGroup craft;
 
     public SearchCriteriaDialog(Context context, SearchCriteria.SearchContext searchContext, YarrnPrefs_ prefs) {
         super(context);
@@ -40,10 +51,39 @@ public class SearchCriteriaDialog extends Dialog implements CompoundButton.OnChe
 
         setContentView(R.layout.search_criteria_dialog);
 
+        searchCriteriaType = (Spinner) findViewById(R.id.search_criteria_type);
+        ArrayAdapter<String> adapter = new ArrayAdapter(getContext(),
+                android.R.layout.simple_spinner_item, getSearchCriteriaTypes());
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        searchCriteriaType.setAdapter(adapter);
+
+        searchCriteriaType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selected = searchCriteriaType.getItemAtPosition(position).toString();
+                for (int i = 0; i < viewAnimator.getChildCount(); i++) {
+                    View v = viewAnimator.getChildAt(i);
+                    if (selected.equals(v.getTag())) {
+                        viewAnimator.setDisplayedChild(i);
+                        return;
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                //
+            }
+        });
+
+        viewAnimator = (ViewAnimator) findViewById(R.id.view_animator);
+
         searchByUser = (RadioButton) findViewById(R.id.search_by_user);
         searchBySelf = (RadioButton) findViewById(R.id.search_by_self);
         searchByFriends = (RadioButton) findViewById(R.id.search_by_friends);
         searchByAnyone = (RadioButton) findViewById(R.id.search_by_anyone);
+
+        craft = (RadioGroup) findViewById(R.id.craft);
 
         searchByUser.setOnCheckedChangeListener(this);
         searchBySelf.setOnCheckedChangeListener(this);
@@ -91,6 +131,33 @@ public class SearchCriteriaDialog extends Dialog implements CompoundButton.OnChe
                 }
             }
         });
+
+        findViewById(R.id.add_search_craft).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (craft.getCheckedRadioButtonId()) {
+                    case R.id.search_craft_knitting:
+                        SearchCriteriaDialog.this.searchCriteria = SearchCriteria.byCraft("knitting", getContext().getString(R.string.search_craft_knitting));
+                        dismiss();
+                        break;
+                    case R.id.search_craft_crochet:
+                        SearchCriteriaDialog.this.searchCriteria = SearchCriteria.byCraft("crochet", getContext().getString(R.string.search_craft_crochet));
+                        dismiss();
+                        break;
+                    case R.id.search_craft_weaving:
+                        SearchCriteriaDialog.this.searchCriteria = SearchCriteria.byCraft("weaving", getContext().getString(R.string.search_craft_weaving));
+                        dismiss();
+                        break;
+                }
+            }
+        });
+    }
+
+    private List<String> getSearchCriteriaTypes() {
+        LinkedList<String> searchCriteriaTypes = new LinkedList<String>();
+        searchCriteriaTypes.add(getContext().getText(R.string.search_criteria_name).toString());
+        searchCriteriaTypes.add(getContext().getText(R.string.search_criteria_craft).toString());
+        return searchCriteriaTypes;
     }
 
     public SearchCriteria getSearchCriteria() {

@@ -40,4 +40,8 @@ public class SearchCriteria {
         }
         return null;
     }
+
+    public static SearchCriteria byCraft(String craft, String description) {
+        return new SearchCriteria("craft", craft, description);
+    }
 }

@@ -9,49 +9,116 @@
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-        <RadioButton
-            android:id="@+id/search_by_user"
-            android:text="@string/search_by_user_title"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/search_by_title" />
+
+        <Spinner
+            android:id="@+id/search_criteria_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-
-        <EditText
-            android:id="@+id/search_by"
-            android:layout_width="match_parent"
-            android:hint="@string/search_by_user_hint"
-            android:layout_height="wrap_content" />
-
-
     </LinearLayout>
 
-    <RadioButton
-        android:id="@+id/search_by_self"
-        android:text="@string/search_by_self_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <RadioButton
-        android:id="@+id/search_by_friends"
-        android:text="@string/search_by_friends_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <RadioButton
-        android:id="@+id/search_by_anyone"
-        android:text="@string/search_by_anyone_title"
-        android:checked="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <Button
-        android:id="@+id/add_search_by"
-        style="@style/Button"
-        android:text="@string/add_search_by"
-        android:layout_gravity="center_horizontal"
+    <ViewAnimator
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/border" />
+        android:id="@+id/view_animator">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:tag="@string/search_criteria_name">
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <RadioButton
+                    android:id="@+id/search_by_user"
+                    android:text="@string/search_by_user_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <EditText
+                    android:id="@+id/search_by"
+                    android:layout_width="match_parent"
+                    android:hint="@string/search_by_user_hint"
+                    android:layout_height="wrap_content" />
+
+
+            </LinearLayout>
+
+            <RadioButton
+                android:id="@+id/search_by_self"
+                android:text="@string/search_by_self_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <RadioButton
+                android:id="@+id/search_by_friends"
+                android:text="@string/search_by_friends_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <RadioButton
+                android:id="@+id/search_by_anyone"
+                android:text="@string/search_by_anyone_title"
+                android:checked="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/add_search_by"
+                style="@style/Button"
+                android:text="@string/add_search_by"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border" />
+        </LinearLayout>
+
+        <RadioGroup
+            android:id="@+id/craft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tag="@string/search_criteria_craft">
+
+            <RadioButton
+                android:id="@+id/search_craft_knitting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/search_craft_knitting" />
+
+            <RadioButton
+                android:id="@+id/search_craft_crochet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/search_craft_crochet" />
+
+            <RadioButton
+                android:id="@+id/search_craft_weaving"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/search_craft_weaving" />
+
+
+            <Button
+                android:id="@+id/add_search_craft"
+                style="@style/Button"
+                android:text="@string/add_search_by"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border" />
+        </RadioGroup>
+
+    </ViewAnimator>
+
 
 </LinearLayout>
