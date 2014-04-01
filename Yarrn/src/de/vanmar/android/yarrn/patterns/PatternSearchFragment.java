@@ -3,6 +3,7 @@ package de.vanmar.android.yarrn.patterns;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -18,8 +19,9 @@ import org.androidannotations.annotations.SystemService;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import de.vanmar.android.yarrn.R;
 import de.vanmar.android.yarrn.YarrnAdapter;
@@ -37,8 +39,8 @@ import de.vanmar.android.yarrn.requests.SearchPatternsRequest;
 @OptionsMenu(R.menu.fragment_menu)
 public class PatternSearchFragment extends PagingListFragment<PatternsResult, PatternShort> {
 
-    private SearchCriteria searchCriteria;
-    //private TextView searchCriteriaText;
+    private Map<SearchCriteria.SearchType, SearchCriteria> searchCriteria = new HashMap<SearchCriteria.SearchType, SearchCriteria>();
+    private TextView searchCriteriaText;
 
     public interface PatternSearchFragmentListener extends IRavelryActivity {
         /**
@@ -75,10 +77,10 @@ public class PatternSearchFragment extends PagingListFragment<PatternsResult, Pa
             }
 
         };
-        // if (searchCriteriaText == null) {
-        //    searchCriteriaText = new TextView(getActivity());
-        //    patternlist.addHeaderView(searchCriteriaText);
-        //}
+        if (searchCriteriaText == null) {
+            searchCriteriaText = new TextView(getActivity());
+            patternlist.addHeaderView(searchCriteriaText);
+        }
         patternlist.setAdapter(adapter);
 
         query.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -107,7 +109,7 @@ public class PatternSearchFragment extends PagingListFragment<PatternsResult, Pa
     public void onResume() {
         super.onResume();
         getActivity().setTitle(R.string.search_patterns_title);
-        //updateSearchCriteriaDescription();
+        updateSearchCriteriaDescription();
     }
 
     @Override
@@ -143,25 +145,34 @@ public class PatternSearchFragment extends PagingListFragment<PatternsResult, Pa
         searchCriteriaDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
-                PatternSearchFragment.this.searchCriteria = searchCriteriaDialog.getSearchCriteria();
-                //updateSearchCriteriaDescription();
+                SearchCriteria.SearchType type = searchCriteriaDialog.getSearchCriteriaType();
+                SearchCriteria criteria = searchCriteriaDialog.getSearchCriteria();
+                if (criteria == null) {
+                    searchCriteria.remove(type);
+                } else {
+                    searchCriteria.put(type, criteria);
+                }
+                updateSearchCriteriaDescription();
                 startSearch();
             }
         });
         searchCriteriaDialog.show();
     }
 
-    /*    private void updateSearchCriteriaDescription() {
-
-            if (searchCriteria == null) {
-                searchCriteriaText.setText("");
-                searchCriteriaText.setVisibility(View.GONE);
-            } else {
-                searchCriteriaText.setText(searchCriteria.getDescription());
-                searchCriteriaText.setVisibility(View.VISIBLE);
+    private void updateSearchCriteriaDescription() {
+        if (searchCriteria.isEmpty()) {
+            searchCriteriaText.setText("");
+            searchCriteriaText.setVisibility(View.GONE);
+        } else {
+            StringBuilder sb = new StringBuilder();
+            for (SearchCriteria criteria : searchCriteria.values()) {
+                sb.append(criteria.getDescription()).append(" ");
             }
+            searchCriteriaText.setText(sb.toString());
+            searchCriteriaText.setVisibility(View.VISIBLE);
         }
-    */
+    }
+
     protected void displayResult(final PatternsResult result) {
         super.displayResult(result);
     }
@@ -178,13 +189,10 @@ public class PatternSearchFragment extends PagingListFragment<PatternsResult, Pa
 
     @Override
     protected AbstractRavelryGetRequest<PatternsResult> getRequest(int page) {
-        List<SearchCriteria> searchCriteriaList = new LinkedList<SearchCriteria>();
+        Collection<SearchCriteria> searchCriteriaList = searchCriteria.values();
         if (query.getText().length() > 0) {
             String queryText = query.getText().toString();
-            searchCriteriaList.add(new SearchCriteria("query", queryText, "\"" + queryText + "\""));
-        }
-        if (searchCriteria != null) {
-            searchCriteriaList.add(searchCriteria);
+            searchCriteriaList.add(SearchCriteria.byQuery(queryText));
         }
         return new SearchPatternsRequest(this.getActivity().getApplication(), prefs, searchCriteriaList, page, PAGE_SIZE);
     }

@@ -10,7 +10,7 @@ import org.scribe.model.Verb;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.List;
+import java.util.Collection;
 
 import de.vanmar.android.yarrn.R;
 import de.vanmar.android.yarrn.YarrnPrefs_;
@@ -22,11 +22,11 @@ import de.vanmar.android.yarrn.ravelry.dts.ProjectsResult;
  */
 public class SearchProjectsRequest extends AbstractRavelryGetRequest<ProjectsResult> {
 
-    private List<SearchCriteria> searchCriteriaList;
+    private Collection<SearchCriteria> searchCriteriaList;
     private int page;
     private int pageSize;
 
-    public SearchProjectsRequest(Application application, YarrnPrefs_ prefs, List<SearchCriteria> searchCriteriaList, int page, int pageSize) {
+    public SearchProjectsRequest(Application application, YarrnPrefs_ prefs, Collection<SearchCriteria> searchCriteriaList, int page, int pageSize) {
         super(ProjectsResult.class, application, prefs);
         this.searchCriteriaList = searchCriteriaList;
         this.page = page;

@@ -16,6 +16,8 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.ViewAnimator;
 
+import org.acra.ACRA;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -52,15 +54,16 @@ public class SearchCriteriaDialog extends Dialog implements CompoundButton.OnChe
         setContentView(R.layout.search_criteria_dialog);
 
         searchCriteriaType = (Spinner) findViewById(R.id.search_criteria_type);
+        List<String> searchCriteriaTypes = getSearchCriteriaTypes();
         ArrayAdapter<String> adapter = new ArrayAdapter(getContext(),
-                android.R.layout.simple_spinner_item, getSearchCriteriaTypes());
+                android.R.layout.simple_spinner_item, searchCriteriaTypes);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         searchCriteriaType.setAdapter(adapter);
 
         searchCriteriaType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selected = searchCriteriaType.getItemAtPosition(position).toString();
+                String selected = getSearchCriteriaType(position);
                 for (int i = 0; i < viewAnimator.getChildCount(); i++) {
                     View v = viewAnimator.getChildAt(i);
                     if (selected.equals(v.getTag())) {
@@ -118,7 +121,7 @@ public class SearchCriteriaDialog extends Dialog implements CompoundButton.OnChe
                     }
                 } else if (searchByFriends.isChecked()) {
                     // friends=yes
-                    SearchCriteriaDialog.this.searchCriteria = new SearchCriteria("friends", "yes", getContext().getString(R.string.search_by_friends_title));
+                    SearchCriteriaDialog.this.searchCriteria = SearchCriteria.byFriends(getContext().getString(R.string.search_by_friends_title));
                     dismiss();
                 } else if (searchBySelf.isChecked()) {
                     // by:<self>
@@ -153,15 +156,35 @@ public class SearchCriteriaDialog extends Dialog implements CompoundButton.OnChe
         });
     }
 
+    private String getSearchCriteriaType(int position) {
+        return searchCriteriaType.getItemAtPosition(position).toString();
+    }
+
     private List<String> getSearchCriteriaTypes() {
         LinkedList<String> searchCriteriaTypes = new LinkedList<String>();
-        searchCriteriaTypes.add(getContext().getText(R.string.search_criteria_name).toString());
-        searchCriteriaTypes.add(getContext().getText(R.string.search_criteria_craft).toString());
+        if (searchContext == SearchCriteria.SearchContext.PROJECT || searchContext == SearchCriteria.SearchContext.STASH) {
+            searchCriteriaTypes.add(getContext().getText(R.string.search_criteria_name).toString());
+        }
+        if (searchContext == SearchCriteria.SearchContext.PROJECT || searchContext == SearchCriteria.SearchContext.PATTERN) {
+            searchCriteriaTypes.add(getContext().getText(R.string.search_criteria_craft).toString());
+        }
         return searchCriteriaTypes;
     }
 
     public SearchCriteria getSearchCriteria() {
         return this.searchCriteria;
+    }
+
+    public SearchCriteria.SearchType getSearchCriteriaType() {
+        String type = getSearchCriteriaType(searchCriteriaType.getSelectedItemPosition());
+        if (getContext().getString(R.string.search_criteria_name).equals(type)) {
+            return SearchCriteria.SearchType.USER;
+        } else if (getContext().getString(R.string.search_criteria_craft).equals(type)) {
+            return SearchCriteria.SearchType.CRAFT;
+        } else {
+            ACRA.getErrorReporter().handleSilentException(new IllegalArgumentException("Unknown SearchCriteriaType: " + type));
+            return SearchCriteria.SearchType.USER;
+        }
     }
 
     @Override
