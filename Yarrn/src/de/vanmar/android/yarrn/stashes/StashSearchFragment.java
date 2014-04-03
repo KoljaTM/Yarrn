@@ -18,14 +18,17 @@ import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.SystemService;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.sharedpreferences.Pref;
+import org.apmem.tools.layouts.FlowLayout;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 import de.vanmar.android.yarrn.R;
 import de.vanmar.android.yarrn.YarrnAdapter;
 import de.vanmar.android.yarrn.YarrnPrefs_;
+import de.vanmar.android.yarrn.components.DeletableTag;
 import de.vanmar.android.yarrn.components.PagingListFragment;
 import de.vanmar.android.yarrn.components.SearchCriteria;
 import de.vanmar.android.yarrn.components.SearchCriteriaDialog;
@@ -40,7 +43,7 @@ import de.vanmar.android.yarrn.requests.SearchStashesRequest;
 public class StashSearchFragment extends PagingListFragment<StashSearchResult, StashShort> {
 
     private Map<SearchCriteria.SearchType, SearchCriteria> searchCriteria = new HashMap<SearchCriteria.SearchType, SearchCriteria>();
-    private TextView searchCriteriaText;
+    private FlowLayout searchCriteriaView;
 
     public interface StashSearchFragmentListener extends IRavelryActivity {
         void onStashSelected(int stashId, String username);
@@ -73,9 +76,9 @@ public class StashSearchFragment extends PagingListFragment<StashSearchResult, S
                 listener.onStashSelected(stash.id, stash.user.username);
             }
         };
-        if (searchCriteriaText == null) {
-            searchCriteriaText = new TextView(getActivity());
-            stashlist.addHeaderView(searchCriteriaText);
+        if (searchCriteriaView == null) {
+            searchCriteriaView = new FlowLayout(getActivity());
+            stashlist.addHeaderView(searchCriteriaView);
         }
         stashlist.setAdapter(adapter);
 
@@ -156,16 +159,23 @@ public class StashSearchFragment extends PagingListFragment<StashSearchResult, S
     }
 
     private void updateSearchCriteriaDescription() {
+        searchCriteriaView.removeAllViews();
         if (searchCriteria.isEmpty()) {
-            searchCriteriaText.setText("");
-            searchCriteriaText.setVisibility(View.GONE);
+            searchCriteriaView.setVisibility(View.GONE);
         } else {
-            StringBuilder sb = new StringBuilder();
-            for (SearchCriteria criteria : searchCriteria.values()) {
-                sb.append(criteria.getDescription()).append(" ");
+            for (final SearchCriteria criteria : searchCriteria.values()) {
+                final DeletableTag tag = new DeletableTag(getActivity(), criteria.getDescription());
+                tag.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        searchCriteria.remove(criteria.getType());
+                        searchCriteriaView.removeView(tag);
+                        startSearch();
+                    }
+                });
+                searchCriteriaView.addView(tag);
             }
-            searchCriteriaText.setText(sb.toString());
-            searchCriteriaText.setVisibility(View.VISIBLE);
+            searchCriteriaView.setVisibility(View.VISIBLE);
         }
     }
 
@@ -185,7 +195,7 @@ public class StashSearchFragment extends PagingListFragment<StashSearchResult, S
 
     @Override
     protected AbstractRavelryGetRequest<StashSearchResult> getRequest(int page) {
-        Collection<SearchCriteria> searchCriteriaList = searchCriteria.values();
+        Collection<SearchCriteria> searchCriteriaList = new LinkedList<SearchCriteria>(searchCriteria.values());
         if (query.getText().length() > 0) {
             String queryText = query.getText().toString();
             searchCriteriaList.add(SearchCriteria.byQuery(queryText));
