@@ -42,16 +42,19 @@ import java.util.List;
 import de.vanmar.android.yarrn.R;
 import de.vanmar.android.yarrn.YarrnPrefs_;
 import de.vanmar.android.yarrn.YarrnSpiceService;
+import de.vanmar.android.yarrn.components.AddFavoriteDialog;
 import de.vanmar.android.yarrn.components.ImageDialog;
 import de.vanmar.android.yarrn.components.SimpleImageArrayAdapter;
 import de.vanmar.android.yarrn.components.ViewEditText;
 import de.vanmar.android.yarrn.ravelry.IRavelryActivity;
 import de.vanmar.android.yarrn.ravelry.RavelryResultListener;
+import de.vanmar.android.yarrn.ravelry.dts.BookmarkShort;
 import de.vanmar.android.yarrn.ravelry.dts.Photo;
 import de.vanmar.android.yarrn.ravelry.dts.PhotoResult;
 import de.vanmar.android.yarrn.ravelry.dts.Project;
 import de.vanmar.android.yarrn.ravelry.dts.ProjectResult;
 import de.vanmar.android.yarrn.requests.AbstractRavelryGetRequest;
+import de.vanmar.android.yarrn.requests.AddFavoriteRequest;
 import de.vanmar.android.yarrn.requests.GetProjectRequest;
 import de.vanmar.android.yarrn.requests.ReorderProjectPhotosRequest;
 import de.vanmar.android.yarrn.requests.UpdateProjectRequest;
@@ -128,6 +131,8 @@ public class ProjectFragment extends SherlockFragment {
     private PhotoAdapter adapter;
 
     private boolean isEditable = false;
+    private boolean isOwn = false;
+    private boolean isLoaded = false;
 
     @Pref
     YarrnPrefs_ prefs;
@@ -308,6 +313,7 @@ public class ProjectFragment extends SherlockFragment {
         if (projectId != 0) {
             GetProjectRequest request = new GetProjectRequest(this.getActivity().getApplication(), prefs, projectId, username);
             spiceManager.execute(request, request.getCacheKey(), AbstractRavelryGetRequest.CACHE_DURATION, new ProjectListener(listener));
+            isLoaded = false;
         }
     }
 
@@ -362,9 +368,12 @@ public class ProjectFragment extends SherlockFragment {
         getView().setVisibility(View.VISIBLE);
         if (project.user != null && prefs.username().get().equals(project.user.username)) {
             setEditable();
+            isOwn = true;
         } else {
             setNonEditable();
+            isOwn = false;
         }
+        isLoaded = true;
     }
 
     private void setPatternName(final Project project) {
@@ -480,6 +489,7 @@ public class ProjectFragment extends SherlockFragment {
         menu.findItem(R.id.menu_add_photo).setVisible(isEditable);
         menu.findItem(R.id.menu_take_photo).setVisible(isEditable);
         menu.findItem(R.id.menu_reorder_photos).setVisible(isEditable);
+        menu.findItem(R.id.menu_add_as_favorite).setVisible(isLoaded && !isOwn);
     }
 
     @OptionsItem(R.id.menu_add_photo)
@@ -495,6 +505,32 @@ public class ProjectFragment extends SherlockFragment {
     @OptionsItem(R.id.menu_refresh)
     public void menuRefresh() {
         onProjectSelected(projectId, username);
+    }
+
+    @OptionsItem(R.id.menu_add_as_favorite)
+    public void menuAddAsFavorite() {
+        new AddFavoriteDialog(getActivity(), new AddFavoriteDialog.AddFavoriteDialogListener() {
+            @Override
+            public void onSave(String comment, String tags) {
+                JsonObject updateData = new JsonObject();
+                updateData.addProperty("type", "project");
+                updateData.addProperty("favorited_id", projectId);
+                updateData.addProperty("comment", comment);
+                updateData.addProperty("tag_list", tags);
+                spiceManager.execute(new AddFavoriteRequest(prefs, getActivity().getApplication(), updateData), new RequestListener<BookmarkShort>() {
+                    @Override
+                    public void onRequestFailure(SpiceException spiceException) {
+                        AQUtility.report(spiceException);
+                    }
+
+                    @Override
+                    public void onRequestSuccess(BookmarkShort bookmarkShort) {
+                        Toast.makeText(getActivity(), R.string.add_favorite_success, Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+        }, prefs).show();
+
     }
 
     @OptionsItem(R.id.menu_reorder_photos)
