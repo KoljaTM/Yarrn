@@ -89,7 +89,12 @@ public abstract class FavoritesAdapter extends ArrayAdapter<BookmarkShort> imple
                 }
             }
         });
-
+        view.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                return false;
+            }
+        });
         return view;
     }
 

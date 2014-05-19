@@ -86,4 +86,6 @@
     <string name="cancel_favorite">Cancel</string>
     <string name="add_favorite_title">Add Favorite</string>
     <string name="add_favorite_success">Favorite created.</string>
+    <string name="delete_favorite">Delete Favorite</string>
+    <string name="favorite_deleted">Favorite deleted</string>
 </resources>

@@ -1,7 +1,10 @@
 package de.vanmar.android.yarrn.favorites;
 
 import android.app.Activity;
+import android.view.ContextMenu;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -10,6 +13,11 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.androidquery.util.AQUtility;
+import com.octo.android.robospice.persistence.exception.SpiceException;
+import com.octo.android.robospice.request.listener.RequestListener;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -28,6 +36,7 @@ import de.vanmar.android.yarrn.ravelry.IRavelryActivity;
 import de.vanmar.android.yarrn.ravelry.dts.BookmarkShort;
 import de.vanmar.android.yarrn.ravelry.dts.FavoritesResult;
 import de.vanmar.android.yarrn.requests.AbstractRavelryGetRequest;
+import de.vanmar.android.yarrn.requests.DeleteFavoriteRequest;
 import de.vanmar.android.yarrn.requests.ListFavoritesRequest;
 
 import static de.vanmar.android.yarrn.requests.ListFavoritesRequest.SearchOption;
@@ -36,6 +45,7 @@ import static de.vanmar.android.yarrn.requests.ListFavoritesRequest.SearchOption
 @OptionsMenu(R.menu.favorites_menu)
 public class FavoritesFragment extends PagingListFragment<FavoritesResult, BookmarkShort> {
 
+    public static final int MENU_DELETE = 1;
     @SystemService
     InputMethodManager inputMethodManager;
     @ViewById(R.id.favoritelist)
@@ -82,6 +92,7 @@ public class FavoritesFragment extends PagingListFragment<FavoritesResult, Bookm
 
         };
         favoritelist.setAdapter(adapter);
+        registerForContextMenu(favoritelist);
 
         query.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -110,6 +121,36 @@ public class FavoritesFragment extends PagingListFragment<FavoritesResult, Bookm
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View view, ContextMenu.ContextMenuInfo menuInfo) {
+        if (view.getId() == R.id.favoritelist) {
+            menu.add(Menu.NONE, MENU_DELETE, MENU_DELETE, R.string.delete_favorite);
+        }
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        if (item.getItemId() == MENU_DELETE) {
+            final BookmarkShort favorite = adapter.getItem(info.position);
+            String favoriteId = favorite.id;
+            spiceManager.execute(new DeleteFavoriteRequest(prefs, getActivity().getApplication(), favoriteId), new RequestListener<BookmarkShort>() {
+                @Override
+                public void onRequestFailure(SpiceException spiceException) {
+                    AQUtility.report(spiceException);
+                }
+
+                @Override
+                public void onRequestSuccess(BookmarkShort bookmarkShort) {
+                    Toast.makeText(getActivity(), R.string.favorite_deleted, Toast.LENGTH_LONG).show();
+                    adapter.remove(favorite);
+                }
+            });
+            return true;
+        }
+        return super.onContextItemSelected(item);
     }
 
     private void setSearchQuery(String newQuery) {

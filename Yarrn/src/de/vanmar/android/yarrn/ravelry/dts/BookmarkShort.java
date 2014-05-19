@@ -12,6 +12,8 @@ public class BookmarkShort {
     public static final String PROJECT = "project";
     public static final String PATTERN = "pattern";
 
+    @SerializedName("id")
+    public String id;
     @SerializedName("comment")
     public String comment;
     @SerializedName("type")
