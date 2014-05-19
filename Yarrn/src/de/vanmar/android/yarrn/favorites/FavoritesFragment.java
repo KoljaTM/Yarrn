@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidquery.util.AQUtility;
+import com.google.gson.JsonObject;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
 
@@ -27,16 +28,21 @@ import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.SystemService;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.sharedpreferences.Pref;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.Arrays;
 
 import de.vanmar.android.yarrn.R;
 import de.vanmar.android.yarrn.YarrnAdapter;
 import de.vanmar.android.yarrn.YarrnPrefs_;
+import de.vanmar.android.yarrn.components.AddEditFavoriteDialog;
 import de.vanmar.android.yarrn.components.PagingListFragment;
 import de.vanmar.android.yarrn.ravelry.IRavelryActivity;
 import de.vanmar.android.yarrn.ravelry.dts.BookmarkShort;
 import de.vanmar.android.yarrn.ravelry.dts.FavoritesResult;
 import de.vanmar.android.yarrn.requests.AbstractRavelryGetRequest;
 import de.vanmar.android.yarrn.requests.DeleteFavoriteRequest;
+import de.vanmar.android.yarrn.requests.EditFavoriteRequest;
 import de.vanmar.android.yarrn.requests.ListFavoritesRequest;
 
 import static de.vanmar.android.yarrn.requests.ListFavoritesRequest.SearchOption;
@@ -45,7 +51,8 @@ import static de.vanmar.android.yarrn.requests.ListFavoritesRequest.SearchOption
 @OptionsMenu(R.menu.favorites_menu)
 public class FavoritesFragment extends PagingListFragment<FavoritesResult, BookmarkShort> {
 
-    public static final int MENU_DELETE = 1;
+    public static final int MENU_EDIT = 1;
+    public static final int MENU_DELETE = 2;
     @SystemService
     InputMethodManager inputMethodManager;
     @ViewById(R.id.favoritelist)
@@ -126,6 +133,7 @@ public class FavoritesFragment extends PagingListFragment<FavoritesResult, Bookm
     @Override
     public void onCreateContextMenu(ContextMenu menu, View view, ContextMenu.ContextMenuInfo menuInfo) {
         if (view.getId() == R.id.favoritelist) {
+            menu.add(Menu.NONE, MENU_EDIT, MENU_EDIT, R.string.edit_favorite);
             menu.add(Menu.NONE, MENU_DELETE, MENU_DELETE, R.string.delete_favorite);
         }
     }
@@ -133,8 +141,32 @@ public class FavoritesFragment extends PagingListFragment<FavoritesResult, Bookm
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        if (item.getItemId() == MENU_DELETE) {
-            final BookmarkShort favorite = adapter.getItem(info.position);
+        final BookmarkShort favorite = adapter.getItem(info.position);
+        if (item.getItemId() == MENU_EDIT) {
+            new AddEditFavoriteDialog(getActivity(), new AddEditFavoriteDialog.AddEditFavoriteDialogListener() {
+                @Override
+                public void onSave(String comment, String tags) {
+                    JsonObject updateData = new JsonObject();
+                    updateData.addProperty("comment", comment);
+                    updateData.addProperty("tag_list", tags);
+                    favorite.comment = comment;
+                    favorite.tags = Arrays.asList(StringUtils.split(tags, ' '));
+
+                    spiceManager.execute(new EditFavoriteRequest(prefs, getActivity().getApplication(), favorite.id, updateData), new RequestListener<BookmarkShort>() {
+                        @Override
+                        public void onRequestFailure(SpiceException spiceException) {
+                            AQUtility.report(spiceException);
+                        }
+
+                        @Override
+                        public void onRequestSuccess(BookmarkShort bookmarkShort) {
+                            Toast.makeText(getActivity(), R.string.edit_favorite_success, Toast.LENGTH_LONG).show();
+                        }
+                    });
+
+                }
+            }, prefs, favorite).show();
+        } else if (item.getItemId() == MENU_DELETE) {
             String favoriteId = favorite.id;
             spiceManager.execute(new DeleteFavoriteRequest(prefs, getActivity().getApplication(), favoriteId), new RequestListener<BookmarkShort>() {
                 @Override

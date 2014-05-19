@@ -7,26 +7,37 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import org.apache.commons.lang3.StringUtils;
+
 import de.vanmar.android.yarrn.R;
 import de.vanmar.android.yarrn.YarrnPrefs_;
+import de.vanmar.android.yarrn.ravelry.dts.BookmarkShort;
 
 /**
  * Created by Kolja on 18.05.14.
  */
-public class AddFavoriteDialog extends Dialog {
+public class AddEditFavoriteDialog extends Dialog {
 
-    public interface AddFavoriteDialogListener {
+    private BookmarkShort favorite;
+
+    public interface AddEditFavoriteDialogListener {
         void onSave(String comment, String tags);
     }
 
-    private AddFavoriteDialogListener listener;
+    private AddEditFavoriteDialogListener listener;
     private final YarrnPrefs_ prefs;
 
-    public AddFavoriteDialog(Context context, AddFavoriteDialogListener listener, YarrnPrefs_ prefs) {
+    public AddEditFavoriteDialog(Context context, AddEditFavoriteDialogListener listener, YarrnPrefs_ prefs) {
         super(context);
         this.listener = listener;
         this.prefs = prefs;
         setTitle(R.string.add_favorite_title);
+    }
+
+    public AddEditFavoriteDialog(Context context, AddEditFavoriteDialogListener listener, YarrnPrefs_ prefs, BookmarkShort favorite) {
+        this(context, listener, prefs);
+        this.favorite = favorite;
+        setTitle(R.string.edit_favorite_title);
     }
 
     @Override
@@ -34,6 +45,7 @@ public class AddFavoriteDialog extends Dialog {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.add_favorite_dialog);
+        initFields();
 
         ((Button) findViewById(R.id.button_cancel)).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,5 +63,12 @@ public class AddFavoriteDialog extends Dialog {
                 dismiss();
             }
         });
+    }
+
+    private void initFields() {
+        if (favorite != null) {
+            ((EditText) findViewById(R.id.add_favorite_comment)).setText(favorite.comment);
+            ((EditText) findViewById(R.id.add_favorite_tags)).setText(StringUtils.join(favorite.tags, ' '));
+        }
     }
 }

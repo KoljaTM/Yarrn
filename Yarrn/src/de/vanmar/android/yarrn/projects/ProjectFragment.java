@@ -42,7 +42,7 @@ import java.util.List;
 import de.vanmar.android.yarrn.R;
 import de.vanmar.android.yarrn.YarrnPrefs_;
 import de.vanmar.android.yarrn.YarrnSpiceService;
-import de.vanmar.android.yarrn.components.AddFavoriteDialog;
+import de.vanmar.android.yarrn.components.AddEditFavoriteDialog;
 import de.vanmar.android.yarrn.components.ImageDialog;
 import de.vanmar.android.yarrn.components.SimpleImageArrayAdapter;
 import de.vanmar.android.yarrn.components.ViewEditText;
@@ -509,7 +509,7 @@ public class ProjectFragment extends SherlockFragment {
 
     @OptionsItem(R.id.menu_add_as_favorite)
     public void menuAddAsFavorite() {
-        new AddFavoriteDialog(getActivity(), new AddFavoriteDialog.AddFavoriteDialogListener() {
+        new AddEditFavoriteDialog(getActivity(), new AddEditFavoriteDialog.AddEditFavoriteDialogListener() {
             @Override
             public void onSave(String comment, String tags) {
                 JsonObject updateData = new JsonObject();
