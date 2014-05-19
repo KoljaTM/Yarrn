@@ -1,0 +1,17 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_add_as_favorite"
+        android:orderInCategory="160"
+        android:showAsAction="ifRoom"
+        android:title="@string/add_pattern_as_favorite"
+        android:icon="@drawable/favorites_add" />
+
+    <item
+        android:id="@+id/menu_refresh"
+        android:orderInCategory="200"
+        android:showAsAction="ifRoom"
+        android:title="@string/menu_refresh"
+        android:icon="@drawable/refresh" />
+
+</menu>

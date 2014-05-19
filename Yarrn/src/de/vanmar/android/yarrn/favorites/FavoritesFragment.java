@@ -148,9 +148,10 @@ public class FavoritesFragment extends PagingListFragment<FavoritesResult, Bookm
                 public void onSave(String comment, String tags) {
                     JsonObject updateData = new JsonObject();
                     updateData.addProperty("comment", comment);
-                    updateData.addProperty("tag_list", tags);
+                    updateData.addProperty("tag_names", tags);
                     favorite.comment = comment;
                     favorite.tags = Arrays.asList(StringUtils.split(tags, ' '));
+                    adapter.notifyDataSetChanged();
 
                     spiceManager.execute(new EditFavoriteRequest(prefs, getActivity().getApplication(), favorite.id, updateData), new RequestListener<BookmarkShort>() {
                         @Override

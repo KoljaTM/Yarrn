@@ -44,7 +44,7 @@ public class AddEditFavoriteDialog extends Dialog {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.add_favorite_dialog);
+        setContentView(R.layout.add_edit_favorite_dialog);
         initFields();
 
         ((Button) findViewById(R.id.button_cancel)).setOnClickListener(new View.OnClickListener() {

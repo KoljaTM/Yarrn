@@ -17,7 +17,9 @@
         android:id="@+id/add_favorite_tags"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/favorite_tags_title" />
+        android:hint="@string/favorite_tags_title"
+        android:visibility="gone" />
+    <!-- invisible until tags work properly in the API -->
 
     <LinearLayout
         android:layout_width="match_parent"

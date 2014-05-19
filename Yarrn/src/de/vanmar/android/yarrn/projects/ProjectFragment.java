@@ -516,7 +516,7 @@ public class ProjectFragment extends SherlockFragment {
                 updateData.addProperty("type", "project");
                 updateData.addProperty("favorited_id", projectId);
                 updateData.addProperty("comment", comment);
-                updateData.addProperty("tag_list", tags);
+                updateData.addProperty("tag_names", tags);
                 spiceManager.execute(new AddFavoriteRequest(prefs, getActivity().getApplication(), updateData), new RequestListener<BookmarkShort>() {
                     @Override
                     public void onRequestFailure(SpiceException spiceException) {

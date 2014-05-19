@@ -5,10 +5,15 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
+import com.androidquery.util.AQUtility;
+import com.google.gson.JsonObject;
 import com.meetme.android.horizontallistview.HorizontalListView;
 import com.octo.android.robospice.SpiceManager;
+import com.octo.android.robospice.persistence.exception.SpiceException;
+import com.octo.android.robospice.request.listener.RequestListener;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -25,18 +30,21 @@ import java.util.List;
 import de.vanmar.android.yarrn.R;
 import de.vanmar.android.yarrn.YarrnPrefs_;
 import de.vanmar.android.yarrn.YarrnSpiceService;
+import de.vanmar.android.yarrn.components.AddEditFavoriteDialog;
 import de.vanmar.android.yarrn.components.ImageDialog;
 import de.vanmar.android.yarrn.projects.PhotoAdapter;
 import de.vanmar.android.yarrn.ravelry.IRavelryActivity;
 import de.vanmar.android.yarrn.ravelry.RavelryResultListener;
+import de.vanmar.android.yarrn.ravelry.dts.BookmarkShort;
 import de.vanmar.android.yarrn.ravelry.dts.Needle;
 import de.vanmar.android.yarrn.ravelry.dts.Pattern;
 import de.vanmar.android.yarrn.ravelry.dts.PatternResult;
 import de.vanmar.android.yarrn.requests.AbstractRavelryGetRequest;
+import de.vanmar.android.yarrn.requests.AddFavoriteRequest;
 import de.vanmar.android.yarrn.requests.GetPatternRequest;
 
 @EFragment(R.layout.fragment_pattern_detail)
-@OptionsMenu(R.menu.fragment_menu)
+@OptionsMenu(R.menu.pattern_fragment_menu)
 public class PatternFragment extends SherlockFragment {
 
     public static final String ARG_PATTERN_ID = "patternId";
@@ -199,6 +207,32 @@ public class PatternFragment extends SherlockFragment {
     @OptionsItem(R.id.menu_refresh)
     public void menuRefresh() {
         onPatternSelected(patternId);
+    }
+
+    @OptionsItem(R.id.menu_add_as_favorite)
+    public void menuAddAsFavorite() {
+        new AddEditFavoriteDialog(getActivity(), new AddEditFavoriteDialog.AddEditFavoriteDialogListener() {
+            @Override
+            public void onSave(String comment, String tags) {
+                JsonObject updateData = new JsonObject();
+                updateData.addProperty("type", "pattern");
+                updateData.addProperty("favorited_id", patternId);
+                updateData.addProperty("comment", comment);
+                updateData.addProperty("tag_names", tags);
+                spiceManager.execute(new AddFavoriteRequest(prefs, getActivity().getApplication(), updateData), new RequestListener<BookmarkShort>() {
+                    @Override
+                    public void onRequestFailure(SpiceException spiceException) {
+                        AQUtility.report(spiceException);
+                    }
+
+                    @Override
+                    public void onRequestSuccess(BookmarkShort bookmarkShort) {
+                        Toast.makeText(getActivity(), R.string.add_favorite_success, Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+        }, prefs).show();
+
     }
 
     class PatternListener extends RavelryResultListener<PatternResult> {

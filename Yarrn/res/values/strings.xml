@@ -80,6 +80,7 @@
     <string name="search_craft_weaving">Weaving</string>
     <string name="search_craft_crochet">Crochet</string>
     <string name="add_project_as_favorite">Add as Favorite</string>
+    <string name="add_pattern_as_favorite">Add as Favorite</string>
     <string name="favorite_comment_title">Comment:</string>
     <string name="favorite_tags_title">Tags:</string>
     <string name="save_favorite">Save</string>
