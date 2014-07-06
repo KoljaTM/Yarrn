@@ -243,7 +243,9 @@ public class PatternFragment extends SherlockFragment {
 
         @Override
         public void onRequestSuccess(PatternResult result) {
-            displayPattern(result);
+            if (listener != null) {
+                displayPattern(result);
+            }
         }
     }
 }
