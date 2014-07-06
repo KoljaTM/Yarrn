@@ -100,7 +100,6 @@ public class ViewEditText extends RelativeLayout {
         setBodyText(bodyText);
         setTitleText(titleText);
         editText.setInputType(inputType);
-        viewText.setInputType(inputType);
         editText.setEms(ems);
         viewText.setEms(ems);
     }
