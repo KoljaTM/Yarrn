@@ -4,10 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.net.http.SslError;
-import android.view.View;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 import com.androidquery.util.AQUtility;
 
@@ -16,6 +16,7 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 import org.scribe.builder.ServiceBuilder;
+import org.scribe.exceptions.OAuthException;
 import org.scribe.model.Token;
 import org.scribe.model.Verifier;
 import org.scribe.oauth.OAuthService;
@@ -53,8 +54,6 @@ public class GetAccessTokenActivity extends Activity {
                                                     final String url) {
 
                 if (url.startsWith(callback)) {
-                    webview.setVisibility(View.GONE);
-                    webview.clearCache(true);
                     getAccessToken(service, requestToken, url);
                     return true;
                 }
@@ -73,20 +72,30 @@ public class GetAccessTokenActivity extends Activity {
         final String username = uri.getQueryParameter("username");
         final Verifier v = new Verifier(verifier);
 
-        final Token accessToken = service.getAccessToken(requestToken, v);
+        try {
+            final Token accessToken = service.getAccessToken(requestToken, v);
 
-        prefs.username().put(username);
-        prefs.accessToken().put(accessToken.getToken());
-        prefs.accessSecret().put(accessToken.getSecret());
-        prefs.requestToken().put(requestToken.getToken());
+            prefs.username().put(username);
+            prefs.accessToken().put(accessToken.getToken());
+            prefs.accessSecret().put(accessToken.getSecret());
+            prefs.requestToken().put(requestToken.getToken());
 
-        final Intent result = new Intent();
-        result.putExtra(EXTRA_USERNAME, username);
-        result.putExtra(EXTRA_ACCESSTOKEN, accessToken.getToken());
-        result.putExtra(EXTRA_ACCESSSECRET, accessToken.getSecret());
-        result.putExtra(EXTRA_REQUESTTOKEN, requestToken.getToken());
-        setResult(Activity.RESULT_OK, result);
-        finish();
+            final Intent result = new Intent();
+            result.putExtra(EXTRA_USERNAME, username);
+            result.putExtra(EXTRA_ACCESSTOKEN, accessToken.getToken());
+            result.putExtra(EXTRA_ACCESSSECRET, accessToken.getSecret());
+            result.putExtra(EXTRA_REQUESTTOKEN, requestToken.getToken());
+            setResult(Activity.RESULT_OK, result);
+            finish();
+        } catch (OAuthException e) {
+            reportOAuthError();
+        }
+    }
+
+    @UiThread
+    public void reportOAuthError() {
+        Toast.makeText(getApplicationContext(), R.string.oauth_exception,
+                Toast.LENGTH_LONG).show();
     }
 
     @Background

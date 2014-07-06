@@ -60,6 +60,7 @@
     <string name="settings_title">Settings</string>
     <string name="unexpected_exception">An unexpected error occurred</string>
     <string name="io_exception">Problem connecting to Ravelry</string>
+    <string name="oauth_exception">Problem logging into Ravelry. Please try again later.</string>
     <string name="project_search_hint">Search for</string>
     <string name="search_projects_title">Search Projects</string>
     <string name="menu_project_search">Search Projects</string>
