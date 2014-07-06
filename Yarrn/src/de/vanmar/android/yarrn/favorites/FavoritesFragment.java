@@ -1,6 +1,7 @@
 package de.vanmar.android.yarrn.favorites;
 
 import android.app.Activity;
+import android.support.v4.app.FragmentActivity;
 import android.view.ContextMenu;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -230,8 +231,11 @@ public class FavoritesFragment extends PagingListFragment<FavoritesResult, Bookm
     }
 
     protected void displayResult(final FavoritesResult result) {
-        super.displayResult(result);
-        getActivity().setTitle(R.string.my_favorites_title);
+        FragmentActivity activity = getActivity();
+        if (activity != null) {
+            super.displayResult(result);
+            activity.setTitle(R.string.my_favorites_title);
+        }
     }
 
     @Override
