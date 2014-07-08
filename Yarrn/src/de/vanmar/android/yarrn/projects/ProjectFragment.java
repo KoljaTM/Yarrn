@@ -546,7 +546,9 @@ public class ProjectFragment extends SherlockFragment {
 
         @Override
         public void onRequestSuccess(ProjectResult result) {
-            displayProject(result);
+            if (listener != null) {
+                displayProject(result);
+            }
         }
     }
 }
