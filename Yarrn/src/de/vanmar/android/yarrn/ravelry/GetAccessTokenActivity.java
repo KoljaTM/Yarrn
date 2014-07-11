@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.net.http.SslError;
+import android.os.Build;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -40,6 +41,9 @@ public class GetAccessTokenActivity extends Activity {
                                 final OAuthService service, final Token requestToken,
                                 final String authURL) {
         final WebView webview = (WebView) findViewById(R.id.webview);
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1) {
+            webview.getSettings().setSaveFormData(false);
+        }
 
         webview.setWebViewClient(new WebViewClient() {
 
