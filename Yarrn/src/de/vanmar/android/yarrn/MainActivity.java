@@ -36,6 +36,7 @@ import de.vanmar.android.yarrn.projects.ProjectFragment;
 import de.vanmar.android.yarrn.projects.ProjectSearchFragment;
 import de.vanmar.android.yarrn.projects.ProjectsFragment;
 import de.vanmar.android.yarrn.projects.ProjectsFragment.ProjectsFragmentListener;
+import de.vanmar.android.yarrn.projects.QueuesFragment;
 import de.vanmar.android.yarrn.stashes.StashFragment;
 import de.vanmar.android.yarrn.stashes.StashSearchFragment;
 import de.vanmar.android.yarrn.stashes.StashesFragment;
@@ -52,7 +53,8 @@ public class MainActivity extends AbstractRavelryActivity implements
         StashesFragment.StashesFragmentListener,
         StashSearchFragment.StashSearchFragmentListener,
         StashFragment.StashFragmentListener,
-        SettingsFragment.SettingsFragmentListener {
+        SettingsFragment.SettingsFragmentListener,
+        QueuesFragment.QueuesFragmentListener {
 
     private static final String JPEG_FILE_PREFIX = "IMG_";
 
@@ -64,6 +66,8 @@ public class MainActivity extends AbstractRavelryActivity implements
     public static final String FAVORITES_TAG = "favorites";
     public static final String PATTERN_SEARCH_TAG = "pattern_search";
     public static final String STASHES_TAG = "stashes";
+    public static final String QUEUES_TAG = "queues";
+    public static final String QUEUE_DETAIL_TAG = "queueDetail";
     public static final String STASH_SEARCH_TAG = "stash_search";
     public static final String STASH_DETAIL_TAG = "stashDetail";
     public static final String SETTINGS_TAG = "settings";
@@ -76,6 +80,7 @@ public class MainActivity extends AbstractRavelryActivity implements
     public FavoritesFragment favoritesFragment;
     public PatternSearchFragment patternSearchFragment;
     public StashesFragment stashesFragment;
+    public QueuesFragment queuesFragment;
     public StashSearchFragment stashSearchFragment;
 
     @Bean
@@ -153,6 +158,13 @@ public class MainActivity extends AbstractRavelryActivity implements
         ensureFragment(STASHES_TAG, stashesFragment);
     }
 
+    private void displayQueuesFragment() {
+        if (queuesFragment == null) {
+            queuesFragment = fragmentFactory.getQueuesFragment();
+        }
+        ensureFragment(QUEUES_TAG, queuesFragment);
+    }
+
     private void displayStashSearchFragment() {
         if (stashSearchFragment == null) {
             stashSearchFragment = fragmentFactory.getStashSearchFragment();
@@ -202,6 +214,11 @@ public class MainActivity extends AbstractRavelryActivity implements
     @Override
     public void onProjectSelected(final int projectId, String username) {
         displayProjectDetailFragment(projectId, username);
+    }
+
+    @Override
+    public void onQueuedProjectSelected(final int projectId, String username) {
+        //displayQueuedProjectDetailFragment(projectId, username);
     }
 
     private void displayPatternDetailFragment(final int patternId) {
@@ -322,6 +339,12 @@ public class MainActivity extends AbstractRavelryActivity implements
     public void menuMyStashesClicked() {
         drawerLayout.closeDrawers();
         displayStashesFragment();
+    }
+
+    @Click(R.id.menu_my_queues)
+    public void menuMyQueuesClicked() {
+        drawerLayout.closeDrawers();
+        displayQueuesFragment();
     }
 
     @Click(R.id.menu_project_search)

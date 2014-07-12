@@ -32,6 +32,12 @@
             android:text="@string/menu_my_stashes" />
 
         <TextView
+            android:id="@+id/menu_my_queues"
+            style="@style/menu_entry"
+            android:drawableLeft="@drawable/queues"
+            android:text="@string/menu_my_queues" />
+
+        <TextView
             android:id="@+id/menu_project_search"
             style="@style/menu_entry"
             android:drawableLeft="@drawable/projectsearch"

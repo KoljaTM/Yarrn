@@ -28,6 +28,7 @@
     <string name="date_unknown">-</string>
     <string name="notes_title">Notes</string>
     <string name="menu_my_favorites">My Favorites</string>
+    <string name="menu_my_queues">My Queues</string>
     <string name="my_favorites_title">My Favorites</string>
     <string name="upload_started">Starting upload…</string>
     <string name="gauge_title">gauge: </string>
@@ -93,4 +94,5 @@
     <string name="edit_favorite">Edit Favorite</string>
     <string name="edit_favorite_title">Edit Favorite</string>
     <string name="edit_favorite_success">Favorite updated.</string>
+    <string name="my_queues_title">My Queues</string>
 </resources>
