@@ -83,3 +83,7 @@ convert -geometry 36x36 smiley5.png ../Yarrn/res/drawable-hdpi/smiley5.png
 convert -geometry 24x24 smiley5.png ../Yarrn/res/drawable-mdpi/smiley5.png
 convert -geometry 48x48 smiley5.png ../Yarrn/res/drawable-xhdpi/smiley5.png
 
+convert -geometry 36x36 filter.png ../Yarrn/res/drawable-hdpi/filter.png
+convert -geometry 24x24 filter.png ../Yarrn/res/drawable-mdpi/filter.png
+convert -geometry 48x48 filter.png ../Yarrn/res/drawable-xhdpi/filter.png
+
