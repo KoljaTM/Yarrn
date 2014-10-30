@@ -36,7 +36,8 @@ import de.vanmar.android.yarrn.projects.ProjectFragment;
 import de.vanmar.android.yarrn.projects.ProjectSearchFragment;
 import de.vanmar.android.yarrn.projects.ProjectsFragment;
 import de.vanmar.android.yarrn.projects.ProjectsFragment.ProjectsFragmentListener;
-import de.vanmar.android.yarrn.projects.QueuesFragment;
+import de.vanmar.android.yarrn.queues.QueuedProjectFragment;
+import de.vanmar.android.yarrn.queues.QueuesFragment;
 import de.vanmar.android.yarrn.stashes.StashFragment;
 import de.vanmar.android.yarrn.stashes.StashSearchFragment;
 import de.vanmar.android.yarrn.stashes.StashesFragment;
@@ -54,7 +55,8 @@ public class MainActivity extends AbstractRavelryActivity implements
         StashSearchFragment.StashSearchFragmentListener,
         StashFragment.StashFragmentListener,
         SettingsFragment.SettingsFragmentListener,
-        QueuesFragment.QueuesFragmentListener {
+        QueuesFragment.QueuesFragmentListener,
+        QueuedProjectFragment.QueuedProjectFragmentListener {
 
     private static final String JPEG_FILE_PREFIX = "IMG_";
 
@@ -218,7 +220,7 @@ public class MainActivity extends AbstractRavelryActivity implements
 
     @Override
     public void onQueuedProjectSelected(final int projectId, String username) {
-        //displayQueuedProjectDetailFragment(projectId, username);
+        displayQueuedProjectDetailFragment(projectId, username);
     }
 
     private void displayPatternDetailFragment(final int patternId) {
@@ -230,6 +232,19 @@ public class MainActivity extends AbstractRavelryActivity implements
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.content_frame, patternFragment, PATTERN_DETAIL_TAG)
                 .addToBackStack(PATTERN_DETAIL_TAG)
+                .commit();
+    }
+
+    private void displayQueuedProjectDetailFragment(final int queuedProjectId, final String username) {
+        QueuedProjectFragment queuedProjectFragment = fragmentFactory.getQueuedProjectFragment();
+        Bundle args = new Bundle();
+        args.putInt(QueuedProjectFragment.ARG_QUEUED_PROJECT_ID, queuedProjectId);
+        args.putString(QueuedProjectFragment.ARG_USERNAME, username);
+        queuedProjectFragment.setArguments(args);
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.content_frame, queuedProjectFragment, QUEUE_DETAIL_TAG)
+                .addToBackStack(QUEUE_DETAIL_TAG)
                 .commit();
     }
 

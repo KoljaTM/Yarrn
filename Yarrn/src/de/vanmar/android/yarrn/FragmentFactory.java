@@ -14,8 +14,10 @@ import de.vanmar.android.yarrn.projects.ProjectSearchFragment;
 import de.vanmar.android.yarrn.projects.ProjectSearchFragment_;
 import de.vanmar.android.yarrn.projects.ProjectsFragment;
 import de.vanmar.android.yarrn.projects.ProjectsFragment_;
-import de.vanmar.android.yarrn.projects.QueuesFragment;
-import de.vanmar.android.yarrn.projects.QueuesFragment_;
+import de.vanmar.android.yarrn.queues.QueuedProjectFragment;
+import de.vanmar.android.yarrn.queues.QueuedProjectFragment_;
+import de.vanmar.android.yarrn.queues.QueuesFragment;
+import de.vanmar.android.yarrn.queues.QueuesFragment_;
 import de.vanmar.android.yarrn.stashes.StashFragment;
 import de.vanmar.android.yarrn.stashes.StashFragment_;
 import de.vanmar.android.yarrn.stashes.StashSearchFragment;
@@ -51,6 +53,10 @@ public class FragmentFactory {
 
     public QueuesFragment getQueuesFragment() {
         return new QueuesFragment_();
+    }
+
+    public QueuedProjectFragment getQueuedProjectFragment() {
+        return new QueuedProjectFragment_();
     }
 
     public StashSearchFragment getStashSearchFragment() {

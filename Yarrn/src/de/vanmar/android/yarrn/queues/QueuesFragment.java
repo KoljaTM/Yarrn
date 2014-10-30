@@ -1,4 +1,4 @@
-package de.vanmar.android.yarrn.projects;
+package de.vanmar.android.yarrn.queues;
 
 import android.app.Activity;
 import android.widget.ListView;
