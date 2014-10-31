@@ -15,6 +15,8 @@ import android.view.View;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.androidquery.util.AQUtility;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
@@ -113,6 +115,14 @@ public class MainActivity extends AbstractRavelryActivity implements
             // if nothing else known, start projects list
             displayProjectsFragment();
         }
+
+        loadAds();
+    }
+
+    private void loadAds() {
+        AdView adView = (AdView) this.findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
     }
 
     @Override

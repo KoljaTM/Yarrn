@@ -1,5 +1,5 @@
 <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -17,15 +17,23 @@
             android:layout_height="0dp"
             android:layout_weight="1" />
 
-        <com.google.ads.AdView
+        <!--   <com.google.ads.AdView
+               android:id="@+id/adView"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:gravity="center"
+               ads:adUnitId="ca-app-pub-9064469114375841/6778052812"
+               ads:adSize="BANNER"
+               ads:testDevices="TEST_EMULATOR, TEST_DEVICE_ID"
+               ads:loadAdOnCreate="true" />
+   -->
+        <com.google.android.gms.ads.AdView
             android:id="@+id/adView"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            ads:adUnitId="ca-app-pub-9064469114375841/6778052812"
-            ads:adSize="BANNER"
-            ads:testDevices="TEST_EMULATOR, TEST_DEVICE_ID"
-            ads:loadAdOnCreate="true" />
+            android:layout_gravity="bottom"
+            ads:adSize="SMART_BANNER"
+            ads:adUnitId="ca-app-pub-9064469114375841/6778052812" />
 
     </LinearLayout>
 

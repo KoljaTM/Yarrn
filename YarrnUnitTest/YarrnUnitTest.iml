@@ -62,7 +62,7 @@
     <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.2.4" level="project" />
     <orderEntry type="library" name="Maven: ch.acra:acra:4.5.0" level="project" />
     <orderEntry type="library" name="Maven: org.json:json:20080701" level="project" />
-    <orderEntry type="library" name="Maven: com.google.android.admob:admob:6.4.1-r11.0.0" level="project" />
+    <orderEntry type="library" name="Maven: com.google.android.gms:google-play-services:14.0.0" level="project" />
     <orderEntry type="library" name="Maven: junit:junit:4.8.2" level="project" />
     <orderEntry type="library" name="Maven: org.mockito:mockito-all:1.9.5" level="project" />
     <orderEntry type="library" name="Maven: com.google.android:android:4.1.1.4" level="project" />
