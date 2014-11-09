@@ -120,7 +120,9 @@ public class ProjectsFragment extends PagingListFragment<ProjectsResult, Project
 
     protected void displayResult(final ProjectsResult result) {
         super.displayResult(result);
-        getActivity().setTitle(R.string.my_projects_title);
+        if (getActivity() != null) {
+            getActivity().setTitle(R.string.my_projects_title);
+        }
     }
 
     @Override

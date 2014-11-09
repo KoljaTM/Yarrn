@@ -65,6 +65,9 @@ public abstract class PagingListFragment<RESULT extends Paging<ITEM>, ITEM> exte
     }
 
     protected void loadData(int page) {
+        if (getActivity()==null) {
+            return;
+        }
         loadingStarted();
         AbstractRavelryGetRequest<RESULT> request = getRequest(page);
         spiceManager.execute(request, request.getCacheKey(), AbstractRavelryGetRequest.CACHE_DURATION, new RavelryResultListener<RESULT>(getRavelryActivity()) {

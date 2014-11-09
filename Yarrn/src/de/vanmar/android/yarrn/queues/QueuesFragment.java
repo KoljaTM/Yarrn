@@ -80,7 +80,9 @@ public class QueuesFragment extends PagingListFragment<QueuesResult, QueuedProje
 
     protected void displayResult(final QueuesResult result) {
         super.displayResult(result);
-        getActivity().setTitle(R.string.my_queues_title);
+        if (getActivity() != null) {
+            getActivity().setTitle(R.string.my_queues_title);
+        }
     }
 
     @Override

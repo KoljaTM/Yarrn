@@ -176,21 +176,23 @@ public class QueuedProjectFragment extends SherlockFragment {
 
     protected void displayQueuedProject(final QueuedProjectResult queuedProjectResult) {
         QueuedProject queuedProject = queuedProjectResult.queuedProject;
-        Pattern pattern = queuedProject.pattern;
-        getActivity().setTitle(queuedProject.name);
-        name.setText(queuedProject.name);
-        author.setText(pattern.patternAuthor == null ? null : pattern.patternAuthor.name);
-        gauge_description.setText(getString(R.string.gauge_title) + pattern.gauge_description);
-        yarn_weight_description.setText(getString(R.string.yarn_title) + pattern.yarn_weight_description);
-        yardage_description.setText(getString(R.string.yardage_title) + pattern.yardage_description);
-        needles.setText(getString(R.string.needles_title) + getNeedlesDescription(pattern.pattern_needle_sizes));
-        notes.loadDataWithBaseURL("", pattern.notes_html, "text/html", "UTF-8", "");
-        hideIfEmpty(gauge_description, pattern.gauge_description);
-        hideIfEmpty(yarn_weight_description, pattern.yarn_weight_description);
-        hideIfEmpty(yardage_description, pattern.yardage_description);
-        hideIfEmpty(needles, pattern.pattern_needle_sizes);
-        adapter.setItems(pattern.photos);
-        getView().setVisibility(View.VISIBLE);
+        if (queuedProject != null && queuedProject.pattern != null) {
+            Pattern pattern = queuedProject.pattern;
+            getActivity().setTitle(queuedProject.name);
+            name.setText(queuedProject.name);
+            author.setText(pattern.patternAuthor == null ? null : pattern.patternAuthor.name);
+            gauge_description.setText(getString(R.string.gauge_title) + pattern.gauge_description);
+            yarn_weight_description.setText(getString(R.string.yarn_title) + pattern.yarn_weight_description);
+            yardage_description.setText(getString(R.string.yardage_title) + pattern.yardage_description);
+            needles.setText(getString(R.string.needles_title) + getNeedlesDescription(pattern.pattern_needle_sizes));
+            notes.loadDataWithBaseURL("", pattern.notes_html, "text/html", "UTF-8", "");
+            hideIfEmpty(gauge_description, pattern.gauge_description);
+            hideIfEmpty(yarn_weight_description, pattern.yarn_weight_description);
+            hideIfEmpty(yardage_description, pattern.yardage_description);
+            hideIfEmpty(needles, pattern.pattern_needle_sizes);
+            adapter.setItems(pattern.photos);
+            getView().setVisibility(View.VISIBLE);
+        }
     }
 
     private void hideIfEmpty(View view, String value) {
