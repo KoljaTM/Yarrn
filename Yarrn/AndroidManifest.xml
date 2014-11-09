@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="de.vanmar.android.yarrn"
-    android:versionCode="15"
-    android:versionName="1.1.4">
+    android:versionCode="16"
+    android:versionName="1.1.5">
 
     <uses-sdk
         android:minSdkVersion="9"
@@ -47,6 +47,7 @@
 
         <activity
             android:name="com.google.android.gms.ads.AdActivity"
+            android:theme="@android:style/Theme.Translucent"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" />
 
         <service
