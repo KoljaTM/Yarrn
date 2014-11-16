@@ -1,9 +1,12 @@
 package de.vanmar.android.yarrn.patterns;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,6 +19,7 @@ import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.OptionsItem;
@@ -51,6 +55,7 @@ public class PatternFragment extends SherlockFragment {
 
     protected SpiceManager spiceManager;
     private ImageDialog dialog;
+    private String patternUrl;
 
     public interface PatternFragmentListener extends IRavelryActivity {
     }
@@ -60,6 +65,9 @@ public class PatternFragment extends SherlockFragment {
 
     @ViewById(R.id.name)
     TextView name;
+
+    @ViewById(R.id.open)
+    ImageButton openPattern;
 
     @ViewById(R.id.author)
     TextView author;
@@ -183,6 +191,8 @@ public class PatternFragment extends SherlockFragment {
         hideIfEmpty(yarn_weight_description, pattern.yarn_weight_description);
         hideIfEmpty(yardage_description, pattern.yardage_description);
         hideIfEmpty(needles, pattern.pattern_needle_sizes);
+        hideIfEmpty(openPattern, pattern.url);
+        this.patternUrl = pattern.url;
         adapter.setItems(pattern.photos);
         getView().setVisibility(View.VISIBLE);
     }
@@ -233,6 +243,14 @@ public class PatternFragment extends SherlockFragment {
             }
         }, prefs).show();
 
+    }
+
+    @Click(R.id.open)
+    public void onOpenPatternClicked() {
+        if (patternUrl != null && !"".equals(patternUrl)) {
+            Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(patternUrl));
+            startActivity(i);
+        }
     }
 
     class PatternListener extends RavelryResultListener<PatternResult> {

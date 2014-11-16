@@ -24,6 +24,15 @@
             android:textIsSelectable="true"
             android:layout_below="@id/gallery" />
 
+        <ImageButton
+            android:id="@+id/open"
+            style="@style/Button"
+            android:textIsSelectable="true"
+            android:layout_below="@id/gallery"
+            android:layout_toRightOf="@id/name"
+            android:background="@drawable/attachment"
+            android:visibility="gone" />
+
         <TextView
             android:id="@+id/author"
             style="@style/Text"

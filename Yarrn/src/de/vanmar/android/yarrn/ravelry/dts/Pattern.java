@@ -17,6 +17,8 @@ public class Pattern {
     public PatternAuthor patternAuthor;
     @SerializedName("notes_html")
     public String notes_html;
+    @SerializedName("url")
+    public String url;
     @SerializedName("yarn_weight_description")
     public String yarn_weight_description;
     @SerializedName("yardage_description")
