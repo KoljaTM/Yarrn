@@ -24,11 +24,12 @@ import java.net.UnknownHostException;
 
 import javax.net.ssl.SSLException;
 
-import de.vanmar.android.yarrn.sentry.SentrySender;
+import de.vanmar.android.yarrn.sentry.SentryHandler;
 import de.vanmar.android.yarrn.util.SslCertificateHelper;
 
 @EApplication
-@ReportsCrashes(formUri = "https://vanmar-acra.appspot.com/acrareport", formKey = "", mode = ReportingInteractionMode.DIALOG,
+@ReportsCrashes(formUri = "http://2f78f86c93a741398358e8ac519b0808:11a8c359de484b629d27cc65efe6f00c@vanmar-sentry.herokuapp.com//2",
+        formKey = "", mode = ReportingInteractionMode.DIALOG,
         formUriBasicAuthLogin = "yarrn",
         formUriBasicAuthPassword = "crash",
         resToastText = R.string.crash_toast_text, // optional, displayed as soon as the crash occurs, before collecting data which can take a few seconds
@@ -49,8 +50,7 @@ public class YarrnApplication extends Application {
         super.onCreate();
 
         SslCertificateHelper.trustGeotrustCertificate(this);
-        ACRA.init(this);
-        ACRA.getErrorReporter().setReportSender(new SentrySender("http://2f78f86c93a741398358e8ac519b0808:11a8c359de484b629d27cc65efe6f00c@vanmar-sentry.herokuapp.com//2"));
+        SentryHandler.init(this);
 
         AQUtility.setExceptionHandler(new UncaughtExceptionHandler() {
 
