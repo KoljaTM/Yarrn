@@ -3,6 +3,8 @@ package de.vanmar.android.yarrn.patterns;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.AdapterView;
@@ -46,6 +48,7 @@ import de.vanmar.android.yarrn.ravelry.dts.PatternResult;
 import de.vanmar.android.yarrn.requests.AbstractRavelryGetRequest;
 import de.vanmar.android.yarrn.requests.AddFavoriteRequest;
 import de.vanmar.android.yarrn.requests.GetPatternRequest;
+import de.vanmar.android.yarrn.util.StringUtils;
 
 @EFragment(R.layout.fragment_pattern_detail)
 @OptionsMenu(R.menu.pattern_fragment_menu)
@@ -191,14 +194,23 @@ public class PatternFragment extends SherlockFragment {
         hideIfEmpty(yarn_weight_description, pattern.yarn_weight_description);
         hideIfEmpty(yardage_description, pattern.yardage_description);
         hideIfEmpty(needles, pattern.pattern_needle_sizes);
-        hideIfEmpty(openPattern, pattern.url);
-        this.patternUrl = pattern.url;
+        showLinkIfAvailable(pattern);
         adapter.setItems(pattern.photos);
         getView().setVisibility(View.VISIBLE);
     }
 
+    private void showLinkIfAvailable(Pattern pattern) {
+        this.patternUrl = pattern.url;
+        hideIfEmpty(openPattern, pattern.url);
+        SpannableString patternNameText = new SpannableString(pattern.name);
+        if (StringUtils.isNotEmpty(patternUrl)) {
+            patternNameText.setSpan(new UnderlineSpan(), 0, pattern.name.length(), 0);
+        }
+        name.setText(patternNameText);
+    }
+
     private void hideIfEmpty(View view, String value) {
-        view.setVisibility(value != null && !"".equals(value) ? View.VISIBLE : View.GONE);
+        view.setVisibility(StringUtils.isNotEmpty(value) ? View.VISIBLE : View.GONE);
     }
 
     private void hideIfEmpty(View view, Collection values) {
@@ -245,8 +257,17 @@ public class PatternFragment extends SherlockFragment {
 
     }
 
-    @Click(R.id.open)
+    @Click(R.id.name)
     public void onOpenPatternClicked() {
+        openPatternUrl();
+    }
+
+    @Click(R.id.open)
+    public void onOpenPatternIconClicked() {
+        openPatternUrl();
+    }
+
+    private void openPatternUrl() {
         if (patternUrl != null && !"".equals(patternUrl)) {
             Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(patternUrl));
             startActivity(i);

@@ -31,7 +31,8 @@
             android:layout_below="@id/gallery"
             android:layout_toRightOf="@id/name"
             android:background="@drawable/attachment"
-            android:visibility="gone" />
+            android:visibility="gone"
+            android:layout_marginLeft="10dp" />
 
         <TextView
             android:id="@+id/author"
