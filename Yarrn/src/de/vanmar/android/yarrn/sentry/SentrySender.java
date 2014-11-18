@@ -40,18 +40,19 @@ public class SentrySender implements ReportSender {
     };
 
     public static final ReportField[] SENTRY_EXTRA_FIELDS = {
+            ReportField.STACK_TRACE,
             ReportField.AVAILABLE_MEM_SIZE,
             ReportField.TOTAL_MEM_SIZE,
             ReportField.USER_APP_START_DATE
     };
 
     public static final ReportField[] SENTRY_MAPPED_EXTRA_FIELDS = {
+            ReportField.CUSTOM_DATA,
             //  ReportField.SETTINGS_GLOBAL,
             //  ReportField.SETTINGS_SECURE,
             //  ReportField.ENVIRONMENT,
             //  ReportField.DISPLAY,
-            //  ReportField.CRASH_CONFIGURATION,
-            ReportField.CUSTOM_DATA,
+            // ReportField.CRASH_CONFIGURATION,
             //  ReportField.BUILD,
             ReportField.SHARED_PREFERENCES
     };
