@@ -7,6 +7,9 @@ gen
 .metadata
 .settings
 
+# idea project files
+.idea/
+
 # Build output
 bin
 build
