@@ -15,8 +15,6 @@ import android.support.v7.app.ActionBar;
 import android.view.View;
 
 import com.androidquery.util.AQUtility;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
@@ -43,6 +41,7 @@ import de.vanmar.android.yarrn.queues.QueuesFragment;
 import de.vanmar.android.yarrn.stashes.StashFragment;
 import de.vanmar.android.yarrn.stashes.StashSearchFragment;
 import de.vanmar.android.yarrn.stashes.StashesFragment;
+import de.vanmar.android.yarrn.util.AdHelper;
 import de.vanmar.android.yarrn.util.RequestCode;
 
 @EActivity(resName = "activity_main")
@@ -116,13 +115,7 @@ public class MainActivity extends AbstractRavelryActivity implements
             displayProjectsFragment();
         }
 
-        loadAds();
-    }
-
-    private void loadAds() {
-        AdView adView = (AdView) this.findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        adView.loadAd(adRequest);
+        AdHelper.loadAds(this);
     }
 
     @Override

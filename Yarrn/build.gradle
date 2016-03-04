@@ -70,4 +70,13 @@ android {
         exclude 'META-INF/license.txt'
         exclude 'META-INF/LICENSE.txt'
     }
+    productFlavors {
+        standard {
+            applicationId "de.vanmar.android.yarrn"
+        }
+
+        pro {
+            applicationId "de.vanmar.android.yarrn.pro"
+        }
+    }
 }

@@ -1,7 +1,6 @@
 package de.vanmar.android.yarrn;
 
 import android.app.Application;
-import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -63,7 +62,7 @@ public class YarrnApplication extends Application {
             }
         });
 
-        final File ext = Environment.getExternalStorageDirectory();
+        final File ext = getExternalCacheDir();
         final File cacheDir = new File(ext, "Yarrn");
         AQUtility.setCacheDir(cacheDir);
     }
