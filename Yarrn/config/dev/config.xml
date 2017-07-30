@@ -6,4 +6,5 @@
 
     <!--  adjust for actual url where NanoHTTPD is running! -->
     <string name="ravelry_url">http://localhost:8888</string>
+    <string name="ravelry_oauth_url">http://localhost:8888</string>
 </resources>

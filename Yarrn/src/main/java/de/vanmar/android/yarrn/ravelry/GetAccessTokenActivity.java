@@ -1,17 +1,5 @@
 package de.vanmar.android.yarrn.ravelry;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.net.Uri;
-import android.net.http.SslError;
-import android.os.Build;
-import android.webkit.SslErrorHandler;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
-import android.widget.Toast;
-
-import com.androidquery.util.AQUtility;
-
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.UiThread;
@@ -22,6 +10,15 @@ import org.scribe.model.Token;
 import org.scribe.model.Verifier;
 import org.scribe.oauth.OAuthService;
 
+import com.androidquery.util.AQUtility;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.Toast;
 import de.vanmar.android.yarrn.R;
 import de.vanmar.android.yarrn.YarrnPrefs_;
 
@@ -46,12 +43,6 @@ public class GetAccessTokenActivity extends Activity {
         }
 
         webview.setWebViewClient(new WebViewClient() {
-
-            @Override
-            public void onReceivedSslError(final WebView view,
-                                           final SslErrorHandler handler, final SslError error) {
-                handler.proceed();
-            }
 
             @Override
             public boolean shouldOverrideUrlLoading(final WebView view,
@@ -108,7 +99,7 @@ public class GetAccessTokenActivity extends Activity {
         final String apiSecret = getString(R.string.api_secret);
         final String callback = getString(R.string.api_callback);
         final OAuthService service = new ServiceBuilder()
-                .provider(new RavelryApi(getString(R.string.ravelry_url)))
+                .provider(new RavelryApi(getString(R.string.ravelry_oauth_url)))
                 .apiKey(apiKey).apiSecret(apiSecret).callback(callback).build();
 
         final Token requestToken;
