@@ -1,5 +1,9 @@
 package de.vanmar.android.yarrn.stashes;
 
+import java.util.Collection;
+
+import com.androidquery.AQuery;
+
 import android.app.Activity;
 import android.os.Build;
 import android.view.View;
@@ -7,11 +11,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.androidquery.AQuery;
-
-import java.util.Collection;
-
 import de.vanmar.android.yarrn.R;
 import de.vanmar.android.yarrn.YarrnAdapter;
 import de.vanmar.android.yarrn.ravelry.dts.StashShort;
@@ -69,7 +68,7 @@ public abstract class StashesAdapter extends ArrayAdapter<StashShort> implements
 
         String imageUrl = null;
         if (stash.firstPhoto != null) {
-            imageUrl = stash.firstPhoto.squareUrl;
+            imageUrl = stash.firstPhoto.getSquareUrl();
         }
         new AQuery(view).id(holder.thumb).image(imageUrl);
 

@@ -49,14 +49,14 @@ apt {
 
 android {
     compileSdkVersion 23
-    buildToolsVersion '24.0.3'
+    buildToolsVersion '25.0.0'
 
     defaultConfig {
         applicationId "de.vanmar.android.yarrn"
         minSdkVersion 9
         targetSdkVersion 23
-        versionCode 21
-        versionName "1.2.2"
+        versionCode 22
+        versionName "1.2.3"
     }
     buildTypes {
         release {

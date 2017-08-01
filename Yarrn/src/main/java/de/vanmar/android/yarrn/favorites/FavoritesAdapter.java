@@ -1,5 +1,9 @@
 package de.vanmar.android.yarrn.favorites;
 
+import java.util.Collection;
+
+import com.androidquery.AQuery;
+
 import android.app.Activity;
 import android.os.Build;
 import android.view.View;
@@ -7,11 +11,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.androidquery.AQuery;
-
-import java.util.Collection;
-
 import de.vanmar.android.yarrn.R;
 import de.vanmar.android.yarrn.YarrnAdapter;
 import de.vanmar.android.yarrn.ravelry.dts.BookmarkShort;
@@ -74,7 +73,7 @@ public abstract class FavoritesAdapter extends ArrayAdapter<BookmarkShort> imple
 
         String imageUrl = null;
         if (favorite.firstPhoto != null) {
-            imageUrl = favorite.firstPhoto.squareUrl;
+            imageUrl = favorite.firstPhoto.getSquareUrl();
         }
         new AQuery(view).id(holder.thumb).image(imageUrl);
 

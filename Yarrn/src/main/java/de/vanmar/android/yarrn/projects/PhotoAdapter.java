@@ -1,5 +1,9 @@
 package de.vanmar.android.yarrn.projects;
 
+import java.util.Collection;
+
+import com.androidquery.AQuery;
+
 import android.app.Activity;
 import android.os.Build;
 import android.view.View;
@@ -7,11 +11,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-
-import com.androidquery.AQuery;
-
-import java.util.Collection;
-
 import de.vanmar.android.yarrn.R;
 import de.vanmar.android.yarrn.ravelry.dts.Photo;
 
@@ -95,7 +94,7 @@ public class PhotoAdapter extends ArrayAdapter<Photo> {
             view.setTag(holder);
         }
         final Photo photo = getItem(position);
-        new AQuery(view).id(holder.photo).image(photo.squareUrl);
+        new AQuery(view).id(holder.photo).image(photo.getSquareUrl());
         holder.edit_overlay.setVisibility(editable ? View.VISIBLE : View.GONE);
         holder.move_left.setVisibility(position > 0 ? View.VISIBLE : View.GONE);
         holder.move_all_left.setVisibility(position > 0 ? View.VISIBLE : View.GONE);

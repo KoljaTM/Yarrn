@@ -1,5 +1,9 @@
 package de.vanmar.android.yarrn.projects;
 
+import java.util.Collection;
+
+import com.androidquery.AQuery;
+
 import android.app.Activity;
 import android.os.Build;
 import android.view.View;
@@ -8,11 +12,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import com.androidquery.AQuery;
-
-import java.util.Collection;
-
 import de.vanmar.android.yarrn.R;
 import de.vanmar.android.yarrn.YarrnAdapter;
 import de.vanmar.android.yarrn.ravelry.dts.ProjectShort;
@@ -74,7 +73,7 @@ public abstract class ProjectsAdapter extends ArrayAdapter<ProjectShort> impleme
 
         String imageUrl = null;
         if (project.firstPhoto != null) {
-            imageUrl = project.firstPhoto.squareUrl;
+            imageUrl = project.firstPhoto.getSquareUrl();
         }
         new AQuery(view).id(holder.thumb).image(imageUrl);
 

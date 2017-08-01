@@ -14,4 +14,20 @@ public class Photo {
     public String shelvedUrl;
     @SerializedName("medium_url")
     public String mediumUrl;
+
+    public String getSquareUrl() {
+        return squareUrl == null ? null : toHttp(squareUrl);
+    }
+
+    public String getShelvedUrl() {
+        return shelvedUrl == null ? null : toHttp(shelvedUrl);
+    }
+
+    public String getMediumUrl() {
+        return mediumUrl == null ? null : toHttp(mediumUrl);
+    }
+
+    private String toHttp(String url) {
+        return url.replaceFirst("https://", "http://");
+    }
 }

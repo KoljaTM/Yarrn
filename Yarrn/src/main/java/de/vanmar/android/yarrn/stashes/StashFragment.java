@@ -1,15 +1,5 @@
 package de.vanmar.android.yarrn.stashes;
 
-import android.app.Activity;
-import android.support.v4.app.Fragment;
-import android.view.View;
-import android.webkit.WebView;
-import android.widget.AdapterView;
-import android.widget.TextView;
-
-import com.meetme.android.horizontallistview.HorizontalListView;
-import com.octo.android.robospice.SpiceManager;
-
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
@@ -19,6 +9,15 @@ import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 
+import com.meetme.android.horizontallistview.HorizontalListView;
+import com.octo.android.robospice.SpiceManager;
+
+import android.app.Activity;
+import android.support.v4.app.Fragment;
+import android.view.View;
+import android.webkit.WebView;
+import android.widget.AdapterView;
+import android.widget.TextView;
 import de.vanmar.android.yarrn.R;
 import de.vanmar.android.yarrn.YarrnPrefs_;
 import de.vanmar.android.yarrn.YarrnSpiceService;
@@ -89,7 +88,7 @@ public class StashFragment extends Fragment {
         gallery.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                dialog = new ImageDialog(getActivity(), adapter.getItem(position).mediumUrl);
+                dialog = new ImageDialog(getActivity(), adapter.getItem(position).getMediumUrl());
                 dialog.show();
             }
         });
